@@ -1,0 +1,504 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.1'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     17171,        412]*)
+(*NotebookOutlinePosition[     17828,        435]*)
+(*  CellTagsIndexPosition[     17784,        431]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+Cell["\<\
+(*:History:
+      \t\t26 June 2005: Created.
+      \t\t02 Aug\t2005: Last modified
+  *)
+
+(*
+:Summary:
+This file contains definitions of K-bessel functions. K3, k12 and k21 do not \
+compute but their definitions are correct: Mathematica simply cannot compute \
+them accurately.
+
+In order to import it into Mathematica, save this notebook in package format. \
+You might need to open the .m file and delete the comment marks around \
+BeginPackage, EndPackage, and the usage sections. The .m files included in \
+this directory are ready for use, though.
+*)
+\
+\>", "Input",
+  PageWidth->WindowWidth,
+  ShowSpecialCharacters->False],
+
+Cell[BoxData[
+    \(BeginPackage["\<KBessel`\>"]\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{"\[IndentingNewLine]", 
+      RowBox[{\(MatrixGamma::usage = "\<MatrixGamma[n, s] is the matrix gamma \
+function defined in Terras 2, page 41. n is  a positive integer. s is a list \
+of complex numbers sarisfying Re(s_j+...+s_n)>(j-1)/2, for j=1,...,n.\>"\), 
+        "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", \(PowerFunction::usage = "\<PowerFunction[s, \
+Y] is the power function for Y positive definite and s in the corresponding \
+multi-dimensional complex plane (Terras II,p.38). Y is a matrix and s is a \
+list of complex numbers.\>"\), "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", \(InverseIwasawa::usage = "\<InverseIwasawa \
+takes a two  n x n matrices, A and B, as input and returns \
+Transpose[B].A.B\>"\), "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", \(BabyK::usage = \[IndentingNewLine]"\<BabyK \
+takes input,s and z which are in the upper half complex \
+plane.Terras1,p.136.\>"\), "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", \(K1::usage = \[IndentingNewLine]"\<K1[s, a, \
+b]. s is a complex number;a and b are real and greater than 0 (Terras 2, \
+p.52).\>"\), "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", \(K2::usage = \[IndentingNewLine]"\<(s, t) is \
+a number in the 2-dimensional complex plain. In other words, s and t are \
+complex. A and B are 2 X 2 positive-definite matrices.\>"\), 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{\(SingularK2::usage\), "=", "\[IndentingNewLine]", 
+          "\"\<s is in 2-dim complex plane. A and B and D are positive \
+numbers. s is in the 2-dim complex plane and has the following restriction. \
+Let a and b be complex numbers such that s_1 + s_2 = a and s_2 - 1/2 = b; \
+Re(a) must be sufficiently large for the convergence \
+of\!\(TraditionalForm\`\(\(\\\ \)\(\(MatrixGamma\)\(.\)\)\)\)\>\""}], 
+        "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", \(K3::usage = \[IndentingNewLine]\*"\"\<This \
+is from Terras2, p. 51. s is in \!\(\[DoubleStruckCapitalC]\^3\)i.e. a list \
+of 3 complex numbers and V, W  are in P_3, or W is singular with s satisfying \
+s is a list of complex numbers sarisfying Re(s_j+...+s_n)>(j-1)/2, for \
+j=1,...,n.\>\""\), "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", \(SingularK3::usage = \
+\[IndentingNewLine]"\<SingularK3[a, b, c, A, B, D] is K3 for singular \
+argument where s is in the 3-dim complex plane, A  is real positive, and B \
+and D are  2 x 2 matrices.\>"\), "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", \(Babyk::usage = \
+\[IndentingNewLine]"\<Babyk[s, z, a]. s, z  are complex. z is in the upper \
+half complex plane and Re(s)>0. a is real. (Terras 1, p.137)\>"\), 
+        "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", \(k11::usage = \[IndentingNewLine]"\<k11[s, Y, \
+n]. s is a complex number in the suitable half-plane, Y is 2 x 2 positive \
+definite, and n is a real number.\>"\), "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", \(k11Determinant1::usage = \
+\[IndentingNewLine]"\<k11Determinant1[s, y, a]. s is suitably restricted \
+complex number, y is a positive real , and is plain real. It is a synonym for \
+k11[{s, 0}, <det 1 matrix with y at one corner>, a] Terras2 p.52\>"\), 
+        "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", \(k12::usage = \[IndentingNewLine]"\<k12 takes \
+a number in the 3-dimensional complex plane (a list of complex numbers), a 3 \
+x 3 matrix, and a 1 x 2 matrix as input. It returns a complex number. Doesn't \
+work.\>"\), "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{\(k12BasedOnK1::usage\), "=", "\[IndentingNewLine]", 
+          "\"\<k12BasedOnK1[s_,  V_, W_, A_]. s is complex, V is 1 x 1 and W \
+is 2 x 2. A is 1 x 2. This is  a synonym for k12[s, 0, 0|(\!\(\*GridBox[{
+{V, 0},
+{0, W}
+}]\)), A]\>\""}], 
+        "\[IndentingNewLine]", \(k21::usage = \[IndentingNewLine]"\<k21[s, Y, \
+N]. s is in the 3-dimensional complex plane (a list of complex numbers), Y is \
+a 3 x 3 matrix and N is a 2 x 1 matrix. There are conditions for convergence \
+listed in Bengtson, p. 67. Doesn't work.\>"\), "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", \(k21IdentityArgument::usage = "\<[s_, a_]. s \
+is complex with Re(s)>0; a is real (p.52, Terras 2).\>"\), 
+        "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", \(k21basedonK2::usage = "\<[s_, V_, W_, A_]. s \
+is in the 2-dim complex plane and the coordinates of s lie in a suitable \
+half-plane; V and W are positive-definite; A is a 1x2 matrix with real \
+entries. (Terras2, p. 54)\>"\)}]}]], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Begin["\<`Private`\>"]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \("Global`Private`"\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+    \(\(\(MatrixGamma[n_, \ s_] := \ 
+      Module[{f}, \[IndentingNewLine]f[elmt_, \ i_] := 
+          If[i[\([1]\)] >= j, \ elmt, \ 
+            0]; \[IndentingNewLine]Pi^\((n \((n - 1)\)/
+                  4)\) \(\[Product]\+\(j = 1\)\%n Gamma[
+              Apply[\ Plus, 
+                  MapIndexed[f, 
+                    s]\ ] - \ \((j - 1)\)\/2]\)]\)\(\[IndentingNewLine]\)
+    \)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\(PowerFunction[s_, \ Y_] := 
+      Module[{upperJ},  (*upperN\ returns\ the\ j\ X\ j\ upper\ left\ hand\ \
+corner\ of\ \(\(S\)\(.\)\)*) upperJ[j_, \ S_] := 
+          Take[S, \ j, \ 
+            j]; \[IndentingNewLine]\[Product]\+\(j = 1\)\%\(Length[Y]\)Det[\ \
+upperJ[j, \ Y]\ ]\^s[\([\ j\ ]\)]]\)\(\[IndentingNewLine]\)
+    \)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\(InverseIwasawa[A_, \ B_] := 
+      Transpose[B] . A . B\)\(\[IndentingNewLine]\)
+    \)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\(BabyK[s_, \ 
+        z_] := \(1\/2\) \(\[Integral]\_0\%\[Infinity] 
+              Exp[\(\(-z\)\/2\) \((t + 1\/t)\)] \(t\^\(s - 
+                  1\)\) \[DifferentialD]t\)\)\(\[IndentingNewLine]\)
+    \)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ Note, \ 
+      we' re\ using\ the\ indirect\ definition\ based\ on\ \(\(babyK\)\(.\)\)\
+\ *) \)\(\[IndentingNewLine]\)\(K1[s_, \ a_, \ 
+        b_] := \(\(2 \(\((b\/a)\)\^\(s\/2\)\) 
+        BabyK[s, \ 2  Sqrt[a*b]]\)\(\[IndentingNewLine]\)
+      \)\)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\(K2[s_, t_, \ A_, \ B_] := 
+      NIntegrate[\(v\^\(s + t - 1/2\)\) \(w\^\(t - 3/2\)\) 
+          Exp[\(-v\)\ A[\([1, \ 1]\)] - 
+              2\ v\ *x\ A[\([1, \ 2]\)] - \((w + v\ *x\^2)\)\ A[\([2, \ 
+                    2]\)] - \(\((w + v\ *x\^2)\) B[\([1, \ 1]\)]\)\/\(v\ *w\) \
++ \(2\ x*\ B[\([1, \ 2]\)]\)\/w - B[\([2, \ 2]\)]\/w], \ {w, \ 
+          0, \ \[Infinity]}, \ {v, \ 
+          0, \ \[Infinity]}, \ {x, \ \(-\[Infinity]\), \ \[Infinity]}]\)\(\
+\[IndentingNewLine]\)
+    \)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \( (*\ 
+      This\ is\ K2\ with\ singular\ \(\(argument\)\(.\)\)\ *) \)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\(SingularK2[\ s, \ A_, \ B_, \ 
+        D_] := \(Pi\^0.5\) \(Det[B]\^\(-0.5\)\) \(A\^\(-a\)\) 
+        MatrixGamma[1, \ s[\([1]\)]\  + \ s[\([2]\)]] 
+        K1[\ s[\([2]\)] - 0.5, \ B, \ D]\)\(\[IndentingNewLine]\)
+    \)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\(K3[s_, \ V_, \ 
+        W_] := \[Integral]\_\(-\[Infinity]\)\%\[Infinity]\(\[Integral]\_\(-\
+\[Infinity]\)\%\[Infinity]\(\[Integral]\_0\%\[Infinity]\(\[Integral]\_0\%\
+\[Infinity]\(\[Integral]\_0\%\[Infinity]\(\[Integral]\_0\%\[Infinity]\( 
+                        u\^s[\([1]\)]\) \(Det[V]\^\(s[\([2]\)] - 
+                          2\)\) \(\((\(-x\)\ v\^2 + x\ u\ w)\)\^s[\([3]\)]\) 
+                    Exp[\(-u\)\ V[\([1, \ 1]\)] - 2\ v\ V[\([1, \ 2]\)] - 
+                        2\ \((u\ y + v\ z)\)\ V[\([1, \ 3]\)] - 
+                        w\ V[\([2, \ 2]\)] - 
+                        2\ \((v\ y + w\ z)\)\ V[\([2, \ 3]\)] - \((w + 
+                              y\ \((u\ y + v\ z)\) + 
+                              z\ \((v\ y + w\ z)\))\)\ V[\([3, \ 
+                              3]\)] - \(\((w\^2 - v\^2\ y\^2 + u\ w\ y\^2)\)\ \
+W[\([1, \ 1]\)]\)\/\(\(-v\^2\)\ w + u\ w\^2\) - \(2\ \((\(-v\)\ w - v\^2\ y\ \
+z + u\ w\ y\ z)\)\ W[\([1, \ 2]\)]\)\/\(\(-v\^2\)\ w + u\ w\^2\) - \(2\ \
+\((v\^2\ y - u\ w\ y)\)\ W[\([1, \ 3]\)]\)\/\(\(-v\^2\)\ w + u\ w\^2\) - \
+\(\((u\ w - v\^2\ z\^2 + u\ w\ z\^2)\)\ W[\([1, \ 2]\)]\)\/\(\(-v\^2\)\ w + u\
+\ w\^2\) - \(2\ \((v\^2\ z - u\ w\ z)\)\ W[\([2, \ 3]\)]\)\/\(\(-v\^2\)\ w + \
+u\ w\^2\) - \(\((\(-v\^2\) + u\ w)\)\ W[\([3, \ 3]\)]\)\/\(\(-v\^2\)\ w + u\ \
+w\^2\)] \[DifferentialD]u \[DifferentialD]v \[DifferentialD]w \
+\[DifferentialD]x \[DifferentialD]y \[DifferentialD]z\)\)\)\)\)\)\(\
+\[IndentingNewLine]\)
+    \)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\(\[IndentingNewLine]\)\(SingularK3[a_, b_, c_, \ A_, B_, 
+        D_] := \(\(Pi\ Det[
+            B]^\((\(- .5\))\)\ A^\((\(-a\) - b - c)\)\ MatrixGamma[1, \ 
+          a + b + c]\ K2[b, \ c -  .5, B, D]\)\(\[IndentingNewLine]\)
+      \)\)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[{
+    \(\(Babyk[s_, \ z_, \ 0] := \(Im[z]\^\(1 - s\)\) Gamma[1\/2] 
+          Gamma[s - 1\/2]/Gamma[s];\)\), "\[IndentingNewLine]", 
+    \(Babyk[s_, \ z_, \ a_] := 
+      Exp[2  I*a*Pi*Re[z]] 
+        2 \( Pi\^\(1/2\)\) \(Gamma[s]\^\(-1\)\) \(Abs[a*Pi]\^\(s - 
+              1/2\)\) \(Im[z]\^\(1/2\)\) 
+        BabyK[s - 1/2, \ 2  Abs[Pi*a*Im[z]]]\), "\[IndentingNewLine]", 
+    \(\)}], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    RowBox[{\(k11[s_, Y_, a_]\), ":=", 
+      RowBox[{\(\@\(2\ Pi\)\), " ", 
+        RowBox[{"FourierTransform", "[", 
+          RowBox[{
+            RowBox[{"PowerFunction", "[", 
+              RowBox[{\(-s\), ",", " ", 
+                RowBox[{"InverseIwasawa", "[", 
+                  RowBox[{\(Inverse[Y]\), ",", 
+                    RowBox[{"(", GridBox[{
+                          {"1", "0"},
+                          {"x", "1"}
+                          }], ")"}]}], "]"}]}], "]"}], ",", "x", 
+            ",", \(2\ Pi\ a\)}], "]"}], " "}]}]], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(k11Determinant1[s_, \ y_, \ 0] := \(y\^\(1 - s\)\) Gamma[1\/2] 
+        Gamma[s - 1\/2]/Gamma[s]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\(k11Determinant1[s_, \ y_\ , \ a_] := 
+      2 \( Pi\^\(1/2\)\) \(Gamma[s]\^\(-1\)\) \(Abs[Pi*a]\^\(s - 
+              1/2\)\) \(y\^\(1/2\)\) 
+        BabyK[s - 1/2, \ 2  Pi\ Abs[a*y]]\)\(\[IndentingNewLine]\)
+    \)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    RowBox[{
+      RowBox[{\(k12[s_, \ Y_, \ N_]\), ":=", 
+        RowBox[{"NIntegrate", "[", 
+          RowBox[{
+            RowBox[{
+              RowBox[{"PowerFunction", "[", 
+                RowBox[{\(-s\), ",", 
+                  RowBox[{"InverseIwasawa", "[", 
+                    RowBox[{\(Inverse[Y]\), ",", " ", 
+                      RowBox[{"(", GridBox[{
+                            {"1", "0", "0"},
+                            {\(x\_1\), "1", "0"},
+                            {\(x\_2\), "0", "1"}
+                            }], ")"}]}], "]"}]}], "]"}], \(Exp[
+                2  I*Pi\ \((N[\([1, \ 1]\)] x\_1\  + \ 
+                      N[\([1, \ \ 2]\)] x\_2)\)]\)}], ",", 
+            " ", \({x\_1, \ \(-\[Infinity]\), \ \[Infinity]}\), ",", 
+            " ", \({x\_2, \ \(-\[Infinity]\), \ \[Infinity]}\)}], "]"}]}], 
+      "\[IndentingNewLine]"}]], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(sstar[s_, \ m_] := 
+      Append[Reverse[
+          Take[s, \ m - 1]]\ , \ \(-Apply[Plus, \ Take[s, \ m]]\)]\)], "Input",\
+
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(ssharp[s_, \ m_, \ n_] := \ 
+      ReplacePart[\(-s\), \(-Last[s]\) + \((n - m)\)/2, \ 
+        Length[s]]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(k12BasedOnK1[s_, \ \ V_, \ W_, \ A_] := 
+      Pi\ \(Det[W]\^\(1/2\)\) 
+        K1[\(ssharp[{s}, \ 1, \ 2]\)[\([1]\)], \ \(InverseIwasawa[W, \ 
+              Pi\ Transpose[A]]\)[\([1, \ 1]\)], \ \(Inverse[V]\)[\([1, \ 
+              1]\)]]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    RowBox[{\( (*\ Doesn' t\ work\ *) \), "\[IndentingNewLine]", 
+      RowBox[{
+        RowBox[{\(k21[s_, \ Y_, \ N_]\), ":=", 
+          RowBox[{"NIntegrate", "[", 
+            RowBox[{
+              RowBox[{
+                RowBox[{"PowerFunction", "[", 
+                  RowBox[{\(-s\), ",", 
+                    RowBox[{"InverseIwasawa", "[", 
+                      RowBox[{\(Inverse[Y]\), ",", " ", 
+                        RowBox[{"(", GridBox[{
+                              {"1", "0", "0"},
+                              {"0", "1", "0"},
+                              {\(x\_1\), \(x\_2\), "1"}
+                              }], ")"}]}], "]"}]}], "]"}], 
+                RowBox[{"Exp", "[", 
+                  RowBox[{"Tr", "[", 
+                    RowBox[{"2", "I", " ", "*", "Pi", "*", 
+                      RowBox[{\(Transpose[N]\), ".", 
+                        RowBox[{"(", GridBox[{
+                              {\(x\_1\)},
+                              {\(x\_2\)}
+                              }], ")"}]}]}], "]"}], "]"}]}], ",", 
+              " ", \({x\_1, \ \(-\[Infinity]\), \ \[Infinity]}\), ",", 
+              " ", \({x\_2, \ \(-\[Infinity]\), \ \[Infinity]}\)}], "]"}]}], 
+        "\[IndentingNewLine]"}]}]], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(B[p_, \ q_] := Gamma[p] Gamma[q]/Gamma[p + q]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(k21IdentityArgument[s_, \ a_] := 
+      k11Determinant1[s - 1\/2, \ 1, \ a] B[1\/2, \ s - 1\/2]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      These\ s\ functions\ are\ only\ for\ k21\ \
+*) \)\(\[IndentingNewLine]\)\(sstar[s_] := 
+      Append[Take[s, \ 
+          1]\ , \ \(-Apply[Plus, \ Take[s, \ 2]]\)]\)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(ssharp[s_] := 
+      ReplacePart[\(-s\), \(-Last[s]\) + 1/2, \ Length[s]]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\( (*\ 
+      Do\ not\ make\ the\ second\ entry\ of\ A\ 0\ otherwise\ you' 
+        ll\ get\ matrices\ that\ are\ not\ in\ \(P\_2\) 
+        being\ passed\ to\ \(\(K2\)\(.\)\)\ \
+*) \)\(\[IndentingNewLine]\)\(k21basedonK2[s_, \ V_, \ W_, \ A_] := 
+      Pi\ Det[W]\ K2[ssharp[s], \ InverseIwasawa[W, \ Pi\ Transpose[A]], \ 
+            Inverse[V]]/MatrixGamma[2, \ \(-sstar[s]\)]\)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[{
+    \(End[\ ]\), "\[IndentingNewLine]", 
+    \(EndPackage[\ ]\)}], "Input"]
+},
+FrontEndVersion->"5.1 for X",
+ScreenRectangle->{{0, 1280}, {0, 1024}},
+AutoGeneratedPackage->None,
+WindowSize->{655, 915},
+WindowMargins->{{23, Automatic}, {Automatic, 1}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+Cell[1754, 51, 636, 20, 267, "Input"],
+Cell[2393, 73, 61, 1, 27, "Input"],
+Cell[2457, 76, 4580, 71, 1315, "Input"],
+
+Cell[CellGroupData[{
+Cell[7062, 151, 83, 2, 27, "Input",
+  InitializationCell->True],
+Cell[7148, 155, 51, 1, 27, "Output"]
+}, Open  ]],
+Cell[7214, 159, 445, 10, 123, "Input",
+  InitializationCell->True],
+Cell[7662, 171, 392, 8, 130, "Input",
+  InitializationCell->True],
+Cell[8057, 181, 152, 4, 43, "Input",
+  InitializationCell->True],
+Cell[8212, 187, 268, 6, 63, "Input",
+  InitializationCell->True],
+Cell[8483, 195, 323, 7, 86, "Input",
+  InitializationCell->True],
+Cell[8809, 204, 552, 11, 158, "Input",
+  InitializationCell->True],
+Cell[9364, 217, 129, 3, 27, "Input",
+  InitializationCell->True],
+Cell[9496, 222, 286, 6, 61, "Input",
+  InitializationCell->True],
+Cell[9785, 230, 1534, 24, 230, "Input",
+  InitializationCell->True],
+Cell[11322, 256, 305, 6, 75, "Input",
+  InitializationCell->True],
+Cell[11630, 264, 436, 9, 97, "Input",
+  InitializationCell->True],
+Cell[12069, 275, 602, 14, 86, "Input",
+  InitializationCell->True],
+Cell[12674, 291, 157, 3, 44, "Input",
+  InitializationCell->True],
+Cell[12834, 296, 280, 6, 61, "Input",
+  InitializationCell->True],
+Cell[13117, 304, 920, 20, 122, "Input",
+  InitializationCell->True],
+Cell[14040, 326, 171, 5, 27, "Input",
+  InitializationCell->True],
+Cell[14214, 333, 167, 4, 27, "Input",
+  InitializationCell->True],
+Cell[14384, 339, 300, 6, 61, "Input",
+  InitializationCell->True],
+Cell[14687, 347, 1286, 27, 157, "Input",
+  InitializationCell->True],
+Cell[15976, 376, 106, 2, 27, "Input",
+  InitializationCell->True],
+Cell[16085, 380, 156, 3, 44, "Input",
+  InitializationCell->True],
+Cell[16244, 385, 244, 6, 43, "Input",
+  InitializationCell->True],
+Cell[16491, 393, 134, 3, 27, "Input",
+  InitializationCell->True],
+Cell[16628, 398, 446, 8, 91, "Input",
+  InitializationCell->True],
+Cell[17077, 408, 90, 2, 43, "Input"]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

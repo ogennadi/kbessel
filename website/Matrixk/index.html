@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0//EN"
+        "HTMLFiles/xhtml-math11-f.dtd">
+
+<!-- Created by Wolfram Mathematica 5.1 -->
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+ <title>
+  MatrixK.nb
+ </title>
+ <link href="HTMLFiles/Default.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+
+<p class="Title">
+ The Matrix K-Bessel Function
+</p>
+
+
+
+<p class="Text">
+ Created:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;June 30, 2005<br />Last modified: June 30, 2005<br />
+</p>
+
+
+
+<p class='Section' style='border-left: 0px;border-right: 0px;border-top: 1px;border-bottom: 0px;border-style: solid;border-color: #000000;'>
+ Definition
+</p>
+
+
+
+<p class="Text">
+ The matrix K-Bessels function have this definition 
+</p>
+
+
+
+<p class="Text">
+ <img src="HTMLFiles/index_1.gif" alt="K_m (s | Y, A) = &#8747;_ (Y&#8712;&#63359;_m) p_ (-s) (Y) exp {-Tr (VY + WY^(-1))} &#63308;&#956;_m (Y),"  width="363" height="32"  style="vertical-align:middle" />
+</p>
+
+<p class="Text">
+ for V, <span>W&isin;<span><img src="HTMLFiles/index_2.gif" alt="&#63359;_m"  width="20" height="15"  style="vertical-align:middle" /></span></span> and <span>s&isin;<span><img src="HTMLFiles/index_3.gif" alt="&#63398;^m"  width="20" height="15"  style="vertical-align:middle" /></span></span>, or W singular with <span>Re(<span><img src="HTMLFiles/index_4.gif" alt="s_j"  width="18" height="16"  style="vertical-align:middle" /></span>)</span>suitably restricted (Terras2, 51).
+</p>
+
+
+
+<p class="Input">
+ <img src="HTMLFiles/index_5.gif" alt="PowerFunction[s_, Y_] := Module[{upperJ}, (*upperN returns the j X j upper left hand corner  ... ] := Take[S, j, j] ; &#62371;Underoverscript[&#8719;, j = 1, arg3] Det[ upperJ[j, Y] ]^s[[ j ]]]"  width="531" height="99"  style="vertical-align:middle" />
+</p>
+
+<p class="Input">
+ <img src="HTMLFiles/index_6.gif" alt="&lt;&lt;summer2005/Plot.m"  width="141" height="15"  style="vertical-align:middle" />
+</p>
+
+<p class="Subsection">
+ <img src="HTMLFiles/index_7.gif" alt="K_1"  width="23" height="18"  style="vertical-align:middle" />
+</p>
+
+<p class="Text">
+ when m = 1, we can compute <span><span><img src="HTMLFiles/index_8.gif" alt="K_m"  width="20" height="15"  style="vertical-align:middle" /></span></span>indirectly by 
+</p>
+
+
+
+<p class="Text">
+ <span><span><img src="HTMLFiles/index_9.gif" alt="K_1"  width="18" height="15"  style="vertical-align:middle" /></span>(s|a, b)= 2<span><img src="HTMLFiles/index_10.gif" alt="(b/a)^(s/2)"  width="60" height="17"  style="vertical-align:middle" /></span><span><img src="HTMLFiles/index_11.gif" alt="K_s"  width="18" height="15"  style="vertical-align:middle" /></span>(2<span><img src="HTMLFiles/index_12.gif" alt="ab^(1/2)"  width="35" height="22"  style="vertical-align:middle" /></span>)</span>, for a, b&gt;0, s&isin;<span class="doublestruck">C</span>.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Terras2, 52)
+</p>
+
+
+
+<p class="Input">
+ <img src="HTMLFiles/index_13.gif" alt="BabyK = BesselK ;"  width="111" height="15"  style="vertical-align:middle" />
+</p>
+
+<p class="Input">
+ <img src="HTMLFiles/index_14.gif" alt="K1[s_, a_, b_] := 2 (b/a)^s/2BabyK[s, 2Sqrt[a * b]]"  width="327" height="37"  style="vertical-align:middle" />
+</p>
+
+<p class="Input">
+ <img src="HTMLFiles/index_15.gif" alt="ComplexPlot3D[K1[1 + I, a, b], {a, 1, 10}, {b, 1, 10}, 30, {a, b, &quot;&quot;} ]//Timing"  width="512" height="31"  style="vertical-align:middle" />
+</p>
+
+<p class="Graphics">
+ <img src="HTMLFiles/index_16.gif" alt="[Graphics:HTMLFiles/index_16.gif]"  width="600" height="152"  style="vertical-align:middle" />
+</p>
+
+<p class="Output">
+ <img src="HTMLFiles/index_17.gif" alt="{12.5641 Second, &#8259;GraphicsArray&#8259;}"  width="235" height="15"  style="vertical-align:middle" />
+</p>
+
+<p class="Input">
+ <img src="HTMLFiles/index_18.gif" alt="ComplexContourPlot[K1[1 + I, a, b], {a, 1, 10}, {b, 1, 10}, 30, {a, b, &quot;&quot;} ]//Timing"  width="547" height="31"  style="vertical-align:middle" />
+</p>
+
+<p class="Graphics">
+ <img src="HTMLFiles/index_19.gif" alt="[Graphics:HTMLFiles/index_19.gif]"  width="600" height="188"  style="vertical-align:middle" />
+</p>
+
+<p class="Output">
+ <img src="HTMLFiles/index_20.gif" alt="{12.3421 Second, &#8259;GraphicsArray&#8259;}"  width="235" height="15"  style="vertical-align:middle" />
+</p>
+
+<p class="Text">
+ Here, we increase the imaginary part of <span style='font-style: italic;'>s</span>, 
+</p>
+
+
+
+<p class="Input">
+ <img src="HTMLFiles/index_21.gif" alt="ComplexPlot3D[K1[1 + 3I, a, b], {a, 1, 10}, {b, 1, 10}, 20, {a, b, &quot;&quot;} ]//Timing"  width="522" height="31"  style="vertical-align:middle" />
+</p>
+
+<p class="Graphics">
+ <img src="HTMLFiles/index_22.gif" alt="[Graphics:HTMLFiles/index_22.gif]"  width="600" height="152"  style="vertical-align:middle" />
+</p>
+
+<p class="Output">
+ <img src="HTMLFiles/index_23.gif" alt="{11.2563 Second, &#8259;GraphicsArray&#8259;}"  width="235" height="15"  style="vertical-align:middle" />
+</p>
+
+<p class="Input">
+ <img src="HTMLFiles/index_24.gif" alt="ComplexContourPlot[K1[1 + 3I, a, b], {a, 1, 10}, {b, 1, 10}, 30, {a, b, &quot;&quot;} ]//Timing"  width="557" height="31"  style="vertical-align:middle" />
+</p>
+
+<p class="Graphics">
+ <img src="HTMLFiles/index_25.gif" alt="[Graphics:HTMLFiles/index_25.gif]"  width="600" height="188"  style="vertical-align:middle" />
+</p>
+
+<p class="Output">
+ <img src="HTMLFiles/index_26.gif" alt="{11.2413 Second, &#8259;GraphicsArray&#8259;}"  width="235" height="15"  style="vertical-align:middle" />
+</p>
+
+<p class="Subsection">
+ <span><span><img src="HTMLFiles/index_27.gif" alt="K_2"  width="18" height="15"  style="vertical-align:middle" /></span></span>
+</p>
+
+
+
+<p class="Text">
+ when m = 2,
+</p>
+
+
+
+<p class="Input">
+ <img src="HTMLFiles/index_28.gif" alt="K2[s_, A_, B_] := NIntegrate[v^(s[[1]] + s[[2]] - 1/2) w^(s[[2]] - 3/2) Exp[-v A[[1, 1]] - 2 ...  B[[1, 2]])/w - B[[2, 2]]/w], {w, 0, &#8734;}, {v, 0, &#8734;}, {x, -&#8734;, &#8734;}] &#62371;"  width="572" height="127"  style="vertical-align:middle" />
+</p>
+
+<p class="Input">
+ <img src="HTMLFiles/index_29.gif" alt="ComplexPlot3D[K2[{1 + I, 1 + I}, ({{1, 0}, {0, a}}), ({{1, 0}, {0, b}})], {a, 1, 5}, {b, 1, 5}, 15, {a, b, &quot;&quot;} ]//Timing"  width="524" height="53"  style="vertical-align:middle" />
+</p>
+
+<p class="Graphics">
+ <img src="HTMLFiles/index_30.gif" alt="[Graphics:HTMLFiles/index_30.gif]"  width="600" height="152"  style="vertical-align:middle" />
+</p>
+
+<p class="Output">
+ <img src="HTMLFiles/index_31.gif" alt="{16863.2 Second, &#8259;GraphicsArray&#8259;}"  width="235" height="15"  style="vertical-align:middle" />
+</p>
+
+<p class="Input">
+ <img src="HTMLFiles/index_32.gif" alt="ComplexContourPlot[K2[{1 + I, 1 + I}, ({{1, 0}, {0, a}}), ({{1, 0}, {0, b}})], {a, 1, 5}, {b, 1, 5}, 17, {a, b, &quot;&quot;} ]//Timing"  width="531" height="53"  style="vertical-align:middle" />
+</p>
+
+<p class="Graphics">
+ <img src="HTMLFiles/index_33.gif" alt="[Graphics:HTMLFiles/index_33.gif]"  width="600" height="188"  style="vertical-align:middle" />
+</p>
+
+<p class="Output">
+ <img src="HTMLFiles/index_34.gif" alt="{16873.1 Second, &#8259;GraphicsArray&#8259;}"  width="235" height="15"  style="vertical-align:middle" />
+</p>
+
+<p class="Subsection">
+ <span><span><img src="HTMLFiles/index_35.gif" alt="K_3"  width="18" height="15"  style="vertical-align:middle" /></span></span>
+</p>
+
+
+
+<p class="Text">
+ when m = 3, <span><span><img src="HTMLFiles/index_36.gif" alt="K_m"  width="20" height="15"  style="vertical-align:middle" /></span></span>has 6 integrals and <span style='font-style: italic;'>Mathematica</span> seems not to be able to compute this. However, if <span><span><img src="HTMLFiles/index_37.gif" alt="K_s"  width="18" height="15"  style="vertical-align:middle" /></span></span>has singular argument i.e. the second matrix argument has det 0, there is an easier way to compute it using this formula.
+</p>
+
+
+
+<p class="Text">
+ <img src="HTMLFiles/index_38.gif" alt="K_n (s | ({{A, 0}, {0, B}})[{{I, 0}, {C^t, I}}], ({{0, 0}, {0, D}})) = &#960;^(m (n - m)/2) | B |^(-m/2) p_&#963;_1 (A^(-1)) &#915;_m (&#963;_1) K_ (n - m) (&#963;_2 | B, D)"  width="539" height="35"  style="vertical-align:middle" />
+</p>
+
+<p class="Text">
+ where <span><span><img src="HTMLFiles/index_39.gif" alt="p_s"  width="18" height="15"  style="vertical-align:middle" /></span>(<table>
+ <tr>
+  <td style='text-align: center;'><span>V</span></td>
+  <td style='text-align: center;'><span>0</span></td>
+ </tr>
+ <tr>
+  <td style='text-align: center;'><span>0</span></td>
+  <td style='text-align: center;'><span>W</span></td>
+ </tr>
+</table>
+
+)= <span><img src="HTMLFiles/index_40.gif" alt="p_&#963;_1"  width="24" height="17"  style="vertical-align:middle" /></span>(V)<span><img src="HTMLFiles/index_41.gif" alt="p_&#963;_2"  width="24" height="17"  style="vertical-align:middle" /></span>(W)|W<span><img src="HTMLFiles/index_42.gif" alt="|^(m/2)"  width="30" height="17"  style="vertical-align:middle" /></span></span>, <span><span><img src="HTMLFiles/index_43.gif" alt="&#963;_1"  width="18" height="15"  style="vertical-align:middle" /></span>&isin;<span><img src="HTMLFiles/index_44.gif" alt="&#63398;^m"  width="20" height="15"  style="vertical-align:middle" /></span></span>, <span><span><img src="HTMLFiles/index_45.gif" alt="&#963;_2"  width="18" height="15"  style="vertical-align:middle" /></span>&isin;<span><img src="HTMLFiles/index_46.gif" alt="&#63398;^(n - m)"  width="31" height="15"  style="vertical-align:middle" /></span></span>, <span>V&isin;<span><img src="HTMLFiles/index_47.gif" alt="&#63359;_m"  width="20" height="15"  style="vertical-align:middle" /></span></span>, <span>W&isin;<span><img src="HTMLFiles/index_48.gif" alt="&#63359;_ (n - m)"  width="31" height="15"  style="vertical-align:middle" /></span></span>, and A[B] stands for the function <span style='font-weight: bold;'>InverseIwasawa</span>, and <span><span><img src="HTMLFiles/index_49.gif" alt="&#915;_m"  width="20" height="15"  style="vertical-align:middle" /></span></span>stands for the <span style='font-weight: bold;'>MatrixGamma</span> function.
+</p>
+
+
+
+<p class="Input">
+ <img src="HTMLFiles/index_50.gif" alt="InverseIwasawa[A_, B_] := Transpose[B] . A . B&#62371;"  width="294" height="31"  style="vertical-align:middle" />
+</p>
+
+<p class="Input">
+ <img src="HTMLFiles/index_51.gif" alt="MatrixGamma[n_, s_] := Module[{f}, &#62371;f[elmt_, i_] := If[i[[1]] &gt;=j, elmt, 0] ; &#62 ... deroverscript[&#8719;, j = 1, arg3] Gamma[Apply[ Plus, MapIndexed[f, s] ] - (j - 1)/2]] &#62371;"  width="477" height="111"  style="vertical-align:middle" />
+</p>
+
+<p class="Input">
+ <img src="HTMLFiles/index_52.gif" alt="(* Make sure the apply is being used right . Also note that A is 1 x 1. *)&#62371;SingularK3 ... 5) A^(-Apply[Plus, s]) MatrixGamma[1, Apply[Plus, s]] K2[{s[[2]] b, s[[3]] - .5}, B, D] &#62371;"  width="519" height="79"  style="vertical-align:middle" />
+</p>
+
+<p class="Text">
+ The following is a plot of SingularK3
+</p>
+
+
+
+<p class="Input">
+ <img src="HTMLFiles/index_53.gif" alt="ComplexPlot3D[SingularK3[{0, 0, 1 + I}, 1, ({{1, 0}, {0, a}}), ({{0, 0}, {0, b}})], {a, 1, 5}, {b, 1, 5}, 15, {a, b, &quot;&quot;} ]//Timing"  width="485" height="53"  style="vertical-align:middle" />
+</p>
+
+<p class="Graphics">
+ <img src="HTMLFiles/index_54.gif" alt="[Graphics:HTMLFiles/index_54.gif]"  width="600" height="152"  style="vertical-align:middle" />
+</p>
+
+<p class="Output">
+ <img src="HTMLFiles/index_55.gif" alt="{95740.7 Second, &#8259;GraphicsArray&#8259;}"  width="235" height="15"  style="vertical-align:middle" />
+</p>
+
+<p class="Input">
+ <img src="HTMLFiles/index_56.gif" alt="ComplexContourPlot[SingularK3[{0, 0, 1 + I}, 1, ({{1, 0}, {0, a}}), ({{0, 0}, {0, b}})], {a, 1, 5}, {b, 1, 5}, 15, {a, b, &quot;&quot;} ]//Timing"  width="520" height="53"  style="vertical-align:middle" />
+</p>
+
+<p class="Graphics">
+ <img src="HTMLFiles/index_57.gif" alt="[Graphics:HTMLFiles/index_57.gif]"  width="600" height="188"  style="vertical-align:middle" />
+</p>
+
+<p class="Output">
+ <img src="HTMLFiles/index_58.gif" alt="{95884.9 Second, &#8259;GraphicsArray&#8259;}"  width="235" height="15"  style="vertical-align:middle" />
+</p>
+
+<p class="Section">
+ Complexity
+</p>
+
+
+
+<p class='Text' style='font-family: Times;'>
+ <img src="HTMLFiles/index_59.gif" alt="The following is a complexity function for K_m (Terras2, 53) "  width="298" height="16"  style="vertical-align:middle" />
+</p>
+
+<p class="Text">
+ <img src="HTMLFiles/index_60.gif" alt="K_m (s | V, W) = O (&#955;^(-m (m + 1)/4) Exp[-2m&#955;]), "  width="266" height="17"  style="vertical-align:middle" />
+</p>
+
+<p class="Text">
+ as &lambda; &rarr;&infin; where &lambda; is the smallest eigenvalue in the set of eigenvalues of V and W.
+</p>
+
+
+
+<p class="Input">
+ <img src="HTMLFiles/index_61.gif" alt="BigOhK[m_] := lambda^(-m (m + 1)/4) Exp[-2m * lambda]"  width="357" height="15"  style="vertical-align:middle" />
+</p>
+
+<p class="Input">
+ <img src="HTMLFiles/index_62.gif" alt="&#62371;Plot[{BigOhK[1], BigOhK[2], BigOhK[3]}, {lambda, 0.5, 4}, PlotStyle&#62754; {Black, Green, Blue}]"  width="413" height="47"  style="vertical-align:middle" />
+</p>
+
+<p class="Graphics">
+ <img src="HTMLFiles/index_63.gif" alt="[Graphics:HTMLFiles/index_63.gif]"  width="288" height="178"  style="vertical-align:middle" />
+</p>
+
+<p class="Output">
+ <img src="HTMLFiles/index_64.gif" alt="&#8259;Graphics&#8259;"  width="80" height="15"  style="vertical-align:middle" />
+</p>
+
+<p class='Section' style='border-left: 0px;border-right: 0px;border-top: 1px;border-bottom: 0px;border-style: solid;border-color: #000000;'>
+ Problems
+</p>
+
+
+
+<p class="Text">
+ As yet, the plots of <span style='font-weight: bold;'>K2</span> and <span style='font-weight: bold;'>K3</span> take too long to output.
+</p>
+
+
+
+<p class='Section' style='border-left: 0px;border-right: 0px;border-top: 1px;border-bottom: 0px;border-style: solid;border-color: #000000;'>
+ References
+</p>
+
+
+
+<p class="Text">
+ Terras, Audrey. Harmonic Analysis on Symmetric Spaces and Applications, Vols.I, II, Springer-Verlag, N.Y., 1985,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1988.
+</p>
+
+
+
+<hr />
+
+<table><tr>
+<td style='font-family: Helvetica; font-size: 10px; width: 100%'>Created by
+ <a href="http://www.wolfram.com"><span style='font-style: italic'>Mathematica</span></a>
+ &nbsp;(August 3, 2005)</td>
+<td><img src='http://www.w3.org/Icons/valid-xhtml11.gif'
+ alt='Valid XHTML 1.1!' height='31' width='88' /></td>
+</tr></table>
+</body>
+
+</html>

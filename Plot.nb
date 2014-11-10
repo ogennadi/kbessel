@@ -1,0 +1,308 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.1'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     11096,        252]*)
+(*NotebookOutlinePosition[     11754,        275]*)
+(*  CellTagsIndexPosition[     11710,        271]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+Cell["\<\
+(*:History:
+\t\t    24 June 2005: Created
+\t\t    02 Aug\t2005: Last modified
+*)
+
+(*
+:Summary:
+This file contains definitions of functions for conveniently plotting complex \
+functions i.e. plotting the real, imaginary, and modulus graphs side-by-side.
+
+In order to import it into Mathematica, save this notebook in package format. \
+You might need to open the .m file and delete the comment marks around \
+BeginPackage, EndPackage, and the usage sections. The .m files included in \
+this directory are ready for use, though.
+*)
+\
+\>", "Input",
+  PageWidth->WindowWidth,
+  ShowSpecialCharacters->False],
+
+Cell[BoxData[
+    \(BeginPackage["\<ComplexPlot`\>"]\)], "Input"],
+
+Cell[BoxData[{
+    \(\(\(ComplexPlot::usage = "\<Plot[a, r, axeslabels] Plots the real, \
+imaginary, and modulus graphs of the 2D expression a, using the list r as the \
+range over which to plot, and axeslabels as the AxesLabels.\>"\)\(\n\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(\(ComplexPlot3D::usage = "\<Plot[a, r, axeslabels] Plots the real, \
+imaginary, and modulus graphs of the 3D expression a, using the list r as the \
+range over which to plot, and axeslabels as the AxesLabels\>"\)\(\
+\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(\(ComplexContourPlot::usage = \
+\[IndentingNewLine]"\<ComplexContourPlot takes an expression, an x range and \
+a y range (lists), the number of plot points to use, and a list of axis \
+labels, and displays an array of contour plots of the given function: one \
+real, one imaginary, and one of the modulus.\>"\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(\(RealComplexPlot3D::usage = \[IndentingNewLine]"\<Plots a 3D graph \
+of the real part of the expression given. It takes an expression, an x range \
+and a y range (lists), the number of plot points to use, and a list of axis \
+labels.\>"\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(\(ImaginaryComplexPlot3D::usage = \[IndentingNewLine]"\<Plots a 3D \
+graph of the imaginary part of the expression given. It takes an expression, \
+an x range and a y range (lists), the number of plot points to use, and a \
+list of axis labels.\>"\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(\(ModulusComplexPlot3D::usage = \[IndentingNewLine]"\<Plots a 3D \
+graph of the modulus of the expression given. It takes an expression, an x \
+range and a y range (lists), the number of plot points to use, and a list of \
+axis labels.\>"\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(ComplexPlotAnimate::usage = "\<[a_,xrange_,yrange_, plotpoints_, \
+plotrange_, axeslabels_]. This is exactly the same as ComplexPlot3D except \
+that plotrange is a list of 3 plotranges: one for Re, Im, and Abs \
+respectively. (The animate is in the name because fixing the plotrange keeps \
+the plot frame steady for animation)\>"\[IndentingNewLine]\), "\
+\[IndentingNewLine]", 
+    \(ComplexContourPlotAnimate::usage = "\<[a_,xrange_,yrange_, plotpoints_, \
+plotrange_, axeslabels_]. This is exactly the same as ComplexContourPlot \
+except that plotrange is a list of 3 plotranges: one for Re, Im, and Abs \
+respectively.\>"\)}], "Input"],
+
+Cell[BoxData[
+    \(Begin["\<`Private`\>"]\)], "Input"],
+
+Cell[BoxData[
+    \(\(\(\[IndentingNewLine]\)\(\[IndentingNewLine]\)\(ComplexPlot[a_, 
+        range_, plotpoints_, axeslabels_] := \[IndentingNewLine]Show[
+        GraphicsArray[{\[IndentingNewLine]Plot[Re[Evaluate[a]], \ range, \ 
+              DisplayFunction \[Rule] Identity, 
+              AxesLabel \[Rule] axeslabels, \ 
+              PlotLabel -> "\<Re\>"], \[IndentingNewLine]Plot[
+              Im[Evaluate[a]], \ range, \ DisplayFunction \[Rule] Identity, 
+              AxesLabel \[Rule] axeslabels, \ 
+              PlotLabel -> "\<Im\>"], \[IndentingNewLine]Plot[
+              Abs[Evaluate[a]], \ range, \ DisplayFunction \[Rule] Identity, 
+              AxesLabel \[Rule] axeslabels, \ 
+              PlotLabel -> "\<Abs\>"]}, \
+\[IndentingNewLine]\[IndentingNewLine]ImageSize \[Rule] 600]]\)\)\)], "Input",\
+
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\(\[IndentingNewLine]\)\(ComplexPlot3D[a_, xrange_, yrange_, \ 
+        plotpoints_, axeslabels_] := \[IndentingNewLine]Show[
+        GraphicsArray[{Plot3D[Re[Evaluate[a]], \ xrange, \ yrange, \ 
+              DisplayFunction \[Rule] Identity, 
+              AxesLabel \[Rule] axeslabels\ , \ 
+              PlotLabel -> "\<Re\>"], \[IndentingNewLine]\ 
+            Plot3D[Im[Evaluate[a]], \ xrange, \ yrange, \ 
+              DisplayFunction \[Rule] Identity, 
+              AxesLabel \[Rule] axeslabels\ , \ 
+              PlotLabel \[Rule] "\<Im\>"], \[IndentingNewLine]Plot3D[
+              Abs[Evaluate[a]], \ xrange, \ yrange, \ 
+              DisplayFunction \[Rule] Identity, 
+              AxesLabel \[Rule] axeslabels\ , \ 
+              PlotLabel -> "\<Abs\>"]}, \
+\[IndentingNewLine]\[IndentingNewLine]ImageSize \[Rule] 600]]\)\)\)], "Input",\
+
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\(\[IndentingNewLine]\)\(ComplexContourPlot[a_, xrange_, yrange_, \ 
+        plotpoints_, axeslabels_] := \[IndentingNewLine]Show[
+        GraphicsArray[{ContourPlot[Re[Evaluate[a]], \ xrange, \ yrange, \ 
+              DisplayFunction \[Rule] Identity, 
+              AxesLabel \[Rule] axeslabels\ , \ ContourLines \[Rule] False, \ 
+              PlotLabel -> "\<Re\>"], \[IndentingNewLine]\ 
+            ContourPlot[Im[Evaluate[a]], \ xrange, \ yrange, \ 
+              DisplayFunction \[Rule] Identity, 
+              AxesLabel \[Rule] axeslabels\ , \ ContourLines \[Rule] False, \ 
+              PlotLabel \[Rule] "\<Im\>"], \[IndentingNewLine]ContourPlot[
+              Abs[Evaluate[a]], \ xrange, \ yrange, \ 
+              DisplayFunction \[Rule] Identity, 
+              AxesLabel \[Rule] axeslabels\ , \ ContourLines \[Rule] False, \ 
+              PlotLabel -> "\<Abs\>"]}, \
+\[IndentingNewLine]\[IndentingNewLine]ImageSize \[Rule] 600]]\)\)\)], "Input",\
+
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\(\[IndentingNewLine]\)\(RealComplexPlot3D[a_, xrange_, yrange_, \ 
+        plotpoints_, axeslabels_] := 
+      Plot3D[Evaluate[Re[a]], \ xrange, \ yrange, \ 
+        AxesLabel \[Rule] axeslabels, \ 
+        ColorFunction \[Rule] \((Hue[\((1 - \ #)\)/2] &)\)]\)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\(\[IndentingNewLine]\)\(ImaginaryComplexPlot3D[a_, xrange_, 
+        yrange_, \ plotpoints_, axeslabels_] := 
+      Plot3D[Evaluate[Im[a]], \ xrange, \ yrange, \ 
+        AxesLabel \[Rule] axeslabels, \ 
+        ColorFunction \[Rule] \((Hue[\((1 - \ #)\)/2] &)\)]\)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\(\[IndentingNewLine]\)\(ModulusComplexPlot3D[a_, xrange_, yrange_, \ 
+        plotpoints_, axeslabels_] := 
+      Plot3D[Evaluate[Abs[a]], \ xrange, \ yrange, \ 
+        AxesLabel \[Rule] axeslabels, \ 
+        ColorFunction \[Rule] \((Hue[\((1 - \ #)\)/2] &)\)]\)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\(\[IndentingNewLine]\)\(ComplexPlotAnimate[a_, xrange_, yrange_, \ 
+        plotpoints_, \ plotrange_, \ axeslabels_] := \[IndentingNewLine]Show[
+        GraphicsArray[{Plot3D[Re[Evaluate[a]], \ xrange, \ yrange, \ 
+              DisplayFunction \[Rule] Identity, 
+              AxesLabel \[Rule] axeslabels\ , \ 
+              PlotRange \[Rule] 
+                plotrange[\([1]\)], \ \ PlotLabel -> "\<Re\>"], \
+\[IndentingNewLine]\ 
+            Plot3D[Im[Evaluate[a]], \ xrange, \ yrange, \ 
+              DisplayFunction \[Rule] Identity, 
+              AxesLabel \[Rule] axeslabels\ , \ 
+              PlotRange \[Rule] 
+                plotrange[\([2]\)], \ \ PlotLabel \[Rule] "\<Im\>"], \
+\[IndentingNewLine]Plot3D[Abs[Evaluate[a]], \ xrange, \ yrange, \ 
+              DisplayFunction \[Rule] Identity, 
+              AxesLabel \[Rule] axeslabels\ , \ 
+              PlotRange \[Rule] 
+                plotrange[\([3]\)], \ \ PlotLabel -> "\<Abs\>"]}, \
+\[IndentingNewLine]\[IndentingNewLine]ImageSize \[Rule] 600]]\)\)\)], "Input",\
+
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\(\[IndentingNewLine]\)\(ComplexContourPlotAnimate[a_, xrange_, 
+        yrange_, \ plotpoints_, \ plotrange_, \ 
+        axeslabels_] := \[IndentingNewLine]Show[
+        GraphicsArray[{ContourPlot[Re[Evaluate[a]], \ xrange, \ yrange, \ 
+              DisplayFunction \[Rule] Identity, 
+              AxesLabel \[Rule] axeslabels\ , \ 
+              PlotRange \[Rule] 
+                plotrange[\([1]\)], \ \ PlotLabel -> "\<Re\>"], \
+\[IndentingNewLine]\ 
+            ContourPlot[Im[Evaluate[a]], \ xrange, \ yrange, \ 
+              DisplayFunction \[Rule] Identity, 
+              AxesLabel \[Rule] axeslabels\ , \ 
+              PlotRange \[Rule] 
+                plotrange[\([2]\)], \ \ PlotLabel \[Rule] "\<Im\>"], \
+\[IndentingNewLine]ContourPlot[Abs[Evaluate[a]], \ xrange, \ yrange, \ 
+              DisplayFunction \[Rule] Identity, 
+              AxesLabel \[Rule] axeslabels\ , \ 
+              PlotRange \[Rule] 
+                plotrange[\([3]\)], \ \ PlotLabel -> "\<Abs\>"]}, \
+\[IndentingNewLine]\[IndentingNewLine]ImageSize \[Rule] 600]]\)\)\)], "Input",\
+
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(End[\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(EndPackage[]\)], "Input"]
+},
+FrontEndVersion->"5.1 for X",
+ScreenRectangle->{{0, 1280}, {0, 1024}},
+AutoGeneratedPackage->None,
+WindowSize->{655, 915},
+WindowMargins->{{80, Automatic}, {Automatic, 25}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+Cell[1754, 51, 612, 19, 267, "Input"],
+Cell[2369, 72, 65, 1, 27, "Input"],
+Cell[2437, 75, 2502, 40, 683, "Input"],
+Cell[4942, 117, 55, 1, 27, "Input"],
+Cell[5000, 120, 854, 15, 203, "Input",
+  InitializationCell->True],
+Cell[5857, 137, 906, 17, 203, "Input",
+  InitializationCell->True],
+Cell[6766, 156, 1016, 17, 203, "Input",
+  InitializationCell->True],
+Cell[7785, 175, 326, 6, 75, "Input",
+  InitializationCell->True],
+Cell[8114, 183, 331, 6, 75, "Input",
+  InitializationCell->True],
+Cell[8448, 191, 330, 6, 75, "Input",
+  InitializationCell->True],
+Cell[8781, 199, 1093, 21, 219, "Input",
+  InitializationCell->True],
+Cell[9877, 222, 1124, 22, 219, "Input",
+  InitializationCell->True],
+Cell[11004, 246, 40, 1, 27, "Input"],
+Cell[11047, 249, 45, 1, 27, "Input"]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

@@ -1,0 +1,870 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="HTMLFiles/pmathml.xsl"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0//EN"
+        "HTMLFiles/xhtml-math11-f.dtd">
+
+<!-- Created by Wolfram Mathematica 5.1 -->
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+ <title>
+  index.xml
+ </title>
+ <link href="HTMLFiles/Default.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+
+<p class="Title">
+ The ``baby'' k-Bessel function
+</p>
+
+
+
+<p class="Text">
+ June 30, 2005<br />Modified: July 11, 2005
+</p>
+
+
+
+<p class='Section' style='border-left: 0px;border-right: 0px;border-top: 1px;border-bottom: 0px;border-style: solid;border-color: #000000;'>
+ Definition
+</p>
+
+
+
+<p class="Text">
+ The ``baby'' k-Bessel function has this definition according to Terras (Terras1, 136).
+</p>
+
+
+
+<p class="Text">
+ <span>k(s|z, a) = <span><math xmlns='http://www.w3.org/1998/Math/MathML'>
+ <msubsup>
+  <mo>&Integral;</mo>
+  <mrow>
+   <mi>u</mi>
+   <mo>=</mo>
+   <mrow>
+    <mo>-</mo>
+    <mi>&infin;</mi>
+   </mrow>
+  </mrow>
+  <mi>&#62760;</mi>
+ </msubsup>
+</math></span><span><math xmlns='http://www.w3.org/1998/Math/MathML'>
+ <msup>
+  <mrow>
+   <mo>{</mo>
+   <mrow>
+    <mi>Im</mi>
+    <mo>[</mo>
+    <msup>
+     <mrow>
+      <mo>(</mo>
+      <mrow>
+       <mrow>
+        <mo>-</mo>
+        <mi>z</mi>
+       </mrow>
+       <mo>+</mo>
+       <mi>u</mi>
+      </mrow>
+      <mo>)</mo>
+     </mrow>
+     <mrow>
+      <mo>-</mo>
+      <mn>1</mn>
+     </mrow>
+    </msup>
+    <mo>]</mo>
+   </mrow>
+   <mo>}</mo>
+  </mrow>
+  <mi>s</mi>
+ </msup>
+</math></span>exp(2&pi;<span class="doublestruck">i</span>au)<span class="doublestruck">d</span>u</span>
+</p>
+
+
+
+<p class="Text">
+ where Re(s)&gt;0. But we use another definition to compute it much quicker.
+</p>
+
+
+
+<p class='Text' style='font-family: Times;'>
+ <img src="HTMLFiles/index_1.gif" alt="k (s, z, 0) = Im (z)^(1 - s) &#915; (1/2) &#915; (s - 1/2)/&#915; (s)"  width="237" height="33"  style="vertical-align:middle" />
+</p>
+
+<p class='Text' style='font-family: Times;'>
+ <img src="HTMLFiles/index_2.gif" alt="k (s, z, a) = exp (2&#63214; a &#960; Re (z)) 2&#960;^(1/2) &#915; (s)^(-1) | a &#960; |^(s - 1/2) Im (z)^(1/2) K_ (s - 1/2) ( 2 | a &#960; Im (z) |)"  width="231" height="39"  style="vertical-align:middle" />
+</p>
+
+<p class="Text">
+ where z is in the upper half plane, and Re(s)&gt;0.
+</p>
+
+
+
+<p class="Input">
+ <math xmlns='http://www.w3.org/1998/Math/MathML'>
+ <mrow>
+  <mrow>
+   <mrow>
+    <mi>BabyK</mi>
+    <mo>[</mo>
+    <mrow>
+     <mtext>s_</mtext>
+     <mo>,</mo>
+     <mtext> </mtext>
+     <mtext>z_</mtext>
+    </mrow>
+    <mo>]</mo>
+   </mrow>
+   <mo>:=</mo>
+   <mrow>
+    <mfrac>
+     <mn>1</mn>
+     <mn>2</mn>
+    </mfrac>
+    <mo>&InvisibleTimes;</mo>
+    <mrow>
+     <msubsup>
+      <mo>&Integral;</mo>
+      <mn>0</mn>
+      <mi>&infin;</mi>
+     </msubsup>
+     <mrow>
+      <mrow>
+       <mi>Exp</mi>
+       <mo>[</mo>
+       <mrow>
+        <mfrac>
+         <mrow>
+          <mo>-</mo>
+          <mi>z</mi>
+         </mrow>
+         <mn>2</mn>
+        </mfrac>
+        <mo>&InvisibleTimes;</mo>
+        <mrow>
+         <mo>(</mo>
+         <mrow>
+          <mi>t</mi>
+          <mo>+</mo>
+          <mfrac>
+           <mn>1</mn>
+           <mi>t</mi>
+          </mfrac>
+         </mrow>
+         <mo>)</mo>
+        </mrow>
+       </mrow>
+       <mo>]</mo>
+      </mrow>
+      <mo>&InvisibleTimes;</mo>
+      <msup>
+       <mi>t</mi>
+       <mrow>
+        <mi>s</mi>
+        <mo>-</mo>
+        <mn>1</mn>
+       </mrow>
+      </msup>
+      <mo>&InvisibleTimes;</mo>
+      <mrow>
+       <mo>&DifferentialD;</mo>
+       <mi>t</mi>
+      </mrow>
+     </mrow>
+    </mrow>
+   </mrow>
+  </mrow>
+  <mtext>&#62371;</mtext>
+ </mrow>
+</math>
+</p>
+
+<p class="Input">
+ <img src="HTMLFiles/index_3.gif" alt="BabyK = BesselK ;"  width="117" height="15"  style="vertical-align:middle" />
+</p>
+
+<p class="Input">
+ <img src="HTMLFiles/index_4.gif" alt="Babyk[s_, z_, 0] := Im[z]^(1 - s) Gamma[1/2] Gamma[s - 1/2]/Gamma[s] ;"  width="185" height="86"  style="vertical-align:middle" />
+</p>
+
+<p class="Input">
+ <img src="HTMLFiles/index_5.gif" alt="Babyk[s_, z_, a_] := Exp[2I * a * Pi * Re[z]] 2Pi^(1/2) Gamma[s]^(-1) Abs[a * Pi]^(s - 1/2) Im[z]^(1/2) BabyK[s - 1/2, 2Abs[Pi * a * Im[z]]]"  width="272" height="67"  style="vertical-align:middle" />
+</p>
+
+<p class="Input">
+ <math xmlns='http://www.w3.org/1998/Math/MathML'>
+ <mrow>
+  <mrow>
+   <mi>ComplexPlot3D</mi>
+   <mo>[</mo>
+   <mrow>
+    <mrow>
+     <mi>Babyk</mi>
+     <mo>[</mo>
+     <mrow>
+      <mrow>
+       <mn>1</mn>
+       <mo>+</mo>
+       <mi>I</mi>
+      </mrow>
+      <mo>,</mo>
+      <mtext> </mtext>
+      <mrow>
+       <mn>1</mn>
+       <mo>+</mo>
+       <mrow>
+        <mi>r</mi>
+        <mo>*</mo>
+        <mi>I</mi>
+       </mrow>
+      </mrow>
+      <mo>,</mo>
+      <mi>v</mi>
+     </mrow>
+     <mo>]</mo>
+    </mrow>
+    <mo>,</mo>
+    <mtext> </mtext>
+    <mrow>
+     <mo>{</mo>
+     <mrow>
+      <mi>r</mi>
+      <mo>,</mo>
+      <mtext> </mtext>
+      <mrow>
+       <mo>-</mo>
+       <mn>1</mn>
+      </mrow>
+      <mo>,</mo>
+      <mtext> </mtext>
+      <mn>1</mn>
+     </mrow>
+     <mo>}</mo>
+    </mrow>
+    <mo>,</mo>
+    <mtext> </mtext>
+    <mrow>
+     <mo>{</mo>
+     <mrow>
+      <mi>v</mi>
+      <mo>,</mo>
+      <mtext> </mtext>
+      <mrow>
+       <mo>-</mo>
+       <mn>1</mn>
+      </mrow>
+      <mo>,</mo>
+      <mtext> </mtext>
+      <mn>1</mn>
+     </mrow>
+     <mo>}</mo>
+    </mrow>
+    <mo>,</mo>
+    <mtext> </mtext>
+    <mn>25</mn>
+    <mo>,</mo>
+    <mtext> </mtext>
+    <mrow>
+     <mo>{</mo>
+     <mrow>
+      <mi>r</mi>
+      <mo>,</mo>
+      <mtext> </mtext>
+      <mi>v</mi>
+      <mo>,</mo>
+      <mtext> </mtext>
+      <ms></ms>
+     </mrow>
+     <mo>}</mo>
+    </mrow>
+   </mrow>
+   <mo>]</mo>
+  </mrow>
+  <mo>//</mo>
+  <mi>Timing</mi>
+ </mrow>
+</math>
+</p>
+
+<p class="Graphics">
+ <img src="HTMLFiles/index_6.gif" alt="[Graphics:HTMLFiles/index_6.gif]"  width="600" height="152"  style="vertical-align:middle" />
+</p>
+
+<p class="Output">
+ <math xmlns='http://www.w3.org/1998/Math/MathML'>
+ <mrow>
+  <mo>&hybull;</mo>
+  <mo>&InvisibleTimes;</mo>
+  <mi>GraphicsArray</mi>
+  <mo>&InvisibleTimes;</mo>
+  <mo>&hybull;</mo>
+ </mrow>
+</math>
+</p>
+
+<p class="Input">
+ <math xmlns='http://www.w3.org/1998/Math/MathML'>
+ <mrow>
+  <mrow>
+   <mi>ComplexContourPlot</mi>
+   <mo>[</mo>
+   <mrow>
+    <mrow>
+     <mi>Babyk</mi>
+     <mo>[</mo>
+     <mrow>
+      <mrow>
+       <mn>1</mn>
+       <mo>+</mo>
+       <mi>I</mi>
+      </mrow>
+      <mo>,</mo>
+      <mtext> </mtext>
+      <mrow>
+       <mn>1</mn>
+       <mo>+</mo>
+       <mrow>
+        <mi>r</mi>
+        <mo>*</mo>
+        <mi>I</mi>
+       </mrow>
+      </mrow>
+      <mo>,</mo>
+      <mi>v</mi>
+     </mrow>
+     <mo>]</mo>
+    </mrow>
+    <mo>,</mo>
+    <mtext> </mtext>
+    <mrow>
+     <mo>{</mo>
+     <mrow>
+      <mi>r</mi>
+      <mo>,</mo>
+      <mtext> </mtext>
+      <mrow>
+       <mo>-</mo>
+       <mn>1</mn>
+      </mrow>
+      <mo>,</mo>
+      <mtext> </mtext>
+      <mn>1</mn>
+     </mrow>
+     <mo>}</mo>
+    </mrow>
+    <mo>,</mo>
+    <mtext> </mtext>
+    <mrow>
+     <mo>{</mo>
+     <mrow>
+      <mi>v</mi>
+      <mo>,</mo>
+      <mtext> </mtext>
+      <mrow>
+       <mo>-</mo>
+       <mn>1</mn>
+      </mrow>
+      <mo>,</mo>
+      <mtext> </mtext>
+      <mn>1</mn>
+     </mrow>
+     <mo>}</mo>
+    </mrow>
+    <mo>,</mo>
+    <mtext> </mtext>
+    <mn>25</mn>
+    <mo>,</mo>
+    <mtext> </mtext>
+    <mrow>
+     <mo>{</mo>
+     <mrow>
+      <mi>r</mi>
+      <mo>,</mo>
+      <mtext> </mtext>
+      <mi>v</mi>
+      <mo>,</mo>
+      <mtext> </mtext>
+      <ms></ms>
+     </mrow>
+     <mo>}</mo>
+    </mrow>
+   </mrow>
+   <mo>]</mo>
+  </mrow>
+  <mo>//</mo>
+  <mi>Timing</mi>
+ </mrow>
+</math>
+</p>
+
+<p class="Graphics">
+ <img src="HTMLFiles/index_7.gif" alt="[Graphics:HTMLFiles/index_7.gif]"  width="600" height="188"  style="vertical-align:middle" />
+</p>
+
+<p class="Output">
+ <math xmlns='http://www.w3.org/1998/Math/MathML'>
+ <mrow>
+  <mo>{</mo>
+  <mrow>
+   <mrow>
+    <mn>1.3917890000000215</mn>
+    <mtext> </mtext>
+    <mi>Second</mi>
+   </mrow>
+   <mo>,</mo>
+   <mrow>
+    <mo>&hybull;</mo>
+    <mo>&InvisibleTimes;</mo>
+    <mi>GraphicsArray</mi>
+    <mo>&InvisibleTimes;</mo>
+    <mo>&hybull;</mo>
+   </mrow>
+  </mrow>
+  <mo>}</mo>
+ </mrow>
+</math>
+</p>
+
+<p class="Input">
+ <math xmlns='http://www.w3.org/1998/Math/MathML'>
+ <mrow>
+  <mi>Observation</mi>
+  <mo>:</mo>
+  <mtext> </mtext>
+  <mrow>
+   <mrow>
+    <mi>The</mi>
+    <mo>&InvisibleTimes;</mo>
+    <mi>following</mi>
+    <mo>&InvisibleTimes;</mo>
+    <mn>2</mn>
+    <mo>&InvisibleTimes;</mo>
+    <mi>D</mi>
+    <mo>&InvisibleTimes;</mo>
+    <mi>plot</mi>
+    <mo>&InvisibleTimes;</mo>
+    <mi>more</mi>
+    <mo>&InvisibleTimes;</mo>
+    <mi>clearly</mi>
+    <mo>&InvisibleTimes;</mo>
+    <mi>shows</mi>
+    <mo>&InvisibleTimes;</mo>
+    <mi>the</mi>
+    <mo>&InvisibleTimes;</mo>
+    <mi>self</mi>
+   </mrow>
+   <mo>-</mo>
+   <mrow>
+    <mi>repeating</mi>
+    <mo>&InvisibleTimes;</mo>
+    <mi>nature</mi>
+    <mo>&InvisibleTimes;</mo>
+    <mi>of</mi>
+    <mo>&InvisibleTimes;</mo>
+    <mi>the</mi>
+    <mo>&InvisibleTimes;</mo>
+    <mi>absolute</mi>
+    <mo>&InvisibleTimes;</mo>
+    <mi>value</mi>
+    <mo>&InvisibleTimes;</mo>
+    <mi>of</mi>
+    <mo>&InvisibleTimes;</mo>
+    <mrow>
+     <mi>Babyk</mi>
+     <mo>.</mo>
+    </mrow>
+   </mrow>
+  </mrow>
+ </mrow>
+</math>
+</p>
+
+<p class="Input">
+ <math xmlns='http://www.w3.org/1998/Math/MathML'>
+ <mrow>
+  <mi>Plot</mi>
+  <mo>[</mo>
+  <mrow>
+   <mrow>
+    <mi>Abs</mi>
+    <mo>[</mo>
+    <mrow>
+     <mi>Babyk</mi>
+     <mo>[</mo>
+     <mrow>
+      <mrow>
+       <mn>1</mn>
+       <mo>+</mo>
+       <mi>I</mi>
+      </mrow>
+      <mo>,</mo>
+      <mtext> </mtext>
+      <mrow>
+       <mn>1</mn>
+       <mo>+</mo>
+       <mi>I</mi>
+      </mrow>
+      <mo>,</mo>
+      <mtext> </mtext>
+      <mi>r</mi>
+     </mrow>
+     <mo>]</mo>
+    </mrow>
+    <mo>]</mo>
+   </mrow>
+   <mo>,</mo>
+   <mtext> </mtext>
+   <mrow>
+    <mo>{</mo>
+    <mrow>
+     <mi>r</mi>
+     <mo>,</mo>
+     <mtext> </mtext>
+     <mrow>
+      <mo>-</mo>
+      <mn>0.3</mn>
+     </mrow>
+     <mo>,</mo>
+     <mtext> </mtext>
+     <mn>0.3</mn>
+    </mrow>
+    <mo>}</mo>
+   </mrow>
+   <mo>,</mo>
+   <mtext> </mtext>
+   <mrow>
+    <mi>AxesLabel</mi>
+    <mo>-&gt;</mo>
+    <mrow>
+     <mo>{</mo>
+     <mrow>
+      <mi>r</mi>
+      <mo>,</mo>
+      <mtext> </mtext>
+      <ms></ms>
+     </mrow>
+     <mo>}</mo>
+    </mrow>
+   </mrow>
+  </mrow>
+  <mo>]</mo>
+ </mrow>
+</math>
+</p>
+
+<p class="Graphics">
+ <img src="HTMLFiles/index_8.gif" alt="[Graphics:HTMLFiles/index_8.gif]"  width="288" height="178"  style="vertical-align:middle" />
+</p>
+
+<p class="Output">
+ <math xmlns='http://www.w3.org/1998/Math/MathML'>
+ <mrow>
+  <mo>&hybull;</mo>
+  <mo>&InvisibleTimes;</mo>
+  <mi>Graphics</mi>
+  <mo>&InvisibleTimes;</mo>
+  <mo>&hybull;</mo>
+ </mrow>
+</math>
+</p>
+
+<p class="Text">
+ Here, the range has been reduced to (-0.1, 0.1)
+</p>
+
+
+
+<p class="Input">
+ <math xmlns='http://www.w3.org/1998/Math/MathML'>
+ <mrow>
+  <mi>Plot</mi>
+  <mo>[</mo>
+  <mrow>
+   <mrow>
+    <mi>Abs</mi>
+    <mo>[</mo>
+    <mrow>
+     <mi>Babyk</mi>
+     <mo>[</mo>
+     <mrow>
+      <mrow>
+       <mn>1</mn>
+       <mo>+</mo>
+       <mi>I</mi>
+      </mrow>
+      <mo>,</mo>
+      <mtext> </mtext>
+      <mrow>
+       <mn>1</mn>
+       <mo>+</mo>
+       <mi>I</mi>
+      </mrow>
+      <mo>,</mo>
+      <mtext> </mtext>
+      <mi>r</mi>
+     </mrow>
+     <mo>]</mo>
+    </mrow>
+    <mo>]</mo>
+   </mrow>
+   <mo>,</mo>
+   <mtext> </mtext>
+   <mrow>
+    <mo>{</mo>
+    <mrow>
+     <mi>r</mi>
+     <mo>,</mo>
+     <mtext> </mtext>
+     <mrow>
+      <mo>-</mo>
+      <mn>0.1</mn>
+     </mrow>
+     <mo>,</mo>
+     <mtext> </mtext>
+     <mn>0.1</mn>
+    </mrow>
+    <mo>}</mo>
+   </mrow>
+   <mo>,</mo>
+   <mtext> </mtext>
+   <mrow>
+    <mi>AxesLabel</mi>
+    <mo>-&gt;</mo>
+    <mrow>
+     <mo>{</mo>
+     <mrow>
+      <mi>r</mi>
+      <mo>,</mo>
+      <mtext> </mtext>
+      <ms></ms>
+     </mrow>
+     <mo>}</mo>
+    </mrow>
+   </mrow>
+  </mrow>
+  <mo>]</mo>
+ </mrow>
+</math>
+</p>
+
+<p class="Graphics">
+ <img src="HTMLFiles/index_9.gif" alt="[Graphics:HTMLFiles/index_9.gif]"  width="288" height="178"  style="vertical-align:middle" />
+</p>
+
+<p class="Output">
+ <math xmlns='http://www.w3.org/1998/Math/MathML'>
+ <mrow>
+  <mo>&hybull;</mo>
+  <mo>&InvisibleTimes;</mo>
+  <mi>Graphics</mi>
+  <mo>&InvisibleTimes;</mo>
+  <mo>&hybull;</mo>
+ </mrow>
+</math>
+</p>
+
+<p class="Input">
+ <math xmlns='http://www.w3.org/1998/Math/MathML'>
+ <mrow>
+  <mrow>
+   <mi>Observation</mi>
+   <mo>:</mo>
+   <mtext fontfamily='Times' fontweight='normal'> </mtext>
+   <mstyle fontfamily='Times'
+       fontweight='normal'>
+    <mrow>
+     <mi>The</mi>
+     <mo>&InvisibleTimes;</mo>
+     <mi>definition</mi>
+     <mo>&InvisibleTimes;</mo>
+     <mi>of</mi>
+     <mo>&InvisibleTimes;</mo>
+     <mi>k</mi>
+     <mo>&InvisibleTimes;</mo>
+     <mi>looks</mi>
+     <mo>&InvisibleTimes;</mo>
+     <mi>a</mi>
+     <mo>&InvisibleTimes;</mo>
+     <mi>lot</mi>
+     <mo>&InvisibleTimes;</mo>
+     <mi>like</mi>
+     <mo>&InvisibleTimes;</mo>
+     <mi>a</mi>
+     <mo>&InvisibleTimes;</mo>
+     <mi>Fourier</mi>
+     <mo>&InvisibleTimes;</mo>
+     <mrow>
+      <mi>transform</mi>
+      <mo>.</mo>
+      <mtext> </mtext>
+      <mi>However</mi>
+     </mrow>
+    </mrow>
+   </mstyle>
+  </mrow>
+  <mo fontfamily='Times' fontweight='normal'>,</mo>
+  <mtext fontfamily='Times' fontweight='normal'> </mtext>
+  <mstyle fontfamily='Times'
+      fontweight='normal'>
+   <mrow>
+    <mi>doing</mi>
+    <mo>&InvisibleTimes;</mo>
+    <mi>the</mi>
+    <mo>&InvisibleTimes;</mo>
+    <mi>transform</mi>
+    <mo>&InvisibleTimes;</mo>
+    <mi>yields</mi>
+    <mo>&InvisibleTimes;</mo>
+    <mi>expressions</mi>
+    <mo>&InvisibleTimes;</mo>
+    <mi>that</mi>
+    <mo>&InvisibleTimes;</mo>
+    <mi>evaluate</mi>
+    <mo>&InvisibleTimes;</mo>
+    <mi>to</mi>
+    <mo>&InvisibleTimes;</mo>
+    <mi>zero</mi>
+    <mo>&InvisibleTimes;</mo>
+    <mrow>
+     <mi>always</mi>
+     <mo>.</mo>
+    </mrow>
+   </mrow>
+  </mstyle>
+ </mrow>
+</math>
+</p>
+
+<p class="Input">
+ <math xmlns='http://www.w3.org/1998/Math/MathML'>
+ <mrow>
+  <mi>FourierTransform</mi>
+  <mo>[</mo>
+  <mrow>
+   <msup>
+    <mrow>
+     <mo>(</mo>
+     <msup>
+      <mrow>
+       <mi>Im</mi>
+       <mo>[</mo>
+       <mrow>
+        <mrow>
+         <mo>-</mo>
+         <mi>z</mi>
+        </mrow>
+        <mo>+</mo>
+        <mi>u</mi>
+       </mrow>
+       <mo>]</mo>
+      </mrow>
+      <mrow>
+       <mo>-</mo>
+       <mn>1</mn>
+      </mrow>
+     </msup>
+     <mo>)</mo>
+    </mrow>
+    <mi>s</mi>
+   </msup>
+   <mo>,</mo>
+   <mtext> </mtext>
+   <mi>u</mi>
+   <mo>,</mo>
+   <mtext> </mtext>
+   <mi>a</mi>
+   <mo>,</mo>
+   <mtext> </mtext>
+   <mrow>
+    <mi>FourierParameters</mi>
+    <mo>&rightarrow;</mo>
+    <mrow>
+     <mo>{</mo>
+     <mrow>
+      <mn>0</mn>
+      <mo>,</mo>
+      <mtext> </mtext>
+      <mrow>
+       <mrow>
+        <mo>-</mo>
+        <mn>2</mn>
+       </mrow>
+       <mo>&InvisibleTimes;</mo>
+       <mi>Pi</mi>
+      </mrow>
+     </mrow>
+     <mo>}</mo>
+    </mrow>
+   </mrow>
+  </mrow>
+  <mo>]</mo>
+ </mrow>
+</math>
+</p>
+
+<p class="Output">
+ <math xmlns='http://www.w3.org/1998/Math/MathML'>
+ <mrow>
+  <mrow>
+   <mi>DiracDelta</mi>
+   <mo>[</mo>
+   <mi>a</mi>
+   <mo>]</mo>
+  </mrow>
+  <mo>&InvisibleTimes;</mo>
+  <msup>
+   <mrow>
+    <mo>(</mo>
+    <mrow>
+     <mo>-</mo>
+     <mfrac>
+      <mn>1</mn>
+      <mrow>
+       <mi>Im</mi>
+       <mo>[</mo>
+       <mi>z</mi>
+       <mo>]</mo>
+      </mrow>
+     </mfrac>
+    </mrow>
+    <mo>)</mo>
+   </mrow>
+   <mi>s</mi>
+  </msup>
+ </mrow>
+</math>
+</p>
+
+<p class='Section' style='border-left: 0px;border-right: 0px;border-top: 1px;border-bottom: 0px;border-style: solid;border-color: #000000;'>
+ References
+</p>
+
+
+
+<p class="Text">
+ Terras, Audrey. Harmonic Analysis on Symmetric Spaces and Applications,Vols.I,II,Springer-Verlag,N.Y.,1985,1988.
+</p>
+
+
+
+<hr />
+
+<table><tr>
+<td style='font-family: Helvetica; font-size: 10px; width: 100%'>Created by
+ <a href="http://www.wolfram.com"><span style='font-style: italic'>Mathematica</span></a>
+ &nbsp;(August 3, 2005)</td>
+<td><img src='http://www.w3.org/Icons/valid-xhtml11.gif'
+ alt='Valid XHTML 1.1!' height='31' width='88' /></td>
+</tr></table>
+</body>
+
+</html>

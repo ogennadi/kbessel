@@ -1,0 +1,381 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.1'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[      9584,        307]*)
+(*NotebookOutlinePosition[     10215,        329]*)
+(*  CellTagsIndexPosition[     10171,        325]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Computing and Visualizing K-Bessel Functions", "Title"],
+
+Cell["\<\
+Created:\t 02 August 2005
+Last modified: 05 August 2005
+\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell["Introduction", "Section",
+  CellFrame->{{0, 0}, {0, 0.5}}],
+
+Cell[TextData[{
+  "This document is a report on the work I and Kaitie did on visualizing\n\
+K-bessel functions.\n\nThis summer, I and Kaitie worked on computing values \
+for and visualizing the K-Bessel functions described in the books by \
+Terras[]. In the end, we succeeded in programming ",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  " to compute the \"baby\" k- and K-Bessel functions, ",
+  Cell[BoxData[
+      \(TraditionalForm\`K\_1\)]],
+  ", ",
+  Cell[BoxData[
+      \(TraditionalForm\`K\_2\)]],
+  ", and ",
+  Cell[BoxData[
+      \(TraditionalForm\`k\_11\)]],
+  ". We were only able to compute ",
+  Cell[BoxData[
+      \(TraditionalForm\`K\_3\)]],
+  "when it had a singular matrix argument. We were able to compute special \
+cases of ",
+  Cell[BoxData[
+      \(TraditionalForm\`k\_12\)]],
+  "and ",
+  Cell[BoxData[
+      \(TraditionalForm\`k\_21\)]],
+  "when their complex parameter, s,  was restricted to a single axis. We also \
+computed another special case of ",
+  Cell[BoxData[
+      \(TraditionalForm\`k\_21\)]],
+  "when one of its matrix arguments was the identity.\n\nPlotting each of \
+these functions took abuot 15 seconds, except for ",
+  Cell[BoxData[
+      \(TraditionalForm\`K\_2\)]],
+  ", ",
+  Cell[BoxData[
+      \(TraditionalForm\`K\_3\)]],
+  ", and the last special case of ",
+  Cell[BoxData[
+      \(TraditionalForm\`k\_21\)]],
+  ". These all took upwards of 4 hours to plot.\n\nAt the end of the summer, \
+we created a website to showcase the visualizations we had done. This website \
+does not contain a variety of plots for ",
+  Cell[BoxData[
+      \(TraditionalForm\`K\_2\)]],
+  "or ",
+  Cell[BoxData[
+      \(TraditionalForm\`K\_3\)]],
+  "since they would take too long to produce. The website also does not yet \
+work on Internet Explorer."
+}], "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Using the Notebooks", "Section",
+  CellFrame->{{0, 0}, {0, 0.5}}],
+
+Cell[BoxData[{\(The\ Mathematica\ code\ for\ the\ functions\ in\ this\ report\
+\ can\ be\ found\ in\), "\n", 
+    RowBox[{"the", " ", "file", 
+      RowBox[{
+        FormBox[
+          ButtonBox[\(Kbessel . nb\),
+            ButtonData:>{"KBessel.nb", None},
+            ButtonStyle->"Hyperlink"],
+          "TraditionalForm"], ".", " ", "Code"}], " ", "for", " ", "the", " ",
+       "graphing", " ", "functions", " ", "is", " ", "in", 
+      RowBox[{
+        FormBox[
+          ButtonBox[\(Plot . nb\),
+            ButtonData:>{"Plot.nb", None},
+            ButtonStyle->"Hyperlink"],
+          "TraditionalForm"], ".", "To"}], " ", "use"}], "\n", 
+    RowBox[{\(the\ functions\), ",", 
+      RowBox[{"include", 
+        ButtonBox[\(KBessel . m\),
+          ButtonData:>{
+            
+            FrontEnd`FileName[ {"."}, "KBessel.m", CharacterEncoding -> 
+              "iso8859-1"], None},
+          ButtonStyle->"Hyperlink"], "and", 
+        ButtonBox[\(Plot . m\),
+          ButtonData:>{"Plot.m", None},
+          ButtonStyle->"Hyperlink"], "respectively", " ", "in", " ", "your", 
+        " ", "Mathematica"}]}], "\n", \(\(notebook\)\(.\)\(\ \)\)}], "Text",
+  FontFamily->"Times"],
+
+Cell[BoxData[
+    \(In\ the\ \ notebooks\ below\ summarizing\ our\ results\ on\ K - 
+      Bessel\ functions, \ 
+    remember\ to\ change\ the\ import\ statement\ so\ that\ it\ points\ to\ \
+the\ absolute\ path\ of\ the\ file\ being\ \(\(imported\)\(.\)\(\ \)\)\)], \
+"Input",
+  FontFamily->"Times",
+  FontWeight->"Plain"],
+
+Cell[BoxData[
+    RowBox[{\(For\ help\ on\ using\ any\ of\ the\ functions\), ",", " ", 
+      RowBox[{"evaluate", " ", "the", " ", 
+        RowBox[{
+          RowBox[{"expression", " ", 
+            StyleBox["?",
+              FontWeight->"Bold"], 
+            StyleBox[\([Name_of  _file]\),
+              FontWeight->"Bold"]}], 
+          StyleBox[" ",
+            FontWeight->"Bold"], 
+          StyleBox[".",
+            FontWeight->"Bold"], 
+          StyleBox[
+            RowBox[{
+              StyleBox[" ",
+                FontWeight->"Bold"], 
+              StyleBox[" ",
+                FontWeight->"Plain"]}]], 
+          StyleBox["For",
+            FontWeight->"Plain"]}], 
+        StyleBox[" ",
+          FontWeight->"Plain"], 
+        StyleBox["example",
+          FontWeight->"Plain"]}], 
+      StyleBox[",",
+        FontWeight->"Plain"], 
+      StyleBox["  ",
+        FontWeight->"Plain"], 
+      RowBox[{
+        StyleBox["?",
+          FontWeight->"Bold"], 
+        StyleBox[
+          RowBox[{
+            StyleBox["k12",
+              FontWeight->"Bold"], 
+            StyleBox[" will output a message on how to use the function ",
+              FontWeight->"Plain"], 
+            StyleBox["k12",
+              FontWeight->"Bold"], 
+            StyleBox[".",
+              FontWeight->"Plain"]}]]}]}]], "Input",
+  FontFamily->"Times",
+  FontWeight->"Plain"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Table of Contents", "Section",
+  CellFrame->{{0, 0}, {0, 0.5}}],
+
+Cell[CellGroupData[{
+
+Cell["K-bessel functions", "Subsubsection"],
+
+Cell[BoxData[
+    ButtonBox[
+      ButtonBox[\("\<Baby\>"\ k\),
+        ButtonData:>{
+          
+          FrontEnd`FileName[ {$RootDirectory, "home", "nnadioge", 
+            "summer2005", "summary", ".", "."}, "Babyk.nb", CharacterEncoding -> 
+            "iso8859-1"], None},
+        ButtonStyle->"Hyperlink"],
+      ButtonData:>{"Babyk.nb", None},
+      ButtonStyle->"Hyperlink"]], "Input"],
+
+Cell[BoxData[
+    ButtonBox[
+      ButtonBox[\("\<Baby\>"\ K\),
+        ButtonData:>{
+          
+          FrontEnd`FileName[ {$RootDirectory, "home", "nnadioge", 
+            "summer2005", "summary", ".", "."}, "BabyK.nb", CharacterEncoding -> 
+            "iso8859-1"], None},
+        ButtonStyle->"Hyperlink"],
+      ButtonData:>{"BabyK.nb", None},
+      ButtonStyle->"Hyperlink"]], "Input"],
+
+Cell[BoxData[
+    ButtonBox["Matrixk",
+      ButtonData:>{"Matrixk.nb", None},
+      ButtonStyle->"Hyperlink"]], "Input"],
+
+Cell[BoxData[
+    ButtonBox[
+      ButtonBox[\(Matrix\ K\),
+        ButtonData:>{
+          
+          FrontEnd`FileName[ {$RootDirectory, "home", "nnadioge", 
+            "summer2005", "summary", ".", "."}, "MatrixK.nb", 
+            CharacterEncoding -> "iso8859-1"], None},
+        ButtonStyle->"Hyperlink"],
+      ButtonData:>{"MatrixK.nb", None},
+      ButtonStyle->"Hyperlink"]], "Input"],
+
+Cell["\<\
+In this section, we define each function and show sample plots of \
+it.\
+\>", "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[ButtonBox["Tests",
+  ButtonData:>{"crosscheck.nb", None},
+  ButtonStyle->"Hyperlink"]], "Subsubsection"],
+
+Cell["\<\
+In this section we crosscheck the values from the K-Bessel \
+functions using identities in Terras1 and 2. The notebook was created \
+entirely by Kaitie.\
+\>", "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Appendix", "Subsubsection"],
+
+Cell[BoxData[
+    ButtonBox[
+      ButtonBox[
+        ButtonBox[
+          ButtonBox[\(The\ K - Bessel\ website\),
+            ButtonData:>{
+              
+              FrontEnd`FileName[ {"website"}, "index.html", CharacterEncoding -> 
+                "iso8859-1"], None},
+            ButtonStyle->"Hyperlink"],
+          ButtonData:>{
+            URL[ "file://website/index.html"], None},
+          ButtonStyle->"Hyperlink"],
+        ButtonData:>{
+          URL[ "file:///website/index.html"], None},
+        ButtonStyle->"Hyperlink"],
+      ButtonData:>{
+        URL[ "http://www.cs.grin.edu/~nnadioge/kb"], None},
+      ButtonStyle->"Hyperlink"]], "Input"],
+
+Cell["A copy of the website is available with this documentation.", "Text"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+},
+FrontEndVersion->"5.1 for X",
+ScreenRectangle->{{0, 1280}, {0, 1024}},
+WindowSize->{520, 600},
+WindowMargins->{{Automatic, 14}, {Automatic, 108}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 61, 0, 223, "Title"],
+Cell[1840, 55, 80, 4, 68, "Text"],
+
+Cell[CellGroupData[{
+Cell[1945, 63, 64, 1, 75, "Section"],
+Cell[2012, 66, 1795, 50, 356, "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[3844, 121, 71, 1, 75, "Section"],
+Cell[3918, 124, 1188, 28, 84, "Text"],
+Cell[5109, 154, 322, 7, 64, "Input"],
+Cell[5434, 163, 1377, 43, 64, "Input"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[6848, 211, 69, 1, 75, "Section"],
+
+Cell[CellGroupData[{
+Cell[6942, 216, 43, 0, 28, "Subsubsection"],
+Cell[6988, 218, 394, 10, 27, "Input"],
+Cell[7385, 230, 394, 10, 27, "Input"],
+Cell[7782, 242, 121, 3, 27, "Input"],
+Cell[7906, 247, 394, 10, 27, "Input"],
+Cell[8303, 259, 95, 3, 32, "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[8435, 267, 118, 2, 28, "Subsubsection"],
+Cell[8556, 271, 176, 4, 50, "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[8769, 280, 33, 0, 28, "Subsubsection"],
+Cell[8805, 282, 661, 18, 27, "Input"],
+Cell[9469, 302, 75, 0, 32, "Text"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

@@ -1,0 +1,59 @@
+<!-- To make changes to this site, see index.js -->
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="index.css" />
+	<script src="index.js" />
+</head>
+
+<body onload="main()">
+	<!-- General description of the site -->
+	<div class="header">
+	<h2>Welcome to the Kbessel site</h2>
+	<p>Click on a pane and then select the function you want to view from the
+list. Clicking the <em>Pause/Unpause</em> button will animate the graph in the
+selected pane.</p>
+	</div>
+
+
+	<!--  Table showing all the visualizations -->
+	<table class	="footer"
+		   border	="1"
+  		   summary	="This table shows different pltos of k-bessel functions.">
+
+	  <tr>
+		<th id="label0" class="selected" onmousedown="changeCurrentPane(0)">N</th>
+		<th id="label1" onmousedown="changeCurrentPane(1)" >T</th>
+	  </tr>
+
+	  <tr>
+		<td onmousedown="changeCurrentPane(0)"><img id="3D0"> </img></td>
+		<td onmousedown="changeCurrentPane(1)" ><img id="3D1"> </img></td>
+	  </tr>
+
+	  <tr>
+		<td onmousedown="changeCurrentPane(0)"><img id="contour0"> </img></td>
+		<td onmousedown="changeCurrentPane(1)" ><img id="contour1"> </img></td>
+	  </tr>
+
+	  <tr>
+		<td onmousedown="changeCurrentPane(0)"><a onClick="return popup(this, 'notes')" id="text0" href="">More information</a></td>
+		<td onmousedown="changeCurrentPane(1)"><a onClick="return popup(this, 'notes')" id="text1" href="">More information</a></td>
+	  </tr>
+
+	</table>
+
+	<form class="left">
+		<!-- Listbox to select plotting variables -->
+		<select id		="functions"
+				size	="12" 
+				onClick	="selectFunction(this.selectedIndex)">
+		</select>
+
+		<!-- The stop/start button -->
+		<input type		="button"
+			   id		="startstop"
+			   value	="Pause/Unpause"
+        	   onClick	="pause()"/>
+	</form>
+</body>
+</html>

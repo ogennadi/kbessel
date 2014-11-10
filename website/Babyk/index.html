@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0//EN"
+        "HTMLFiles/xhtml-math11-f.dtd">
+
+<!-- Created by Wolfram Mathematica 5.1 -->
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+ <title>
+  BabyK.nb
+ </title>
+ <link href="HTMLFiles/Default.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+
+<p class="Title">
+ The ``baby'' K-Bessel function
+</p>
+
+
+
+<p class="Text">
+ June 30, 2005<br />
+</p>
+
+
+
+<p class='Section' style='border-left: 0px;border-right: 0px;border-top: 1px;border-bottom: 0px;border-style: solid;border-color: #000000;'>
+ Definition
+</p>
+
+
+
+<p class="Text">
+ The ``baby'' K-Bessel function is defined as 
+</p>
+
+
+
+<p class="Text">
+ <img src="HTMLFiles/index_1.gif" alt="K_s (z) = 1/2&#8747;_0^&#8734;exp[-z/2 (t + 1/t)] t^(s - 1) &#63308;t&nbsp;&nbsp;"  width="251" height="33"  style="vertical-align:middle" />
+</p>
+
+<p class="Text">
+ for Re(z)&gt;0 (Terras1, 136).
+</p>
+
+
+
+<p class="Input">
+ <img src="HTMLFiles/index_2.gif" alt="K[s_, z_] := 1/2&#8747;_0^&#8734;Exp[-z/2 (t + 1/t)] t^(s - 1) &#63308;t&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"  width="302" height="33"  style="vertical-align:middle" />
+</p>
+
+<p class="Text">
+ Terras also calls it the modified Bessel function of the third kind.
+</p>
+
+
+
+<p class='Input' style='font-family: Times;'>
+ <img src="HTMLFiles/index_3.gif" alt="Observation : Its plots look identical to those of what Mathematica calls the modified Bessel function of the second kind (BesselK) ."  width="521" height="34"  style="vertical-align:middle" />
+</p>
+
+<p class='Section' style='border-left: 0px;border-right: 0px;border-top: 1px;border-bottom: 0px;border-style: solid;border-color: #000000;'>
+ Plots
+</p>
+
+
+
+<p class="Input">
+ <img src="HTMLFiles/index_4.gif" alt="&lt;&lt;summer2005/Plot.m"  width="141" height="15"  style="vertical-align:middle" />
+</p>
+
+<p class="Input">
+ <img src="HTMLFiles/index_5.gif" alt="ComplexPlot[K[1 - I, 1 + a * I], {a, -10, 10}, 25, {&quot;Im[z]&quot;, &nbsp;&nbsp;&quot;&quot;}]//Timing"  width="502" height="15"  style="vertical-align:middle" />
+</p>
+
+<p class="Graphics">
+ <img src="HTMLFiles/index_6.gif" alt="[Graphics:HTMLFiles/index_6.gif]"  width="600" height="116"  style="vertical-align:middle" />
+</p>
+
+<p class="Output">
+ <img src="HTMLFiles/index_7.gif" alt="{3.54446 Second, &#8259;GraphicsArray&#8259;}"  width="235" height="15"  style="vertical-align:middle" />
+</p>
+
+<p class="Input">
+ <img src="HTMLFiles/index_8.gif" alt="ComplexPlot[BesselK[1 - I, 1 + a * I], {a, -10, 10}, 25, {&quot;Im[z]&quot;, &nbsp;&nbsp;&quot;&quot;}]//Timing"  width="497" height="31"  style="vertical-align:middle" />
+</p>
+
+<p class="Graphics">
+ <img src="HTMLFiles/index_9.gif" alt="[Graphics:HTMLFiles/index_9.gif]"  width="600" height="116"  style="vertical-align:middle" />
+</p>
+
+<p class="Output">
+ <img src="HTMLFiles/index_10.gif" alt="{0.244963 Second, &#8259;GraphicsArray&#8259;}"  width="242" height="15"  style="vertical-align:middle" />
+</p>
+
+<p class='Section' style='border-left: 0px;border-right: 0px;border-top: 1px;border-bottom: 0px;border-style: solid;border-color: #000000;'>
+ References
+</p>
+
+
+
+<p class="Text">
+ Terras, Audrey. Harmonic Analysis on Symmetric Spaces and Applications,Vols.I,II,Springer-Verlag,N.Y.,1985,1988.
+</p>
+
+
+
+<hr />
+
+<table><tr>
+<td style='font-family: Helvetica; font-size: 10px; width: 100%'>Created by
+ <a href="http://www.wolfram.com"><span style='font-style: italic'>Mathematica</span></a>
+ &nbsp;(August 3, 2005)</td>
+<td><img src='http://www.w3.org/Icons/valid-xhtml11.gif'
+ alt='Valid XHTML 1.1!' height='31' width='88' /></td>
+</tr></table>
+</body>
+
+</html>

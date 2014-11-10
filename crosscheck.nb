@@ -1,0 +1,2773 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.1'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     75722,       2324]*)
+(*NotebookOutlinePosition[     76685,       2354]*)
+(*  CellTagsIndexPosition[     76641,       2350]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Helper Functions", "Section"],
+
+Cell[BoxData[
+    \(\(\(MatrixGamma[n_, \ s_] := \ 
+      Module[{f}, \[IndentingNewLine]f[elmt_, \ i_] := 
+          If[i[\([1]\)] >= j, \ elmt, \ 
+            0]; \[IndentingNewLine]Pi^\((n \((n - 1)\)/
+                  4)\) \(\[Product]\+\(j = 1\)\%n Gamma[
+              Apply[\ Plus, 
+                  MapIndexed[f, 
+                    s]\ ] - \ \((j - 1)\)\/2]\)]\)\(\[IndentingNewLine]\)
+    \)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\(PowerFunction[s_, \ Y_] := 
+      Module[{upperJ}, 
+        upperJ[j_, \ S_] := 
+          Take[S, \ j, \ 
+            j]; \[IndentingNewLine]\[Product]\+\(j = 1\)\%\(Length[Y]\)Det[\ \
+upperJ[j, \ Y]\ ]\^s[\([\ j\ ]\)]]\)\(\[IndentingNewLine]\)
+    \)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(\(InverseIwasawa[A_, \ B_] := 
+      Transpose[B] . A . B\)\(\[IndentingNewLine]\)
+    \)\)], "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["Gamma Function Proofs/Equalities", "Subsection"],
+
+Cell[TextData[{
+  "We see that the MatrixGamma function for n = 1 matches the Gamma function \
+as defined by ",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  "."
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(N[MatrixGamma[1, {2\ I}]]\), "\[IndentingNewLine]", 
+    \(N[Gamma[2\ I]]\)}], "Input"],
+
+Cell[BoxData[
+    \(\(\(0.009902440080927428`\)\(\[InvisibleSpace]\)\) - 
+      0.07595200133501824`\ \[ImaginaryI]\)], "Output"],
+
+Cell[BoxData[
+    \(\(\(0.009902440080927428`\)\(\[InvisibleSpace]\)\) - 
+      0.07595200133501824`\ \[ImaginaryI]\)], "Output"]
+}, Open  ]],
+
+Cell[TextData[{
+  "We see that for different values of {s}, the MatrixGamma function for n = \
+2 matches our expansion  ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\[CapitalGamma]\_2\)(s)\)]],
+  " = ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Integral]\_\(-\[Infinity]\)\%\[Infinity]\(\
+\[Integral]\_0\%\[Infinity]\(\[Integral]\_0\%\[Infinity]\( 
+                  v\^\(s\_1 + s\_2 - 1\/2\)\) \(w\^\(s\_1 - 
+                    3\/2\)\) \(\[ExponentialE]\^\(-\((v + vx\^2 + 
+                        w)\)\)\) \[DifferentialD]w \[DifferentialD]v \
+\[DifferentialD]x\)\)\)]],
+  ".  Note that ",
+  Cell[BoxData[
+      \(TraditionalForm\`s\_1 = \ \(s\ and\ s\_2 = \(\(t\)\(.\)\)\)\)]]
+}], "Text"],
+
+Cell[BoxData[
+    \(Gamma2[s_, t_] := 
+      NIntegrate[
+        v\^\(s + t - 1\/2\)\ w\^\(t - 3\/2\)\ \[ExponentialE]\^\(-\((v + v\ x\
+\^2 + w)\)\), {w, \ 0, \ \[Infinity]}, \ {v, \ 
+          0, \ \[Infinity]}, \ {x, \ \(-\[Infinity]\), \ \[Infinity]}]\)], \
+"Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(Gamma2[I, 1]\), "\[IndentingNewLine]", 
+    \(N[MatrixGamma[2, {I, 1}]]\)}], "Input"],
+
+Cell[BoxData[
+    RowBox[{\(NIntegrate::"slwcon"\), \(\(:\)\(\ \)\), "\<\"Numerical \
+integration converging too slowly; suspect one of the following: singularity, \
+value of the integration being 0, oscillatory integrand, or insufficient \
+WorkingPrecision. If your integrand is oscillatory try using the option \
+Method->Oscillatory in NIntegrate. \
+\\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\
+\\\", ButtonFrame->None, ButtonData:>\\\"NIntegrate::slwcon\\\"]\\)\"\>"}]], \
+"Message"],
+
+Cell[BoxData[
+    \(\(\(1.5645623646193278`\)\(\[InvisibleSpace]\)\) - 
+      0.48678924711816973`\ \[ImaginaryI]\)], "Output"],
+
+Cell[BoxData[
+    \(\(\(1.5645623643332387`\)\(\[InvisibleSpace]\)\) - 
+      0.48678924226796744`\ \[ImaginaryI]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(N[MatrixGamma[2, {2\ I, 1}]]\)], "Input"],
+
+Cell[BoxData[
+    \(\(\(0.47722049883906903`\)\(\[InvisibleSpace]\)\) + 
+      0.0622188660217092`\ \[ImaginaryI]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(Gamma2[2, 3]\), "\[IndentingNewLine]", 
+    \(N[MatrixGamma[2, {2, 3}]]\)}], "Input"],
+
+Cell[BoxData[
+    RowBox[{\(NIntegrate::"slwcon"\), \(\(:\)\(\ \)\), "\<\"Numerical \
+integration converging too slowly; suspect one of the following: singularity, \
+value of the integration being 0, oscillatory integrand, or insufficient \
+WorkingPrecision. If your integrand is oscillatory try using the option \
+Method->Oscillatory in NIntegrate. \
+\\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\
+\\\", ButtonFrame->None, ButtonData:>\\\"NIntegrate::slwcon\\\"]\\)\"\>"}]], \
+"Message"],
+
+Cell[BoxData[
+    \(56.54866756146032`\)], "Output"],
+
+Cell[BoxData[
+    \(56.548667764616276`\)], "Output"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["The K-Bessel Functions", "Section"],
+
+Cell[BoxData[
+    \(\(\(BabyK[s_, \ 
+        z_] := \(1\/2\) \(\[Integral]\_0\%\[Infinity] 
+              Exp[\(\(-z\)\/2\) \((t + 1\/t)\)] \(t\^\(s - 
+                  1\)\) \[DifferentialD]t\)\)\(\[IndentingNewLine]\)
+    \)\)], "Input",
+  InitializationCell->True],
+
+Cell[TextData[{
+  "This is ",
+  Cell[BoxData[
+      \(TraditionalForm\`K\_1\)]],
+  " based on the \"baby\" K-Bessel function above:"
+}], "Text"],
+
+Cell[BoxData[
+    \(K1[s_, \ a_, \ b_] := 
+      2 \(\((b\/a)\)\^\(s\/2\)\) BabyK[s, \ 2  Sqrt[a*b]]\)], "Input",
+  InitializationCell->True],
+
+Cell[TextData[{
+  "This is ",
+  Cell[BoxData[
+      \(TraditionalForm\`K\_1\)]],
+  " using the general equation for K-Bessel functions giving by Terras:"
+}], "Text"],
+
+Cell[BoxData[
+    \(AltK1[s_, a_, b_] := 
+      NIntegrate[
+        y\^\(s - 1\)\ E\^\(-\((a\ y + b\/y)\)\), {y, 
+          0, \[Infinity]}]\)], "Input"],
+
+Cell[BoxData[
+    \(\(\(K2[s_, t_, \ A_, \ B_] := 
+      NIntegrate[\(v\^\(s + t - 1/2\)\) \(w\^\(t - 3/2\)\) 
+          Exp[\(-v\)\ A[\([1, \ 1]\)] - 
+              2\ v\ *x\ A[\([1, \ 2]\)] - \((w + v\ *x\^2)\)\ A[\([2, \ 
+                    2]\)] - \(\((w + v\ *x\^2)\) B[\([1, \ 1]\)]\)\/\(v\ *w\) \
++ \(2\ x*\ B[\([1, \ 2]\)]\)\/w - B[\([2, \ 2]\)]\/w], \ {w, \ 
+          0, \ \[Infinity]}, \ {v, \ 
+          0, \ \[Infinity]}, \ {x, \ \(-\[Infinity]\), \ \[Infinity]}]\)\(\
+\[IndentingNewLine]\)
+    \)\)], "Input",
+  InitializationCell->True],
+
+Cell[TextData[{
+  "This is ",
+  Cell[BoxData[
+      \(TraditionalForm\`K\_2\)]],
+  " with singular argument:"
+}], "Text",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(SingularK2[\ s_, t_, \ A_, \ B_, \ D_] := 
+      Pi\^0.5\ \(B\^\(-0.5\)\) \(A\^\(-\((s + t)\)\)\) 
+        MatrixGamma[\ 1, s + t] 
+        K1[\ t - 0.5, \ B, \ D]\[IndentingNewLine]\), "\[IndentingNewLine]", 
+    \(SingularK2[\ 1, 1, 1, 1, 1]\)}], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    RowBox[{\(Integrate::"gener"\), \(\(:\)\(\ \)\), "\<\"Unable to check \
+convergence. \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"Integrate::gener\\\"]\\)\"\>"}]], "Message"],
+
+Cell[BoxData[
+    \(0.4251683315876363`\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    RowBox[{"K2", "[", 
+      RowBox[{"1", ",", "1", ",", 
+        RowBox[{"InverseIwasawa", "[", 
+          RowBox[{
+            RowBox[{"(", GridBox[{
+                  {"1", "0"},
+                  {"0", "1"}
+                  }], ")"}], ",", 
+            RowBox[{"(", GridBox[{
+                  {"1", "0"},
+                  {"1", "1"}
+                  }], ")"}]}], "]"}], ",", 
+        RowBox[{"(", GridBox[{
+              {"0", "0"},
+              {"0", "1"}
+              }], ")"}]}], "]"}]], "Input"],
+
+Cell[BoxData[
+    RowBox[{\(NIntegrate::"slwcon"\), \(\(:\)\(\ \)\), "\<\"Numerical \
+integration converging too slowly; suspect one of the following: singularity, \
+value of the integration being 0, oscillatory integrand, or insufficient \
+WorkingPrecision. If your integrand is oscillatory try using the option \
+Method->Oscillatory in NIntegrate. \
+\\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\
+\\\", ButtonFrame->None, ButtonData:>\\\"NIntegrate::slwcon\\\"]\\)\"\>"}]], \
+"Message"],
+
+Cell[BoxData[
+    \(0.4251683313208334`\)], "Output"]
+}, Open  ]],
+
+Cell[TextData[{
+  "Here's ",
+  Cell[BoxData[
+      \(TraditionalForm\`K\_3\)]],
+  "--unfortunately, we cannot produce sample values with this function, it \
+doesn't work using ",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  "."
+}], "Text"],
+
+Cell[BoxData[
+    \(\(\(K3[s_, \ V_, \ 
+        W_] := \[Integral]\_\(-\[Infinity]\)\%\[Infinity]\(\[Integral]\_\(-\
+\[Infinity]\)\%\[Infinity]\(\[Integral]\_0\%\[Infinity]\(\[Integral]\_0\%\
+\[Infinity]\(\[Integral]\_0\%\[Infinity]\(\[Integral]\_0\%\[Infinity]\( 
+                        u\^s[\([1]\)]\) \(Det[V]\^\(s[\([2]\)] - 
+                          2\)\) \(\((\(-x\)\ v\^2 + x\ u\ w)\)\^s[\([3]\)]\) 
+                    Exp[\(-u\)\ V[\([1, \ 1]\)] - 2\ v\ V[\([1, \ 2]\)] - 
+                        2\ \((u\ y + v\ z)\)\ V[\([1, \ 3]\)] - 
+                        w\ V[\([2, \ 2]\)] - 
+                        2\ \((v\ y + w\ z)\)\ V[\([2, \ 3]\)] - \((w + 
+                              y\ \((u\ y + v\ z)\) + 
+                              z\ \((v\ y + w\ z)\))\)\ V[\([3, \ 
+                              3]\)] - \(\((w\^2 - v\^2\ y\^2 + u\ w\ y\^2)\)\ \
+W[\([1, \ 1]\)]\)\/\(\(-v\^2\)\ w + u\ w\^2\) - \(2\ \((\(-v\)\ w - v\^2\ y\ \
+z + u\ w\ y\ z)\)\ W[\([1, \ 2]\)]\)\/\(\(-v\^2\)\ w + u\ w\^2\) - \(2\ \
+\((v\^2\ y - u\ w\ y)\)\ W[\([1, \ 3]\)]\)\/\(\(-v\^2\)\ w + u\ w\^2\) - \
+\(\((u\ w - v\^2\ z\^2 + u\ w\ z\^2)\)\ W[\([1, \ 2]\)]\)\/\(\(-v\^2\)\ w + u\
+\ w\^2\) - \(2\ \((v\^2\ z - u\ w\ z)\)\ W[\([2, \ 3]\)]\)\/\(\(-v\^2\)\ w + \
+u\ w\^2\) - \(\((\(-v\^2\) + u\ w)\)\ W[\([3, \ 3]\)]\)\/\(\(-v\^2\)\ w + u\ \
+w\^2\)] \[DifferentialD]u \[DifferentialD]v \[DifferentialD]w \
+\[DifferentialD]x \[DifferentialD]y \[DifferentialD]z\)\)\)\)\)\)\(\
+\[IndentingNewLine]\)
+    \)\)], "Input",
+  InitializationCell->True],
+
+Cell[TextData[{
+  "This is ",
+  Cell[BoxData[
+      \(TraditionalForm\`K\_3\)]],
+  " with singular argument:"
+}], "Text"],
+
+Cell[BoxData[
+    \(\(\(\[IndentingNewLine]\)\(SingularK3[a_, b_, c_, \ A_, B_, 
+        D_] := \(\(Pi\ Det[
+            B]^\((\(- .5\))\)\ A^\((\(-a\) - b - c)\)\ MatrixGamma[1, \ 
+          a + b + c]\ K2[b, \ c -  .5, B, D]\)\(\[IndentingNewLine]\)
+      \)\)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[TextData[{
+  "Here's the relationship between two different K-Bessel functions, ",
+  Cell[BoxData[
+      FormBox[
+        SubscriptBox[
+          FormBox[
+            FormBox[\(\(K\_1\) and\ K\),
+              "TraditionalForm"],
+            "TraditionalForm"], "2"], TraditionalForm]]],
+  "--"
+}], "Text"],
+
+Cell[BoxData[
+    \(RelateK2[s_, t_, A_, B_, q_] := 
+      NIntegrate[
+        K1[s + t +  .5, A + B\ \((x + q)\)^2, \ 1]\ K1[t -  .5, \ B, \ 
+            1 + x^2], {x, \ \(-\[Infinity]\), \ \[Infinity]}]\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell["Examples:", "Subsection"],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+  "The \"Baby\" K-Bessel Function (which is the same as ",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  "'s \"Besselk\" function)"
+}], "Subsubsection"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(N[BabyK[1 + 4\ I, 3 + 1\ I]]\), "\[IndentingNewLine]", 
+    \(N[BesselK[1 + 4\ I, 3 + 1\ I]]\)}], "Input"],
+
+Cell[BoxData[
+    \(\(\(0.00522318483078144`\)\(\[InvisibleSpace]\)\) + 
+      0.004443664757305281`\ \[ImaginaryI]\)], "Output"],
+
+Cell[BoxData[
+    \(\(\(0.005223184830781488`\)\(\[InvisibleSpace]\)\) + 
+      0.0044436647573053625`\ \[ImaginaryI]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(N[BabyK[2, 1]]\), "\[IndentingNewLine]", 
+    \(N[BesselK[2, 1]]\)}], "Input"],
+
+Cell[BoxData[
+    \(1.6248389066285054`\)], "Output"],
+
+Cell[BoxData[
+    \(1.6248388986351778`\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(N[BabyK[I + 2, 1]]\), "\[IndentingNewLine]", 
+    \(N[BesselK[I + 2, 1]]\)}], "Input"],
+
+Cell[BoxData[
+    \(\(\(0.36149150670104463`\)\(\[InvisibleSpace]\)\) + 
+      1.2297756177819619`\ \[ImaginaryI]\)], "Output"],
+
+Cell[BoxData[
+    \(\(\(0.36149150670568997`\)\(\[InvisibleSpace]\)\) + 
+      1.2297756177836663`\ \[ImaginaryI]\)], "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[Cell[BoxData[
+    \(TraditionalForm\`K\_1\)]]], "Subsubsection"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(N[K1[I, 3, 2]]\)], "Input"],
+
+Cell[BoxData[
+    \(\(\(0.007356200646551616`\)\(\[InvisibleSpace]\)\) - 
+      0.0015121145469235075`\ \[ImaginaryI]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(N[K1[2\ I\  + 3, \(-7\), \(-3\)]]\)], "Input"],
+
+Cell[BoxData[
+    \(\(\(0.00003041935532447133`\)\(\[InvisibleSpace]\)\) - 
+      7.1125750616751475`*^-6\ \[ImaginaryI]\)], "Output"]
+}, Open  ]],
+
+Cell[TextData[{
+  "We see that ",
+  Cell[BoxData[
+      \(TraditionalForm\`K\_1\)]],
+  " based on the \"baby\" K-Bessel function is equivalent to ",
+  Cell[BoxData[
+      \(TraditionalForm\`K\_1\)]],
+  " based on the general formula given by Terras:"
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(N[K1[3\ I + 1, 3, 2]]\), "\[IndentingNewLine]", 
+    \(N[AltK1[3\ I + 1, 3, 2]]\)}], "Input"],
+
+Cell[BoxData[
+    \(\(\(0.0031714330593952825`\)\(\[InvisibleSpace]\)\) - 
+      0.00008069789802557968`\ \[ImaginaryI]\)], "Output"],
+
+Cell[BoxData[
+    \(\(\(0.0031714330593952825`\)\(\[InvisibleSpace]\)\) - 
+      0.00008069789802557968`\ \[ImaginaryI]\)], "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[Cell[BoxData[
+    \(TraditionalForm\`K\_2\)]]], "Subsubsection"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    RowBox[{"K2", "[", 
+      RowBox[{"1", ",", " ", "1", ",", 
+        RowBox[{"(", GridBox[{
+              {"1", "0"},
+              {"0", "1"}
+              }], ")"}], " ", ",", 
+        RowBox[{"(", GridBox[{
+              {"2", "1"},
+              {"1", "1"}
+              }], ")"}]}], "]"}]], "Input"],
+
+Cell[BoxData[
+    RowBox[{\(NIntegrate::"slwcon"\), \(\(:\)\(\ \)\), "\<\"Numerical \
+integration converging too slowly; suspect one of the following: singularity, \
+value of the integration being 0, oscillatory integrand, or insufficient \
+WorkingPrecision. If your integrand is oscillatory try using the option \
+Method->Oscillatory in NIntegrate. \
+\\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\
+\\\", ButtonFrame->None, ButtonData:>\\\"NIntegrate::slwcon\\\"]\\)\"\>"}]], \
+"Message"],
+
+Cell[BoxData[
+    \(0.12851693261475408`\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    RowBox[{"K2", "[", 
+      RowBox[{\(1\ I\), ",", " ", "1", ",", 
+        RowBox[{"(", GridBox[{
+              {"1", "0"},
+              {"0", "1"}
+              }], ")"}], " ", ",", 
+        RowBox[{"(", GridBox[{
+              {"2", "1"},
+              {"1", "1"}
+              }], ")"}]}], "]"}]], "Input"],
+
+Cell[BoxData[
+    RowBox[{\(NIntegrate::"slwcon"\), \(\(:\)\(\ \)\), "\<\"Numerical \
+integration converging too slowly; suspect one of the following: singularity, \
+value of the integration being 0, oscillatory integrand, or insufficient \
+WorkingPrecision. If your integrand is oscillatory try using the option \
+Method->Oscillatory in NIntegrate. \
+\\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\
+\\\", ButtonFrame->None, ButtonData:>\\\"NIntegrate::slwcon\\\"]\\)\"\>"}]], \
+"Message"],
+
+Cell[BoxData[
+    \(\(\(0.03764387008096104`\)\(\[InvisibleSpace]\)\) + 
+      0.031041809015327153`\ \[ImaginaryI]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    RowBox[{"N", "[", 
+      RowBox[{"K2", "[", 
+        RowBox[{"1", " ", ",", " ", \(2 + 0.1  I\), ",", 
+          RowBox[{"(", GridBox[{
+                {"3", "0"},
+                {"0", "5"}
+                }], ")"}], ",", 
+          RowBox[{"(", GridBox[{
+                {"0", "0"},
+                {"0", "3"}
+                }], ")"}]}], " ", "]"}], "]"}]], "Input"],
+
+Cell[BoxData[
+    RowBox[{\(NIntegrate::"slwcon"\), \(\(:\)\(\ \)\), "\<\"Numerical \
+integration converging too slowly; suspect one of the following: singularity, \
+value of the integration being 0, oscillatory integrand, or insufficient \
+WorkingPrecision. If your integrand is oscillatory try using the option \
+Method->Oscillatory in NIntegrate. \
+\\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\
+\\\", ButtonFrame->None, ButtonData:>\\\"NIntegrate::slwcon\\\"]\\)\"\>"}]], \
+"Message"],
+
+Cell[BoxData[
+    \(\(\(0.000017553769764421617`\)\(\[InvisibleSpace]\)\) - 
+      4.375810093541227`*^-7\ \[ImaginaryI]\)], "Output"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["K-Bessel function proofs/Equalities", "Subsection"],
+
+Cell[CellGroupData[{
+
+Cell["K-Bessel Functions with singular argument", "Subsubsection"],
+
+Cell[TextData[{
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(K\_2\)\(:\)\)\)]],
+  "\n\n",
+  Cell[BoxData[
+      FormBox[
+        RowBox[{
+          RowBox[{\(K\_2\), "(", 
+            RowBox[{
+              RowBox[{"s", "\[VerticalSeparator]", 
+                RowBox[{
+                  RowBox[{"(", "\[NegativeThinSpace]", GridBox[{
+                        {"A", "0"},
+                        {"0", "B"}
+                        }], "\[NegativeThinSpace]", ")"}], "[", GridBox[{
+                      {"1", "0"},
+                      {\(\(\[InvisiblePrefixScriptBase]\^t\)C\), "1"}
+                      }], "]"}]}], ",", 
+              RowBox[{"(", "\[NegativeThinSpace]", GridBox[{
+                    {"0", "0"},
+                    {"0", "D"}
+                    }], "\[NegativeThinSpace]", ")"}]}], ")"}], 
+          "=", \(\(\[Pi]\^\(1\/2\)\) \(B\^\(-\(1\/2\)\)\) \(A\^\(-\((s + 
+                      t)\)\)\) \(\[CapitalGamma](s + t)\) \(\(K\_1\)(
+              t - 1\/2 \[VerticalSeparator] B, D)\)\)}], TraditionalForm]]],
+  "\n\n(s={s, t})\n\nWe'll define the variables e, f, Q, R, X, and Y in each \
+case, these refer to their positions in each of the two equations (K2 and \
+SingularK2).\n\ns=e\nt=f\nA=Q\nB=R\nC=X\nD=Y\n\n",
+  Cell[BoxData[{
+      RowBox[{"K2", "[", 
+        RowBox[{"e", ",", "f", ",", 
+          RowBox[{"InverseIwasawa", "[", 
+            RowBox[{
+              RowBox[{"(", "\[NegativeThinSpace]", GridBox[{
+                    {"Q", "0"},
+                    {"0", "R"}
+                    }], "\[NegativeThinSpace]", ")"}], ",", 
+              RowBox[{"(", "\[NegativeThinSpace]", GridBox[{
+                    {"1", "0"},
+                    {"X", "1"}
+                    }], "\[NegativeThinSpace]", ")"}]}], "]"}], ",", 
+          RowBox[{"(", "\[NegativeThinSpace]", GridBox[{
+                {"0", "0"},
+                {"0", "Y"}
+                }], "\[NegativeThinSpace]", ")"}]}], "]"}], 
+    "\n", \(SingularK2[e, f, Q, R, Y]\)}]],
+  "\n"
+}], "Text",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{\(e = 1\), "\[IndentingNewLine]", \(f = 
+      1\), "\[IndentingNewLine]", \(Q = 1\), "\[IndentingNewLine]", \(R = 
+      1\), "\[IndentingNewLine]", \(X = 1\), "\[IndentingNewLine]", \(Y = 
+      1\), "\[IndentingNewLine]", 
+    RowBox[{"K2", "[", 
+      RowBox[{"e", ",", "f", ",", 
+        RowBox[{"InverseIwasawa", "[", 
+          RowBox[{
+            RowBox[{"(", "\[NegativeThinSpace]", GridBox[{
+                  {"Q", "0"},
+                  {"0", "R"}
+                  }], "\[NegativeThinSpace]", ")"}], ",", 
+            RowBox[{"(", "\[NegativeThinSpace]", GridBox[{
+                  {"1", "0"},
+                  {"X", "1"}
+                  }], "\[NegativeThinSpace]", ")"}]}], "]"}], ",", 
+        RowBox[{"(", "\[NegativeThinSpace]", GridBox[{
+              {"0", "0"},
+              {"0", "Y"}
+              }], "\[NegativeThinSpace]", ")"}]}], 
+      "]"}], "\[IndentingNewLine]", \(SingularK2[e, f, Q, R, Y]\)}], "Input"],
+
+Cell[BoxData[
+    \(1\)], "Output"],
+
+Cell[BoxData[
+    \(1\)], "Output"],
+
+Cell[BoxData[
+    \(1\)], "Output"],
+
+Cell[BoxData[
+    \(1\)], "Output"],
+
+Cell[BoxData[
+    \(1\)], "Output"],
+
+Cell[BoxData[
+    \(1\)], "Output"],
+
+Cell[BoxData[
+    RowBox[{\(NIntegrate::"slwcon"\), \(\(:\)\(\ \)\), "\<\"Numerical \
+integration converging too slowly; suspect one of the following: singularity, \
+value of the integration being 0, oscillatory integrand, or insufficient \
+WorkingPrecision. If your integrand is oscillatory try using the option \
+Method->Oscillatory in NIntegrate. \
+\\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\
+\\\", ButtonFrame->None, ButtonData:>\\\"NIntegrate::slwcon\\\"]\\)\"\>"}]], \
+"Message"],
+
+Cell[BoxData[
+    \(0.4251683313208334`\)], "Output"],
+
+Cell[BoxData[
+    RowBox[{\(Integrate::"gener"\), \(\(:\)\(\ \)\), "\<\"Unable to check \
+convergence. \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"Integrate::gener\\\"]\\)\"\>"}]], "Message"],
+
+Cell[BoxData[
+    \(0.4251683315876363`\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    RowBox[{"\[IndentingNewLine]", 
+      RowBox[{\(e = 1\ I\), "\[IndentingNewLine]", \(f = 1\), 
+        "\[IndentingNewLine]", \(Q = 2\), "\[IndentingNewLine]", \(R = 1\), 
+        "\[IndentingNewLine]", \(X = 1\), "\[IndentingNewLine]", \(Y = 2\), 
+        "\[IndentingNewLine]", 
+        RowBox[{"K2", "[", 
+          RowBox[{"e", ",", "f", ",", 
+            RowBox[{"InverseIwasawa", "[", 
+              RowBox[{
+                RowBox[{"(", "\[NegativeThinSpace]", GridBox[{
+                      {"Q", "0"},
+                      {"0", "R"}
+                      }], "\[NegativeThinSpace]", ")"}], ",", 
+                RowBox[{"(", "\[NegativeThinSpace]", GridBox[{
+                      {"1", "0"},
+                      {"X", "1"}
+                      }], "\[NegativeThinSpace]", ")"}]}], "]"}], ",", 
+            RowBox[{"(", "\[NegativeThinSpace]", GridBox[{
+                  {"0", "0"},
+                  {"0", "Y"}
+                  }], "\[NegativeThinSpace]", ")"}]}], "]"}], 
+        "\[IndentingNewLine]", \(SingularK2[e, f, Q, R, Y]\), 
+        "\[IndentingNewLine]"}]}]], "Input"],
+
+Cell[BoxData[
+    \(\[ImaginaryI]\)], "Output"],
+
+Cell[BoxData[
+    \(1\)], "Output"],
+
+Cell[BoxData[
+    \(2\)], "Output"],
+
+Cell[BoxData[
+    \(1\)], "Output"],
+
+Cell[BoxData[
+    \(1\)], "Output"],
+
+Cell[BoxData[
+    \(2\)], "Output"],
+
+Cell[BoxData[
+    RowBox[{\(NIntegrate::"slwcon"\), \(\(:\)\(\ \)\), "\<\"Numerical \
+integration converging too slowly; suspect one of the following: singularity, \
+value of the integration being 0, oscillatory integrand, or insufficient \
+WorkingPrecision. If your integrand is oscillatory try using the option \
+Method->Oscillatory in NIntegrate. \
+\\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\
+\\\", ButtonFrame->None, ButtonData:>\\\"NIntegrate::slwcon\\\"]\\)\"\>"}]], \
+"Message"],
+
+Cell[BoxData[
+    \(\(\(0.026375429848501702`\)\(\[InvisibleSpace]\)\) - 
+      0.040610139581495425`\ \[ImaginaryI]\)], "Output"],
+
+Cell[BoxData[
+    RowBox[{\(Integrate::"gener"\), \(\(:\)\(\ \)\), "\<\"Unable to check \
+convergence. \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"Integrate::gener\\\"]\\)\"\>"}]], "Message"],
+
+Cell[BoxData[
+    \(\(\(0.02637542987390494`\)\(\[InvisibleSpace]\)\) - 
+      0.04061013954370815`\ \[ImaginaryI]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    RowBox[{\(e = 1\), " "}], "\[IndentingNewLine]", \(f = 
+      1\ I\), "\[IndentingNewLine]", \(Q = 2\), "\[IndentingNewLine]", \(R = 
+      1\), "\[IndentingNewLine]", \(X = 1\), "\[IndentingNewLine]", \(Y = 
+      2\), "\[IndentingNewLine]", 
+    RowBox[{"K2", "[", 
+      RowBox[{"e", ",", "f", ",", 
+        RowBox[{"InverseIwasawa", "[", 
+          RowBox[{
+            RowBox[{"(", "\[NegativeThinSpace]", GridBox[{
+                  {"Q", "0"},
+                  {"0", "R"}
+                  }], "\[NegativeThinSpace]", ")"}], ",", 
+            RowBox[{"(", "\[NegativeThinSpace]", GridBox[{
+                  {"1", "0"},
+                  {"X", "1"}
+                  }], "\[NegativeThinSpace]", ")"}]}], "]"}], ",", 
+        RowBox[{"(", "\[NegativeThinSpace]", GridBox[{
+              {"0", "0"},
+              {"0", "Y"}
+              }], "\[NegativeThinSpace]", ")"}]}], 
+      "]"}], "\[IndentingNewLine]", \(SingularK2[e, f, Q, R, Y]\)}], "Input"],
+
+Cell[BoxData[
+    \(1\)], "Output"],
+
+Cell[BoxData[
+    \(\[ImaginaryI]\)], "Output"],
+
+Cell[BoxData[
+    \(2\)], "Output"],
+
+Cell[BoxData[
+    \(1\)], "Output"],
+
+Cell[BoxData[
+    \(1\)], "Output"],
+
+Cell[BoxData[
+    \(2\)], "Output"],
+
+Cell[BoxData[
+    RowBox[{\(NIntegrate::"slwcon"\), \(\(:\)\(\ \)\), "\<\"Numerical \
+integration converging too slowly; suspect one of the following: singularity, \
+value of the integration being 0, oscillatory integrand, or insufficient \
+WorkingPrecision. If your integrand is oscillatory try using the option \
+Method->Oscillatory in NIntegrate. \
+\\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\
+\\\", ButtonFrame->None, ButtonData:>\\\"NIntegrate::slwcon\\\"]\\)\"\>"}]], \
+"Message"],
+
+Cell[BoxData[
+    \(\(\(0.020409655916270773`\)\(\[InvisibleSpace]\)\) - 
+      0.021138624950756586`\ \[ImaginaryI]\)], "Output"],
+
+Cell[BoxData[
+    RowBox[{\(Integrate::"gener"\), \(\(:\)\(\ \)\), "\<\"Unable to check \
+convergence. \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"Integrate::gener\\\"]\\)\"\>"}]], "Message"],
+
+Cell[BoxData[
+    \(\(\(0.020409655922617485`\)\(\[InvisibleSpace]\)\) - 
+      0.02113862494427922`\ \[ImaginaryI]\)], "Output"]
+}, Open  ]],
+
+Cell[TextData[{
+  Cell[BoxData[
+      \(TraditionalForm\`K\_3\)]],
+  ":\n\n",
+  Cell[BoxData[
+      FormBox[
+        RowBox[{
+          RowBox[{\(K\_3\), "(", 
+            RowBox[{
+              RowBox[{"s", "\[VerticalSeparator]", 
+                RowBox[{
+                  RowBox[{"(", "\[NegativeThinSpace]", GridBox[{
+                        {"A", "0"},
+                        {"0", "B"}
+                        }], "\[NegativeThinSpace]", ")"}], "[", GridBox[{
+                      {"1", "0"},
+                      {\(\(\[InvisiblePrefixScriptBase]\^t\)C\), "1"}
+                      }], "]"}]}], ",", 
+              RowBox[{"(", "\[NegativeThinSpace]", GridBox[{
+                    {"0", "0"},
+                    {"0", "D"}
+                    }], "\[NegativeThinSpace]", ")"}]}], ")"}], 
+          "=", \(\(\(\[Pi]Det(
+                  B)\)\^\(\(-1\)\/2\)\) \(A\^\(-\((a + b + 
+                      c)\)\)\) \(\[CapitalGamma](a + b + c)\) \(\(K\_2\)(b, 
+              c - 1\/2, B, D)\)\)}], TraditionalForm]]],
+  "\n\ns={a, b, c}\n",
+  Cell[BoxData[
+      \(TraditionalForm\`B, D\[Epsilon]P\_2\)]],
+  "\n",
+  Cell[BoxData[
+      \(TraditionalForm\`A\[Epsilon]P\_1\)]],
+  "\n\n(we don't have anything to compare this to since we were never able to \
+get ",
+  Cell[BoxData[
+      \(TraditionalForm\`K\_3\)]],
+  " to work using ",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  ")"
+}], "Text"],
+
+Cell[BoxData[
+    \(SingularK3[a_, b_, c_, A_, B_, D_] := 
+      Pi\ Det[B]^\((\(- .5\))\)\ A^\((\(-a\) - b - c)\)\ MatrixGamma[1, 
+          a + b + c]\ K2[b, c -  .5, B, D]\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    RowBox[{"SingularK3", "[", 
+      RowBox[{"1", ",", "1", ",", "1", ",", "1", ",", 
+        RowBox[{"(", GridBox[{
+              {"1", "0"},
+              {"0", "1"}
+              }], ")"}], ",", 
+        RowBox[{"(", GridBox[{
+              {"1", "0"},
+              {"0", "1"}
+              }], ")"}]}], "]"}]], "Input"],
+
+Cell[BoxData[
+    RowBox[{\(NIntegrate::"slwcon"\), \(\(:\)\(\ \)\), "\<\"Numerical \
+integration converging too slowly; suspect one of the following: singularity, \
+value of the integration being 0, oscillatory integrand, or insufficient \
+WorkingPrecision. If your integrand is oscillatory try using the option \
+Method->Oscillatory in NIntegrate. \
+\\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\
+\\\", ButtonFrame->None, ButtonData:>\\\"NIntegrate::slwcon\\\"]\\)\"\>"}]], \
+"Message"],
+
+Cell[BoxData[
+    \(0.713111940419445`\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    RowBox[{"SingularK3", "[", 
+      RowBox[{\(1\ I\), ",", "1", ",", "1", ",", "1", ",", 
+        RowBox[{"(", GridBox[{
+              {"1", "0"},
+              {"0", "1"}
+              }], ")"}], ",", 
+        RowBox[{"(", GridBox[{
+              {"1", "0"},
+              {"0", "1"}
+              }], ")"}]}], "]"}]], "Input"],
+
+Cell[BoxData[
+    RowBox[{\(NIntegrate::"slwcon"\), \(\(:\)\(\ \)\), "\<\"Numerical \
+integration converging too slowly; suspect one of the following: singularity, \
+value of the integration being 0, oscillatory integrand, or insufficient \
+WorkingPrecision. If your integrand is oscillatory try using the option \
+Method->Oscillatory in NIntegrate. \
+\\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\
+\\\", ButtonFrame->None, ButtonData:>\\\"NIntegrate::slwcon\\\"]\\)\"\>"}]], \
+"Message"],
+
+Cell[BoxData[
+    \(\(\(0.23281874608956543`\)\(\[InvisibleSpace]\)\) + 
+      0.12232217336160157`\ \[ImaginaryI]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    RowBox[{"SingularK3", "[", 
+      RowBox[{\(1\ I\), ",", "1", ",", "1", ",", "1", ",", 
+        RowBox[{"(", GridBox[{
+              {"3", "1"},
+              {"1", "1"}
+              }], ")"}], ",", 
+        RowBox[{"(", GridBox[{
+              {"1", "0"},
+              {"0", "1"}
+              }], ")"}]}], "]"}]], "Input"],
+
+Cell[BoxData[
+    RowBox[{\(NIntegrate::"slwcon"\), \(\(:\)\(\ \)\), "\<\"Numerical \
+integration converging too slowly; suspect one of the following: singularity, \
+value of the integration being 0, oscillatory integrand, or insufficient \
+WorkingPrecision. If your integrand is oscillatory try using the option \
+Method->Oscillatory in NIntegrate. \
+\\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\
+\\\", ButtonFrame->None, ButtonData:>\\\"NIntegrate::slwcon\\\"]\\)\"\>"}]], \
+"Message"],
+
+Cell[BoxData[
+    \(\(\(0.01788990733882949`\)\(\[InvisibleSpace]\)\) + 
+      0.009399296163554791`\ \[ImaginaryI]\)], "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Relating two K-Bessel Functions:", "Subsubsection"],
+
+Cell[TextData[{
+  Cell[BoxData[
+      \(TraditionalForm\`K\_n\)]],
+  "(s\[VerticalSeparator]",
+  Cell[BoxData[
+      FormBox[
+        RowBox[{"(", "\[NegativeThinSpace]", GridBox[{
+              {"A", "0"},
+              {"0", "B"}
+              }], "\[NegativeThinSpace]", ")"}], TraditionalForm]]],
+  Cell[BoxData[
+      FormBox[
+        RowBox[{
+          RowBox[{"[", GridBox[{
+                {"I", "0"},
+                {\(\(\[InvisiblePrefixScriptBase]\^t\)Q\), "I"}
+                }], "]"}], ",", "I"}], TraditionalForm]]],
+  ")= ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Integral]\_\(X \[Element] \
+\[DoubleStruckCapitalR]\^\(mx(n - m)\)\)\ \ \ \(\(K\_m\)(
+            r\_1 \[VerticalSeparator] 
+              A + B[\(\[InvisiblePrefixScriptBase]\^t\)X + \(\
+\[InvisiblePrefixScriptBase]\^t\)Q], \ I)\)\ \(\(K\_\(n - m\)\)(
+            r\_2 \[VerticalSeparator] B, \ I + I[X])\) \[DifferentialD]x\)]],
+  "\n\nfor m=1 and n=2, this means that \n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`K\_2\)]],
+  "(",
+  Cell[BoxData[
+      FormBox[
+        RowBox[{\(s\_1\), ",", " ", 
+          RowBox[{\(s\_2\), "\[VerticalSeparator]", 
+            RowBox[{"(", "\[NegativeThinSpace]", GridBox[{
+                  {"A", "0"},
+                  {"0", "B"}
+                  }], "\[NegativeThinSpace]", ")"}]}]}], TraditionalForm]]],
+  Cell[BoxData[
+      FormBox[
+        RowBox[{
+          RowBox[{"\[LeftCeiling]", GridBox[{
+                {"1", "0"},
+                {\(\[InvisiblePrefixScriptBase]Q\), "1"}
+                }], "\[RightCeiling]"}], ",", " "}], TraditionalForm]]],
+  Cell[BoxData[
+      FormBox[
+        RowBox[{"(", "\[NegativeThinSpace]", GridBox[{
+              {"1", "0"},
+              {"0", "1"}
+              }], "\[NegativeThinSpace]", ")"}], TraditionalForm]]],
+  ")= ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[Integral]\_\(-\[Infinity]\)\%\[Infinity]\(\( 
+                K\_1\)(s\_1 + s\_2 + 1\/2 \[VerticalSeparator] 
+              A + \(B(X + Q)\)\^2, \ 1)\)\ \(\(K\_1\)(
+            s\_2 - 1\/2 \[VerticalSeparator] B, \ 
+            1 + X\^2)\) \[DifferentialD]X\)]],
+  "\n\nRelateK2[s, t, A, B, q]\nK2[s, t, InverseIwasawa[",
+  Cell[BoxData[
+      FormBox[
+        RowBox[{"(", "\[NegativeThinSpace]", GridBox[{
+              {"A", "0"},
+              {"0", "B"}
+              }], "\[NegativeThinSpace]", ")"}], TraditionalForm]]],
+  ",",
+  Cell[BoxData[
+      FormBox[
+        RowBox[{"(", "\[NegativeThinSpace]", GridBox[{
+              {"1", "0"},
+              {"q", "1"}
+              }], "\[NegativeThinSpace]", ")"}], TraditionalForm]]],
+  "],",
+  Cell[BoxData[
+      FormBox[
+        RowBox[{"(", "\[NegativeThinSpace]", GridBox[{
+              {"1", "0"},
+              {"0", "1"}
+              }], "\[NegativeThinSpace]", ")"}], TraditionalForm]]],
+  "]\nhere we let \ns=h\nt=i\nA=P\nB=R\nq=j"
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{\(h = 1\), "\[IndentingNewLine]", \(i = 
+      1\), "\[IndentingNewLine]", \(P = 1\), "\[IndentingNewLine]", \(R = 
+      1\), "\[IndentingNewLine]", \(j = 
+      1\), "\[IndentingNewLine]", \(RelateK2[h, i, P, R, 
+      j]\), "\[IndentingNewLine]", 
+    RowBox[{"K2", "[", 
+      RowBox[{"h", ",", "i", ",", 
+        RowBox[{"InverseIwasawa", "[", 
+          RowBox[{
+            RowBox[{"(", GridBox[{
+                  {"P", "0"},
+                  {"0", "R"}
+                  }], ")"}], ",", 
+            RowBox[{"(", GridBox[{
+                  {"1", "0"},
+                  {"j", "1"}
+                  }], ")"}]}], "]"}], ",", 
+        RowBox[{"(", GridBox[{
+              {"1", "0"},
+              {"0", "1"}
+              }], ")"}]}], "]"}]}], "Input"],
+
+Cell[BoxData[
+    \(1\)], "Output"],
+
+Cell[BoxData[
+    \(1\)], "Output"],
+
+Cell[BoxData[
+    \(1\)], "Output"],
+
+Cell[BoxData[
+    \(1\)], "Output"],
+
+Cell[BoxData[
+    \(1\)], "Output"],
+
+Cell[BoxData[
+    RowBox[{\(Integrate::"gener"\), \(\(:\)\(\ \)\), "\<\"Unable to check \
+convergence. \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"Integrate::gener\\\"]\\)\"\>"}]], "Message"],
+
+Cell[BoxData[
+    RowBox[{\(Integrate::"gener"\), \(\(:\)\(\ \)\), "\<\"Unable to check \
+convergence. \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"Integrate::gener\\\"]\\)\"\>"}]], "Message"],
+
+Cell[BoxData[
+    \(0.1018008402722691`\)], "Output"],
+
+Cell[BoxData[
+    RowBox[{\(NIntegrate::"slwcon"\), \(\(:\)\(\ \)\), "\<\"Numerical \
+integration converging too slowly; suspect one of the following: singularity, \
+value of the integration being 0, oscillatory integrand, or insufficient \
+WorkingPrecision. If your integrand is oscillatory try using the option \
+Method->Oscillatory in NIntegrate. \
+\\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\
+\\\", ButtonFrame->None, ButtonData:>\\\"NIntegrate::slwcon\\\"]\\)\"\>"}]], \
+"Message"],
+
+Cell[BoxData[
+    \(0.10180084047935878`\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{\(h = 1\ I\), "\[IndentingNewLine]", \(i = 
+      1\), "\[IndentingNewLine]", \(P = 2\), "\[IndentingNewLine]", \(R = 
+      1\), "\[IndentingNewLine]", \(j = 
+      1\), "\[IndentingNewLine]", \(RelateK2[h, i, P, R, 
+      j]\), "\[IndentingNewLine]", 
+    RowBox[{"K2", "[", 
+      RowBox[{"h", ",", "i", ",", 
+        RowBox[{"InverseIwasawa", "[", 
+          RowBox[{
+            RowBox[{"(", GridBox[{
+                  {"P", "0"},
+                  {"0", "R"}
+                  }], ")"}], ",", 
+            RowBox[{"(", GridBox[{
+                  {"1", "0"},
+                  {"j", "1"}
+                  }], ")"}]}], "]"}], ",", 
+        RowBox[{"(", GridBox[{
+              {"1", "0"},
+              {"0", "1"}
+              }], ")"}]}], "]"}]}], "Input"],
+
+Cell[BoxData[
+    \(\[ImaginaryI]\)], "Output"],
+
+Cell[BoxData[
+    \(1\)], "Output"],
+
+Cell[BoxData[
+    \(2\)], "Output"],
+
+Cell[BoxData[
+    \(1\)], "Output"],
+
+Cell[BoxData[
+    \(1\)], "Output"],
+
+Cell[BoxData[
+    RowBox[{\(Integrate::"gener"\), \(\(:\)\(\ \)\), "\<\"Unable to check \
+convergence. \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"Integrate::gener\\\"]\\)\"\>"}]], "Message"],
+
+Cell[BoxData[
+    RowBox[{\(Integrate::"gener"\), \(\(:\)\(\ \)\), "\<\"Unable to check \
+convergence. \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"Integrate::gener\\\"]\\)\"\>"}]], "Message"],
+
+Cell[BoxData[
+    \(\(\(0.012129100260569289`\)\(\[InvisibleSpace]\)\) - 
+      0.0003583863435754309`\ \[ImaginaryI]\)], "Output"],
+
+Cell[BoxData[
+    RowBox[{\(NIntegrate::"slwcon"\), \(\(:\)\(\ \)\), "\<\"Numerical \
+integration converging too slowly; suspect one of the following: singularity, \
+value of the integration being 0, oscillatory integrand, or insufficient \
+WorkingPrecision. If your integrand is oscillatory try using the option \
+Method->Oscillatory in NIntegrate. \
+\\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\
+\\\", ButtonFrame->None, ButtonData:>\\\"NIntegrate::slwcon\\\"]\\)\"\>"}]], \
+"Message"],
+
+Cell[BoxData[
+    \(\(\(0.012129100207899755`\)\(\[InvisibleSpace]\)\) - 
+      0.00035838634449244274`\ \[ImaginaryI]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{\(h = I\), "\[IndentingNewLine]", \(i = 
+      I + 3\), "\[IndentingNewLine]", \(P = 1\), "\[IndentingNewLine]", \(R = 
+      3\), "\[IndentingNewLine]", \(j = 
+      1\), "\[IndentingNewLine]", \(RelateK2[h, i, P, R, 
+      j]\), "\[IndentingNewLine]", 
+    RowBox[{"K2", "[", 
+      RowBox[{"h", ",", "i", ",", 
+        RowBox[{"InverseIwasawa", "[", 
+          RowBox[{
+            RowBox[{"(", GridBox[{
+                  {"P", "0"},
+                  {"0", "R"}
+                  }], ")"}], ",", 
+            RowBox[{"(", GridBox[{
+                  {"1", "0"},
+                  {"j", "1"}
+                  }], ")"}]}], "]"}], ",", 
+        RowBox[{"(", GridBox[{
+              {"1", "0"},
+              {"0", "1"}
+              }], ")"}]}], "]"}]}], "Input"],
+
+Cell[BoxData[
+    \(\[ImaginaryI]\)], "Output"],
+
+Cell[BoxData[
+    \(3 + \[ImaginaryI]\)], "Output"],
+
+Cell[BoxData[
+    \(1\)], "Output"],
+
+Cell[BoxData[
+    \(3\)], "Output"],
+
+Cell[BoxData[
+    \(1\)], "Output"],
+
+Cell[BoxData[
+    RowBox[{\(Integrate::"gener"\), \(\(:\)\(\ \)\), "\<\"Unable to check \
+convergence. \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"Integrate::gener\\\"]\\)\"\>"}]], "Message"],
+
+Cell[BoxData[
+    \(\(-0.004886897906633737`\) + 
+      0.003924085960928929`\ \[ImaginaryI]\)], "Output"],
+
+Cell[BoxData[
+    RowBox[{\(NIntegrate::"slwcon"\), \(\(:\)\(\ \)\), "\<\"Numerical \
+integration converging too slowly; suspect one of the following: singularity, \
+value of the integration being 0, oscillatory integrand, or insufficient \
+WorkingPrecision. If your integrand is oscillatory try using the option \
+Method->Oscillatory in NIntegrate. \
+\\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\
+\\\", ButtonFrame->None, ButtonData:>\\\"NIntegrate::slwcon\\\"]\\)\"\>"}]], \
+"Message"],
+
+Cell[BoxData[
+    \(\(-0.004886897904000951`\) + 
+      0.003924085962359609`\ \[ImaginaryI]\)], "Output"]
+}, Open  ]],
+
+Cell[TextData[{
+  "\n\n\nFor n=3, m=2:\n\nThen ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(A\)\(\[Element]\)\(P\_2\)\(\ \)\)\)]],
+  "and B",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(\[Element]\)\(\(P\_1\)\(.\)\(\ \ \)\)\)\)]],
+  "\nA=",
+  Cell[BoxData[
+      FormBox[
+        RowBox[{
+          RowBox[{"(", "\[NegativeThinSpace]", GridBox[{
+                {"v", "0"},
+                {"0", "w"}
+                }], "\[NegativeThinSpace]", ")"}], 
+          RowBox[{"\[LeftFloor]", GridBox[{
+                {"1", "z"},
+                {"0", "1"}
+                }], "\[RightFloor]"}]}], TraditionalForm]]],
+  "=",
+  Cell[BoxData[
+      FormBox[
+        RowBox[{"(", "\[NegativeThinSpace]", GridBox[{
+              {"v", \(v\ z\)},
+              {\(v\ z\), \(v\ z\^2 + w\)}
+              }], "\[NegativeThinSpace]", ")"}], TraditionalForm]]],
+  "\n\nY=",
+  Cell[BoxData[
+      RowBox[{"(", GridBox[{
+            {"v", \(v\ z\), "0"},
+            {\(v\ z\), \(v\ z\^2 + w\), "0"},
+            {"0", "0", "B"}
+            }], ")"}]],
+    InitializationCell->True],
+  "\n\ns \[Element] ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[DoubleStruckCapitalC]\^3\)]],
+  "and let\n",
+  Cell[BoxData[
+      \(TraditionalForm\`r\_1 = \ {s\_1, s\_2\  + \ s\_3\  + \ 1\/2}\)]],
+  "  ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(r\_1\) \
+\[Epsilon]\[DoubleStruckCapitalC]\^\(\(2\)\(\ \)\)\)]],
+  "\n",
+  Cell[BoxData[
+      \(TraditionalForm\`r\_2 = \ s\_3 - 1/2\)]],
+  "   ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(r\_2\) \[Epsilon]\[DoubleStruckCapitalC]\)]],
+  "\n\nQ, X \[Element] ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[DoubleStruckCapitalR]\^\(2  x1\)\)]],
+  "\nX = ",
+  Cell[BoxData[
+      FormBox[
+        RowBox[{"(", "\[NegativeThinSpace]", GridBox[{
+              {\(x\_1\)},
+              {\(x\_2\)}
+              }], "\[NegativeThinSpace]", ")"}], TraditionalForm]]],
+  "\nQ = ",
+  Cell[BoxData[
+      FormBox[
+        RowBox[{"(", "\[NegativeThinSpace]", GridBox[{
+              {\(q\_1\)},
+              {\(q\_2\)}
+              }], "\[NegativeThinSpace]", ")"}], TraditionalForm]]],
+  "\n\nThus,\n\n",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(K\_3\)\((\)\(\(s\)\(\[VerticalSeparator]\)\)\)\)]\
+],
+  Cell[BoxData[
+      RowBox[{"(", GridBox[{
+            {"v", \(v\ z\), "0"},
+            {\(v\ z\), \(v\ z\^2 + w\), "0"},
+            {"0", "0", "B"}
+            }], ")"}]],
+    InitializationCell->True],
+  Cell[BoxData[
+      RowBox[{"\[LeftCeiling]", GridBox[{
+            {"1", "0", "0"},
+            {"0", "1", "0"},
+            {\(q\_1\), \(q\_2\), "1"}
+            }], "\[RightCeiling]"}]],
+    InitializationCell->True],
+  ",",
+  Cell[BoxData[
+      RowBox[{"(", GridBox[{
+            {"1", "0", "0"},
+            {"0", "1", "0"},
+            {"0", "0", "1"}
+            }], ")"}]],
+    InitializationCell->True],
+  ") = ",
+  Cell[BoxData[
+      FormBox[
+        RowBox[{\(\[Integral]\_\(-\[Infinity]\)\%\[Infinity]\), " ", 
+          RowBox[{\(\[Integral]\_\(-\[Infinity]\)\%\[Infinity]\), " ", 
+            RowBox[{
+              RowBox[{\(K\_2\), "(", 
+                RowBox[{\(s\_1\), ",", 
+                  RowBox[{\(s\_2 + s\_3 + 1\/2\), "\[VerticalSeparator]", 
+                    RowBox[{"(", "\[NegativeThinSpace]", GridBox[{
+                          {\(v + \((x\_1 + q\_1)\)\^2\), \(v\ z + \((x\_1 + 
+                                    q\_1)\) \((x\_2 + q\_2)\)\)},
+                          {\(v\ z + \((x\_1 + q\_1)\) \((x\_2 + 
+                                    q\_2)\)\), \(v\ z\^2 + 
+                              w + \((x\_2 + q\_2)\)\^2\)}
+                          }], "\[NegativeThinSpace]", ")"}]}], ",", 
+                  RowBox[{"(", "\[NegativeThinSpace]", GridBox[{
+                        {"1", "0"},
+                        {"0", "1"}
+                        }], "\[NegativeThinSpace]", ")"}]}], 
+                ")"}], \(\(K\_1\)(s\_3 - 1\/2 \[VerticalSeparator] B, \ 
+                1 + x\_1\^2 + 
+                  x\_2\^2)\), \(\[DifferentialD]x\_1\), \
+\(\[DifferentialD]x\_2\)}]}]}], TraditionalForm]]],
+  "\n\nTo avoid subscripted variables, we let ",
+  Cell[BoxData[
+      \(TraditionalForm\`s\_1 = \ s, \ s\_2 = \ t, \ 
+      s\_3\  = \ \(u\ and\ q\_1 = \ q\), \ q\_2 = \ \(\(r\)\(.\)\)\)]]
+}], "Text"],
+
+Cell[BoxData[
+    RowBox[{\(RelateK3[s_, t_, u_, v_, w_, z_, B_, q_, r_]\), ":=", 
+      RowBox[{"NIntegrate", "[", 
+        RowBox[{
+          RowBox[{
+            RowBox[{"K2", "[", 
+              RowBox[{"s", ",", " ", \(t + u +  .5\), ",", 
+                RowBox[{"(", "\[NegativeThinSpace]", GridBox[{
+                      {\(v + \((x\_1 + q)\)\^2\), \(v\ z + \((x\_1 + 
+                                q)\) \((x\_2 + r)\)\)},
+                      {\(v\ z + \((x\_1 + q)\) \((x\_2 + r)\)\), \(v\ z\^2 + 
+                          w + \((x\_2 + r)\)\^2\)}
+                      }], "\[NegativeThinSpace]", ")"}], ",", 
+                RowBox[{"(", "\[NegativeThinSpace]", GridBox[{
+                      {"1", "0"},
+                      {"0", "1"}
+                      }], "\[NegativeThinSpace]", ")"}]}], "]"}], 
+            " ", \(K1[u -  .5, \ B, \ 1 + x\_1\^2 + x\_2\^2]\)}], 
+          ",", \({x\_1, \(-\[Infinity]\), \ \[Infinity]}\), 
+          ",", \({x\_2, \(-\[Infinity]\), \ \[Infinity]}\)}], 
+        "]"}]}]], "Input"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["The k-Bessel Functions", "Section"],
+
+Cell[BoxData[{
+    \(\(Babyk[s_, \ z_, \ 0] := \(Im[z]\^\(1 - s\)\) Gamma[1\/2] 
+          Gamma[s - 1\/2]/Gamma[s];\)\), "\[IndentingNewLine]", 
+    \(Babyk[s_, \ z_, \ a_] := 
+      Exp[2  I*a*Pi*Re[z]] 
+        2 \( Pi\^\(1/2\)\) \(Gamma[s]\^\(-1\)\) \(Abs[a*Pi]\^\(s - 
+              1/2\)\) \(Im[z]\^\(1/2\)\) 
+        BabyK[s - 1/2, \ 2  Abs[Pi*a*Im[z]]]\)}], "Input"],
+
+Cell[BoxData[
+    RowBox[{\(k11[s_, Y_, a_]\), ":=", 
+      RowBox[{
+        RowBox[{"NIntegrate", "[", 
+          RowBox[{
+            RowBox[{
+              RowBox[{"PowerFunction", "[", 
+                RowBox[{\(-s\), ",", " ", 
+                  RowBox[{"InverseIwasawa", "[", 
+                    RowBox[{\(Inverse[Y]\), ",", 
+                      RowBox[{"(", GridBox[{
+                            {"1", "0"},
+                            {"x", "1"}
+                            }], ")"}]}], "]"}]}], " ", "]"}], 
+              " ", \(Cos[2\ Pi\ a\ x]\)}], 
+            ",", \({x, \(-\[Infinity]\), \ \[Infinity]}\), 
+            ",", \(Method \[Rule] Oscillatory\)}], "]"}], "+", 
+        RowBox[{"NIntegrate", "[", 
+          RowBox[{
+            RowBox[{
+              RowBox[{"PowerFunction", "[", 
+                RowBox[{\(-s\), ",", " ", 
+                  RowBox[{"InverseIwasawa", "[", 
+                    RowBox[{\(Inverse[Y]\), ",", 
+                      RowBox[{"(", GridBox[{
+                            {"1", "0"},
+                            {"x", "1"}
+                            }], ")"}]}], "]"}]}], " ", "]"}], " ", "I", 
+              " ", \(Sin[2\ Pi\ a\ x]\)}], 
+            ",", \({x, \(-\[Infinity]\), \ \[Infinity]}\), 
+            ",", \(Method \[Rule] Oscillatory\)}], "]"}]}]}]], "Input"],
+
+Cell[TextData[{
+  "Here's another version of ",
+  Cell[BoxData[
+      \(TraditionalForm\`k\_\(1, 1\)\)]],
+  " I was using that didn't rely on the commands \"InverseIwasawa\" and the \
+\"PowerFunction,\" instead it used the decomposition Y=",
+  Cell[BoxData[
+      FormBox[
+        RowBox[{
+          RowBox[{"(", GridBox[{
+                {"v", "0"},
+                {"0", "w"}
+                }], ")"}], "[", GridBox[{
+              {"1", "z"},
+              {"0", "1"}
+              }], "]"}], TraditionalForm]]],
+  "."
+}], "Text"],
+
+Cell[BoxData[
+    \(Expandk11[s_, v_, w_, z_, a_] := 
+      NIntegrate[\((\(w\ z\^2 - 2  x\ w\ z\  + \ v\  + \ \(x\^2\) w\)\/\(v\ w\
+\))\)\^\(-s\)\ Cos[2\ Pi\ a\ x], {x, \(-\[Infinity]\), \ \[Infinity]}, 
+          Method \[Rule] Oscillatory] + 
+        NIntegrate[\((\(w\ z\^2 - 2  x\ w\ z\  + \ v\  + \ \(x\^2\) w\)\/\(v\ \
+w\))\)\^\(-s\)\ I\ Sin[2\ Pi\ a\ x], {x, \(-\[Infinity]\), \ \[Infinity]}, 
+          Method \[Rule] Oscillatory]\)], "Input"],
+
+Cell[BoxData[
+    \(Onek11[s_, y_, a_] := 
+      2 \( Pi\^\(1/2\)\) \(Gamma[s]\^\(-1\)\) \(Abs[Pi*a]\^\(s - 
+              1/2\)\) \(y\^\(1/2\)\) 
+        BabyK[s - 1/2, \ 2\ Pi\ Abs[a]*y]\)], "Input"],
+
+Cell[BoxData[
+    \(Zerok11[s_, y_] := 
+      Gamma[ .5]\ Gamma[s -  .5]\ Gamma[s]\^\(-1\)\ y\^\(1 - s\)\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{\(Twok11[s_, y_, a_]\), ":=", 
+      RowBox[{\(y\^\(1 - s\)\), " ", 
+        RowBox[{"k11", "[", 
+          RowBox[{\({s, 0}\), ",", 
+            FormBox[
+              RowBox[{"(", GridBox[{
+                    {"1", "0"},
+                    {"0", "1"}
+                    }], ")"}],
+              "TraditionalForm"], ",", \(a\ y\)}], "]"}]}]}]], "Input"],
+
+Cell[BoxData[
+    RowBox[{\(Basick11[s_, \ \ Y_, \ a_]\), ":=", 
+      RowBox[{"NIntegrate", "[", 
+        RowBox[{
+          RowBox[{
+            RowBox[{"PowerFunction", "[", 
+              RowBox[{\(-s\), ",", " ", 
+                RowBox[{"InverseIwasawa", "[", 
+                  RowBox[{\(Inverse[Y]\), ",", 
+                    RowBox[{"(", GridBox[{
+                          {"1", "0"},
+                          {"x", "1"}
+                          }], ")"}]}], "]"}]}], "]"}], \(Exp[
+              2  I\ Pi*a*x]\)}], ",", 
+          " ", \({x, \ \(-\[Infinity]\), \ \[Infinity]}\)}], "]"}]}]], "Input"],
+
+Cell[BoxData[
+    \(Fourierk[s_, x_, y_, 
+        a_] := \@\(2\ Pi\)\ FourierTransform[\((\(\((u - x)\)\^2 + y\^2\)\/y)\
+\)\^\(-s\), {u}, {2\ Pi\ a}]\)], "Input"],
+
+Cell[BoxData[
+    \(Expandk[s_, x_, y_, 
+        a_] := \[Integral]\_\(-\[Infinity]\)\%\[Infinity]\((\(\((u - x)\)\^2 \
++ y\^2\)\/y)\)\^\(-s\)\ E^\((2\ Pi\ I\ a\ u)\) \[DifferentialD]u\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{\(Fourierk11[s_, Y_, a_]\), ":=", 
+      RowBox[{\(\@\(2\ Pi\)\), " ", 
+        RowBox[{"FourierTransform", "[", 
+          RowBox[{
+            RowBox[{"PowerFunction", "[", 
+              RowBox[{\(-s\), ",", " ", 
+                RowBox[{"InverseIwasawa", "[", 
+                  RowBox[{\(Inverse[Y]\), ",", 
+                    RowBox[{"(", GridBox[{
+                          {"1", "0"},
+                          {"x", "1"}
+                          }], ")"}]}], "]"}]}], "]"}], ",", "x", 
+            ",", \(2\ Pi\ a\)}], "]"}], " "}]}]], "Input"],
+
+Cell[BoxData[
+    RowBox[{\(Relatek11[s_, v_, w_, a_]\), ":=", 
+      RowBox[{
+        FormBox[\(\[Pi]\^\(1/2\)\),
+          "TraditionalForm"], " ", \(w\^\(1/2\)\), 
+        " ", \(K1[1/2 - s, \ w \((Pi\ a)\)\^2, \ 1/v]\), 
+        " ", \(Gamma[s]\^\(-1\)\)}]}]], "Input"],
+
+Cell[BoxData[
+    \(Relatek12[s_, v_, W_, A_] := 
+      Gamma[s]\^\(-1\)\ \[Pi]\ Det[W]\^\(1\/2\)\ K1[1 - s, 
+          InverseIwasawa[W, \[Pi]\ Transpose[A]], 1\/v]\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell["Proofs", "Subsection"],
+
+Cell[CellGroupData[{
+
+Cell["The \"baby\" k-Bessel function as a Fourier transform", "Subsubsection"],
+
+Cell["\<\
+Here, the function \"Babyk\" is a function of s, z, and a.  \
+\"Fourierk\" is also a function of these variables, however, z is broken into \
+real and imaginary parts -- that is, z=x+\[ImaginaryI]y.  \"Expandk,\" like \
+\"Fourierk,\" expands z into x and y.
+
+Babyk[s, z, a]
+Fourierk[s, x, y, a]
+Expandk[s, x, y, a]
+\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(Babyk[1, 1 + I, 1]\), "\[IndentingNewLine]", 
+    \(Fourierk[1, 1, 1, 1]\), "\[IndentingNewLine]", 
+    \(Expandk[1, 1, 1, 1]\)}], "Input"],
+
+Cell[BoxData[
+    \(\[ExponentialE]\^\(\(-2\)\ \[Pi]\)\ \[Pi]\)], "Output"],
+
+Cell[BoxData[
+    \(\[ExponentialE]\^\(\(-2\)\ \[Pi]\)\ \[Pi]\)], "Output"],
+
+Cell[BoxData[
+    \(\[ExponentialE]\^\(\(-2\)\ \[Pi]\)\ \[Pi]\)], "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+  Cell[BoxData[
+      \(TraditionalForm\`k\_\(1, 1\)\)]],
+  " as a Fourier transform"
+}], "Subsubsection"],
+
+Cell[TextData[{
+  Cell[BoxData[
+      \(TraditionalForm\`k\_\(1, 1\)\)]],
+  " can also be written as a Fourier transform of ",
+  Cell[BoxData[
+      FormBox[
+        RowBox[{\(p\_\(-s\)\), "(", 
+          RowBox[{\(Y\^\(-1\)\), "[", GridBox[{
+                {"1", "0"},
+                {"x", "1"}
+                }], "]"}], ")"}], TraditionalForm]]],
+  ".  ",
+  "However, ",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  "'s definition of a Fourier Transform for a function f(t) is ",
+  Cell[BoxData[
+      FormBox[
+        RowBox[{\(1\/\@\(2  \[Pi]\)\), \(\[Integral]\_\(-\[Infinity]\)\%\
+\[Infinity]\), 
+          StyleBox["f",
+            "TI"], 
+          RowBox[{"(", 
+            StyleBox["t",
+              "TI"], ")"}], " ", 
+          SuperscriptBox[
+            StyleBox["e",
+              "TI"], 
+            RowBox[{
+              StyleBox["i",
+                "TI"], "\[Omega]", 
+              StyleBox["t",
+                "TI"]}]], "\[DifferentialD]", 
+          StyleBox["t",
+            "TI"]}], TraditionalForm]], "InlineFormula"],
+  ".   Our definition of ",
+  Cell[BoxData[
+      \(TraditionalForm\`k\_\(1, 1\)\)]],
+  " uses x instead of t, 2\[Pi]a instead of \[Omega] and is multiplied by a \
+constant, ",
+  Cell[BoxData[
+      \(TraditionalForm\`\@\(2\ \[Pi]\)\)]],
+  ".  We define this Fourier Transform that is ",
+  Cell[BoxData[
+      \(TraditionalForm\`k\_\(1, 1\)\)]],
+  " as \"Fourierk11.\" "
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    RowBox[{"N", "[", 
+      RowBox[{"Fourierk11", "[", 
+        RowBox[{\({1, 1}\), ",", 
+          RowBox[{"(", "\[NegativeThinSpace]", GridBox[{
+                {"1", "0"},
+                {"0", "1"}
+                }], "\[NegativeThinSpace]", ")"}], ",", "1"}], "]"}], 
+      "]"}], "\[IndentingNewLine]", 
+    RowBox[{"k11", "[", 
+      RowBox[{\({1, 1}\), ",", 
+        RowBox[{"(", "\[NegativeThinSpace]", GridBox[{
+              {"1", "0"},
+              {"0", "1"}
+              }], "\[NegativeThinSpace]", ")"}], ",", "1"}], "]"}]}], "Input"],
+
+Cell[BoxData[
+    \(0.005866744366933474`\)], "Output"],
+
+Cell[BoxData[
+    \(\(\(0.005866744366933463`\)\(\[InvisibleSpace]\)\) + 
+      0.`\ \[ImaginaryI]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    RowBox[{"N", "[", 
+      RowBox[{"Fourierk11", "[", 
+        RowBox[{\({1\ I, 1}\), ",", 
+          RowBox[{"(", "\[NegativeThinSpace]", GridBox[{
+                {"4", "0"},
+                {"0", "1"}
+                }], "\[NegativeThinSpace]", ")"}], ",", "1"}], "]"}], 
+      "]"}], "\[IndentingNewLine]", 
+    RowBox[{"k11", "[", 
+      RowBox[{\({1\ I, 1}\), ",", 
+        RowBox[{"(", "\[NegativeThinSpace]", GridBox[{
+              {"4", "0"},
+              {"0", "1"}
+              }], "\[NegativeThinSpace]", ")"}], ",", "1"}], "]"}]}], "Input"],
+
+Cell[BoxData[
+    RowBox[{\(Less::"nord"\), \(\(:\)\(\ \)\), "\<\"Invalid comparison with \
+\\!\\(-\[ImaginaryI]\\) attempted. \
+\\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\
+\\\", ButtonFrame->None, ButtonData:>\\\"General::nord\\\"]\\)\"\>"}]], \
+"Message"],
+
+Cell[BoxData[
+    \(\(-0.26228783788299104`\) - 
+      0.11963611050625819`\ \[ImaginaryI]\)], "Output"],
+
+Cell[BoxData[
+    \(\(-0.26228783788299526`\) - 
+      0.11963611050628087`\ \[ImaginaryI]\)], "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["The One Variable case", "Subsubsection"],
+
+Cell[TextData[{
+  Cell[BoxData[
+      \(TraditionalForm\`k\_\(1, 1\)\)]],
+  "(s, 0 \[VerticalSeparator] ",
+  Cell[BoxData[
+      FormBox[
+        RowBox[{"(", "\[NegativeThinSpace]", GridBox[{
+              {\(1\/y\), "0"},
+              {"0", "y"}
+              }], "\[NegativeThinSpace]", ")"}], TraditionalForm]]],
+  ", a)= ",
+  Cell[BoxData[
+      FormBox[
+        TagBox[
+          RowBox[{
+            TagBox[
+              StyleBox["{",
+                ShowAutoStyles->False],
+              (#&)], 
+            StyleBox[GridBox[{
+                  {\(\(2\ \(\[Pi]\^\(1\/2\)\) \(\[CapitalGamma](s)\)\^\(-1\) \
+\[VerticalSeparator] \[Pi]\ a\( \[VerticalSeparator] \^\(s - 1\/2\)\)\ 
+                      y\^\(1\/2\)\ \(\(K\_\(s - 1\/2\)\)(
+                            2\ \[Pi] \[VerticalSeparator] 
+                              a \[VerticalSeparator] 
+                              y)\)\ \ \ \ \ \ \ \ \ \ \ if\ a\  \[NotEqual] \ 
+                        0\)\(,\)\(\ \)\)},
+                  {\(\(\[CapitalGamma](1\/2)\)\ \(\[CapitalGamma](
+                          s - 1\/2)\)\ \(\[CapitalGamma](s)\)\^\(-1\)\ y\^\(1 \
+- s\)\ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ a = 0. \)}
+                  }],
+              ShowAutoStyles->True]}],
+          (#&)], TraditionalForm]]]
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    RowBox[{\( (*\ y = 1, \ a = 1\ *) \), "\[IndentingNewLine]", 
+      "\[IndentingNewLine]", 
+      RowBox[{
+        RowBox[{"k11", "[", 
+          RowBox[{\({1, 0}\), ",", 
+            RowBox[{"(", "\[NegativeThinSpace]", GridBox[{
+                  {"1", "0"},
+                  {"0", "1"}
+                  }], "\[NegativeThinSpace]", ")"}], ",", "1"}], "]"}], 
+        "\[IndentingNewLine]", \(N[Onek11[1, 1, 1]]\)}]}]], "Input"],
+
+Cell[BoxData[
+    \(\(\(0.005866744366933463`\)\(\[InvisibleSpace]\)\) + 
+      0.`\ \[ImaginaryI]\)], "Output"],
+
+Cell[BoxData[
+    \(0.005866744366933474`\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    RowBox[{\( (*\ y = 2, \ a = 1\ *) \), "\[IndentingNewLine]", 
+      "\[IndentingNewLine]", 
+      RowBox[{
+        RowBox[{"k11", "[", 
+          RowBox[{\({1, 0}\), ",", 
+            RowBox[{"(", "\[NegativeThinSpace]", GridBox[{
+                  {".5", "0"},
+                  {"0", "2"}
+                  }], "\[NegativeThinSpace]", ")"}], ",", "1"}], "]"}], 
+        "\[IndentingNewLine]", \(N[Onek11[1, 2, 1]]\)}]}]], "Input"],
+
+Cell[BoxData[
+    \(\(\(0.000010955809129770122`\)\(\[InvisibleSpace]\)\) + 
+      0.`\ \[ImaginaryI]\)], "Output"],
+
+Cell[BoxData[
+    \(0.000010955809126818705`\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    RowBox[{"Basick11", "[", 
+      RowBox[{\({1, 0}\), ",", 
+        RowBox[{"(", "\[NegativeThinSpace]", GridBox[{
+              {"1", "0"},
+              {"0", "1"}
+              }], "\[NegativeThinSpace]", ")"}], ",", "0"}], 
+      "]"}], "\[IndentingNewLine]", \(Zerok11[1, 1]\)}], "Input"],
+
+Cell[BoxData[
+    \(3.1415926535897842`\)], "Output"],
+
+Cell[BoxData[
+    \(3.1415926535897936`\)], "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+  "Relating 2 ",
+  Cell[BoxData[
+      \(TraditionalForm\`k\_\(1, 1\) - Bessel\ functions\)]]
+}], "Subsubsection"],
+
+Cell[TextData[{
+  Cell[BoxData[
+      \(TraditionalForm\`k\_\(1, 1\)\)]],
+  "(s, 0 \[VerticalSeparator] ",
+  Cell[BoxData[
+      FormBox[
+        RowBox[{"(", "\[NegativeThinSpace]", GridBox[{
+              {\(1\/y\), "0"},
+              {"0", "y"}
+              }], "\[NegativeThinSpace]", ")"}], TraditionalForm]]],
+  ", a)",
+  Cell[BoxData[
+      FormBox[
+        RowBox[{"=", 
+          RowBox[{
+            FormBox[\(y\^\(1 - s\)\),
+              "TraditionalForm"], \(k\_\(1, 1\)\)}]}], TraditionalForm]]],
+  "(s, 0 \[VerticalSeparator] ",
+  Cell[BoxData[
+      FormBox[
+        RowBox[{"(", GridBox[{
+              {"1", "0"},
+              {"0", "1"}
+              }], ")"}], TraditionalForm]]],
+  ", ay).\nCall the right side of this \"Twok11,\" since it relates 2 ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(k\_\(1, 1\)\) \(\(s\)\(.\)\)\)]],
+  "  We check the above against the 1-variable case version of ",
+  Cell[BoxData[
+      \(TraditionalForm\`k\_\(1, 1\)\)]],
+  " (when a\[NotEqual]0) as well as against our original version of ",
+  Cell[BoxData[
+      \(TraditionalForm\`k\_\(1, 1\)\)]],
+  " that uses the oscillatory command."
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(N[Onek11[1, 1, 1]]\), "\[IndentingNewLine]", 
+    \(Twok11[1, 1, 1]\)}], "Input"],
+
+Cell[BoxData[
+    \(Onek11[1.`, 1.`, 1.`]\)], "Output"],
+
+Cell[BoxData[
+    \(Twok11[1, 1, 1]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{\(N[Onek11[1\ I, 3, 1]]\), "\[IndentingNewLine]", \(Twok11[
+      1\ I, 3, 1]\), "\[IndentingNewLine]", 
+    RowBox[{"k11", "[", 
+      RowBox[{\({1\ I, 0}\), ",", 
+        RowBox[{"(", GridBox[{
+              {\(1/3\), "0"},
+              {"0", "3"}
+              }], ")"}], ",", "1"}], "]"}]}], "Input"],
+
+Cell[BoxData[
+    \(\(-1.203043162496678`*^-8\) + 
+      1.821835935810513`*^-9\ \[ImaginaryI]\)], "Output"],
+
+Cell[BoxData[
+    \(\(-1.203042100897314`*^-8\) + 
+      1.8218214106754568`*^-9\ \[ImaginaryI]\)], "Output"],
+
+Cell[BoxData[
+    \(\(-1.2030415455499543`*^-8\) + 
+      1.8218227482158511`*^-9\ \[ImaginaryI]\)], "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Relating the two types of Bessel Functions", "Subsubsection"],
+
+Cell[TextData[{
+  StyleBox["s in ",
+    FontVariations->{"Underline"->False}],
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(\[DoubleStruckCapitalC]\^m\)\(,\)\(\ \)\)\)],
+    FontVariations->{"Underline"->False}],
+  StyleBox["\ns# = -s+(0, 0,... , (n-m)/2),\ns*=( ",
+    FontVariations->{"Underline"->False}],
+  Cell[BoxData[
+      \(TraditionalForm\`s\_\(m - 1\), \  ... \ , \ 
+      s\_1, \ \(-\((\(\(\(s\_1\)\(+\)\) ... \) + s\_m)\)\)\)],
+    FontVariations->{"Underline"->False}],
+  StyleBox[")\n\n\nthen   \n\[CapitalGamma](m,-s )",
+    FontVariations->{"Underline"->False}],
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(\ \)\(k\_\(m, n - m\)\)\)\)],
+    FontVariations->{"Underline"->False}],
+  StyleBox["(s,  0 \[VerticalSeparator] ",
+    FontVariations->{"Underline"->False}],
+  Cell[BoxData[
+      FormBox[
+        RowBox[{"(", GridBox[{
+              {"v", "0"},
+              {"0", "w"}
+              }], ")"}], TraditionalForm]],
+    FontVariations->{"Underline"->False}],
+  StyleBox[", A) = ",
+    FontVariations->{"Underline"->False}],
+  Cell[BoxData[
+      FormBox[
+        RowBox[{
+          FormBox[\(\[Pi]\^\(\(m(n - m)\)/2\)\),
+            "TraditionalForm"], 
+          FormBox[\(\((det(w))\)\^\(m/2\)\),
+            "TraditionalForm"], \(K\_m\)}], TraditionalForm]],
+    FontVariations->{"Underline"->False}],
+  StyleBox["(",
+    FontVariations->{"Underline"->False}],
+  Cell[BoxData[
+      \(TraditionalForm\`s  #, 
+      w[\[Pi] \(\[InvisiblePrefixScriptBase]\^t\)A], \ v\^\(-1\)\)],
+    FontVariations->{"Underline"->False}],
+  StyleBox[").\n",
+    FontVariations->{"Underline"->False}],
+  "\n",
+  StyleBox["Relating ",
+    FontWeight->"Bold",
+    FontVariations->{"Underline"->False}],
+  Cell[BoxData[
+      FormBox[
+        RowBox[{\(k\_\(1, 1\)\), "and", " ", 
+          RowBox[{\(K\_1\), 
+            StyleBox[":",
+              FontVariations->{"Underline"->False}]}]}], TraditionalForm]],
+    FontWeight->"Bold",
+    FontVariations->{"Underline"->False}],
+  "\n",
+  StyleBox["\n",
+    FontVariations->{"Underline"->False}],
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(\ \)\(k\_\(1, 1\)\)\)\)],
+    FontVariations->{"Underline"->False}],
+  StyleBox["(s, 0 \[VerticalSeparator] ",
+    FontVariations->{"Underline"->False}],
+  Cell[BoxData[
+      FormBox[
+        RowBox[{"(", GridBox[{
+              {"v", "0"},
+              {"0", "w"}
+              }], ")"}], TraditionalForm]],
+    FontVariations->{"Underline"->False}],
+  StyleBox[", a) = ",
+    FontVariations->{"Underline"->False}],
+  Cell[BoxData[
+      FormBox[
+        FractionBox[
+          RowBox[{
+            FormBox[
+              RowBox[{
+                FormBox[\(\[Pi]\^\(1/2\)\),
+                  "TraditionalForm"], 
+                FormBox[\(w\^\(1/2\)\),
+                  "TraditionalForm"], \(K\_1\)}],
+              "TraditionalForm"], 
+            RowBox[{"(", 
+              FormBox[\(1/2 - s, \(w(\[Pi]a)\)\^2, \ v\^\(-1\)\),
+                "TraditionalForm"], ")"}]}], \(\[CapitalGamma](s)\)], 
+        TraditionalForm]],
+    FontVariations->{"Underline"->False}]
+}], "Text",
+  FontVariations->{"Underline"->True}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    RowBox[{
+      RowBox[{"(*", " ", 
+        RowBox[{\(when\ v = 1\), ",", " ", \(w = 1\), ",", " ", 
+          RowBox[{"Y", "=", 
+            RowBox[{"(", " \[NegativeThinSpace]", GridBox[{
+                  {"1", "0"},
+                  {"0", "1"}
+                  }], "\[NegativeThinSpace] ", ")"}]}], ",", " ", \(a = 1\)}],
+         " ", "*)"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+      RowBox[{\(N[Relatek11[1, 1, 1, 1]]\), "\[IndentingNewLine]", 
+        RowBox[{"k11", "[", 
+          RowBox[{\({1, 0}\), ",", 
+            RowBox[{"(", "\[NegativeThinSpace]", GridBox[{
+                  {"1", "0"},
+                  {"0", "1"}
+                  }], "\[NegativeThinSpace]", ")"}], ",", "1"}], 
+          "]"}]}]}]], "Input"],
+
+Cell[BoxData[
+    \(0.005866744366933474`\)], "Output"],
+
+Cell[BoxData[
+    \(\(\(0.005866744366933463`\)\(\[InvisibleSpace]\)\) + 
+      0.`\ \[ImaginaryI]\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+    RowBox[{
+      RowBox[{"(*", " ", 
+        RowBox[{\(when\ v = 2\), ",", " ", \(w = 1\), ",", " ", 
+          RowBox[{"Y", "=", 
+            RowBox[{"(", " \[NegativeThinSpace]", GridBox[{
+                  {"2", \(\(0\)\(\ \)\)},
+                  {"0", "1"}
+                  }], "\[NegativeThinSpace]", ")"}]}], ",", " ", \(a = 1\)}], 
+        " ", "*)"}], "\[IndentingNewLine]"}]], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{\(N[Relatek11[1, 2, 1, 1]]\), "\[IndentingNewLine]", 
+    RowBox[{"k11", "[", 
+      RowBox[{\({1, 0}\), ",", 
+        RowBox[{"(", "\[NegativeThinSpace]", GridBox[{
+              {"2", "0"},
+              {"0", "1"}
+              }], "\[NegativeThinSpace]", ")"}], ",", "1"}], "]"}]}], "Input"],
+
+Cell[BoxData[
+    \(0.05225710262185961`\)], "Output"],
+
+Cell[BoxData[
+    \(\(\(0.052257102621859924`\)\(\[InvisibleSpace]\)\) + 
+      0.`\ \[ImaginaryI]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    RowBox[{\( (*\ s = \[ImaginaryI], \ v = 1, \ w = 1, \ a = 1\ *) \), 
+      "\[IndentingNewLine]", "\[IndentingNewLine]", 
+      RowBox[{\(N[Relatek11[1\ I, 1, 1, 1]]\), "\[IndentingNewLine]", 
+        RowBox[{"k11", "[", 
+          RowBox[{\({1\ I, 0}\), ",", 
+            RowBox[{"(", "\[NegativeThinSpace]", GridBox[{
+                  {"1", "0"},
+                  {"0", "1"}
+                  }], "\[NegativeThinSpace]", ")"}], ",", "1"}], 
+          "]"}]}]}]], "Input"],
+
+Cell[BoxData[
+    \(\(-0.003259423986937831`\) + 
+      0.0006563730788238952`\ \[ImaginaryI]\)], "Output"],
+
+Cell[BoxData[
+    \(\(-0.003259423986935628`\) + 
+      0.0006563730788193833`\ \[ImaginaryI]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    RowBox[{\( (*\ s = 2  \[ImaginaryI] + 1, \ v = 1, \ w = 2, \ a = 2\ *) \),
+       "\[IndentingNewLine]", "\[IndentingNewLine]", 
+      RowBox[{\(N[Relatek11[2\ I + 1, 1, 2, 1]]\), "\[IndentingNewLine]", 
+        RowBox[{"k11", "[", 
+          RowBox[{\({2\ I + 1, 0}\), ",", 
+            RowBox[{"(", "\[NegativeThinSpace]", GridBox[{
+                  {"1", "0"},
+                  {"0", "2"}
+                  }], "\[NegativeThinSpace]", ")"}], ",", "1"}], 
+          "]"}]}]}]], "Input"],
+
+Cell[BoxData[
+    \(\(-0.003185825213894438`\) + 
+      0.0005833292190298296`\ \[ImaginaryI]\)], "Output"],
+
+Cell[BoxData[
+    \(\(-0.0031858252138941834`\) + 
+      0.000583329219030676`\ \[ImaginaryI]\)], "Output"]
+}, Open  ]],
+
+Cell[TextData[{
+  "\n\n\nRelating ",
+  Cell[BoxData[
+      \(TraditionalForm\`k\_\(1, 2\)\)]],
+  " and ",
+  Cell[BoxData[
+      \(TraditionalForm\`K\_1\)]],
+  ":\n",
+  StyleBox["\n",
+    FontWeight->"Plain"],
+  Cell[BoxData[
+      FormBox[
+        RowBox[{
+          RowBox[{
+            FormBox[\(k\_\(1, 2\)\),
+              "TraditionalForm"], "(", 
+            RowBox[{\(s\_1\), ",", "0", ",", 
+              RowBox[{"0", "\[VerticalSeparator]", 
+                RowBox[{"(", GridBox[{
+                      {"v", "0"},
+                      {"0", "W"}
+                      }], ")"}]}], ",", 
+              RowBox[{"(", GridBox[{
+                    {\(a\_1\), \(a\_2\)}
+                    }], ")"}]}], ")"}], 
+          "=", \(\(\(\[CapitalGamma]\^\(-1\)\)(
+              s\_1)\) \(\(\[Pi]det(W)\)\^\(1\/2\)\) \(\(K\_1\)(
+              1 - s\_1 \[VerticalBar] 
+                w[\[Pi] \(\[InvisiblePrefixScriptBase]\^t\)A], 1\/v)\)\)}], 
+        TraditionalForm]],
+    FontWeight->"Plain"],
+  "\n\n",
+  StyleBox["s\[Epsilon]\[DoubleStruckCapitalC]\n",
+    FontWeight->"Plain"],
+  Cell[BoxData[
+      \(TraditionalForm\`v\[Epsilon]P\_1\)],
+    FontWeight->"Plain"],
+  StyleBox["\n",
+    FontWeight->"Plain"],
+  Cell[BoxData[
+      \(TraditionalForm\`W\[Epsilon]P\_2\)],
+    FontWeight->"Plain"],
+  StyleBox["\n",
+    FontWeight->"Plain"],
+  Cell[BoxData[
+      \(TraditionalForm\`A\[Epsilon]\[DoubleStruckCapitalR]\^\(1  x2\)\)],
+    FontWeight->"Plain"],
+  "\n",
+  StyleBox["\nWe have nothing to check these functions against since we were \
+never able to get ",
+    FontWeight->"Plain"],
+  Cell[BoxData[
+      \(TraditionalForm\`k\_\(1, 2\)\)],
+    FontWeight->"Plain"],
+  StyleBox[" or ",
+    FontWeight->"Plain"],
+  Cell[BoxData[
+      \(TraditionalForm\`k\_\(2, 1\)\)],
+    FontWeight->"Plain"],
+  StyleBox["to work using ",
+    FontWeight->"Plain"],
+  StyleBox["Mathematica",
+    FontWeight->"Plain",
+    FontSlant->"Italic"],
+  StyleBox[".",
+    FontWeight->"Plain"]
+}], "Text",
+  FontWeight->"Bold"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    RowBox[{"N", "[", 
+      RowBox[{"Relatek12", "[", 
+        RowBox[{"1", ",", "1", ",", 
+          RowBox[{"(", GridBox[{
+                {"1", "0"},
+                {"0", "1"}
+                }], ")"}], ",", 
+          RowBox[{"(", GridBox[{
+                {"1", "1"}
+                }], ")"}]}], "]"}], "]"}]], "Input"],
+
+Cell[BoxData[
+    \({{0.00036062276298794805`}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    RowBox[{"N", "[", 
+      RowBox[{"Relatek12", "[", 
+        RowBox[{\(1\ I\), ",", "1", ",", 
+          RowBox[{"(", GridBox[{
+                {"1", "0"},
+                {"0", "1"}
+                }], ")"}], ",", 
+          RowBox[{"(", GridBox[{
+                {"1", "1"}
+                }], ")"}]}], "]"}], "]"}]], "Input"],
+
+Cell[BoxData[
+    \({{\(-0.00015461975318087682`\) - 
+          0.000017904518833604717`\ \[ImaginaryI]}}\)], "Output"]
+}, Open  ]],
+
+Cell[TextData[{
+  StyleBox["\n\n\nRelating ",
+    FontWeight->"Bold"],
+  Cell[BoxData[
+      \(TraditionalForm\`k\_\(2, 1\)\)],
+    FontWeight->"Bold"],
+  StyleBox["and ",
+    FontWeight->"Bold"],
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(K\_2\)\(:\)\)\)],
+    FontWeight->"Bold"],
+  "\n\n",
+  Cell[BoxData[
+      FormBox[
+        RowBox[{
+          RowBox[{\(k\_\(2, 1\)\), "(", 
+            RowBox[{\(s\_1\), ",", " ", \(s\_2\), ",", " ", 
+              RowBox[{"0", "\[VerticalSeparator]", 
+                RowBox[{"(", GridBox[{
+                      {"V", "0"},
+                      {"0", "w"}
+                      }], ")"}]}], ",", " ", 
+              RowBox[{"(", GridBox[{
+                    {\(a\_1\)},
+                    {\(a\_2\)}
+                    }], ")"}]}], ")"}], "=", 
+          RowBox[{
+            RowBox[{\(\[CapitalGamma]\^\(-1\)\), "(", 
+              RowBox[{"2", ",", 
+                FormBox[\(-s\_1\),
+                  "TraditionalForm"], ",", 
+                RowBox[{"-", 
+                  RowBox[{"(", 
+                    RowBox[{
+                      FormBox[\(s\_1\),
+                        "TraditionalForm"], "+", 
+                      FormBox[\(s\_2\),
+                        "TraditionalForm"]}], ")"}]}]}], ")"}], " ", "\[Pi]", 
+            " ", "w", 
+            RowBox[{
+              FormBox[\(K\_2\),
+                "TraditionalForm"], "(", 
+              RowBox[{
+                FormBox[\(-s\_1\),
+                  "TraditionalForm"], ",", 
+                RowBox[{
+                  RowBox[{
+                    FormBox[\(-s\_2\),
+                      "TraditionalForm"], "+", "1"}], "\[VerticalSeparator]", 
+                  
+                  RowBox[{"w", "[", 
+                    RowBox[{"\[Pi]", 
+                      FormBox[\(\(\[InvisiblePrefixScriptBase]\^t\)A\),
+                        "TraditionalForm"]}], "]"}]}], ",", 
+                FormBox[\(V\^\(-1\)\),
+                  "TraditionalForm"]}], ")"}]}]}], TraditionalForm]]],
+  "\n\n",
+  Cell[BoxData[
+      FormBox[
+        RowBox[{"Y", "=", 
+          RowBox[{"(", GridBox[{
+                {"V", "0"},
+                {"0", "w"}
+                }], ")"}]}], TraditionalForm]]],
+  "\nV \[Epsilon] ",
+  Cell[BoxData[
+      \(TraditionalForm\`P\_2\)]],
+  "\nw \[Epsilon] ",
+  Cell[BoxData[
+      \(TraditionalForm\`P\_1\)]],
+  "\nA \[Epsilon] ",
+  Cell[BoxData[
+      \(TraditionalForm\`\[DoubleStruckCapitalR]\^\(2  x1\)\)]],
+  "=",
+  Cell[BoxData[
+      FormBox[
+        RowBox[{" ", 
+          RowBox[{"(", GridBox[{
+                {\(a\_1\)},
+                {\(a\_2\)}
+                }], ")"}]}], TraditionalForm]]]
+}], "Text"],
+
+Cell[BoxData[
+    \(\(\(**\)\(**\)\(**\)\(**\)\(below\)\)\ needs\ some\ work **  **  **  ** \
+\)], "Input"],
+
+Cell[BoxData[
+    \(Relatek21[s_, t_, V_, w_, A_] := 
+      MatrixGamma[2, {\(-s\), \(-\((s + t)\)\)}]\^\(-1\)\ \[Pi]\ w\ \
+K2[\(-s\), \(-t\) + 1, InverseIwasawa[w, \[Pi]\ Transpose[A]], 
+          Inverse[V]]\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    RowBox[{"N", "[", 
+      RowBox[{"Relatek21", "[", 
+        RowBox[{\(1\ I\), ",", "1", ",", 
+          RowBox[{"(", GridBox[{
+                {"1", "0"},
+                {"0", "1"}
+                }], ")"}], ",", "4", ",", 
+          RowBox[{"(", "\[NegativeThinSpace]", GridBox[{
+                {"1"},
+                {"1"}
+                }], "\[NegativeThinSpace]", ")"}]}], "]"}], "]"}]], "Input"],
+
+Cell[BoxData[
+    \(\((\(-736.1588519752961`\) - 
+          316.58690173838374`\ \[ImaginaryI])\)\ K2[\(\(0.`\)\(\
+\[InvisibleSpace]\)\) - 1.`\ \[ImaginaryI], 0.`, 
+        InverseIwasawa[
+          4.`, {{3.141592653589793`, 3.141592653589793`}}], {{1.`, 
+            0.`}, {0.`, 1.`}}]\)], "Output"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+},
+FrontEndVersion->"5.1 for X",
+ScreenRectangle->{{0, 1280}, {0, 1024}},
+AutoGeneratedPackage->Automatic,
+WindowToolbars->"EditBar",
+WindowSize->{692, 624},
+WindowMargins->{{16, Automatic}, {Automatic, 32}},
+PrintingPageRange->{Automatic, Automatic},
+PrintingOptions->{"PaperSize"->{612, 792},
+"PaperOrientation"->"Portrait",
+"PostScriptOutputFile":>FrontEnd`FileName[{$RootDirectory, "home", \
+"ryankait"}, "Reference.nb.", CharacterEncoding -> "iso8859-1"],
+"Magnification"->1}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 35, 0, 76, "Section"],
+Cell[1814, 55, 445, 10, 123, "Input",
+  InitializationCell->True],
+Cell[2262, 67, 317, 8, 96, "Input",
+  InitializationCell->True],
+Cell[2582, 77, 152, 4, 43, "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[2759, 85, 54, 0, 38, "Subsection"],
+Cell[2816, 87, 181, 6, 32, "Text"],
+
+Cell[CellGroupData[{
+Cell[3022, 97, 108, 2, 43, "Input"],
+Cell[3133, 101, 129, 2, 27, "Output"],
+Cell[3265, 105, 129, 2, 27, "Output"]
+}, Open  ]],
+Cell[3409, 110, 695, 16, 64, "Text"],
+Cell[4107, 128, 269, 6, 57, "Input"],
+
+Cell[CellGroupData[{
+Cell[4401, 138, 106, 2, 43, "Input"],
+Cell[4510, 142, 520, 8, 72, "Message"],
+Cell[5033, 152, 127, 2, 27, "Output"],
+Cell[5163, 156, 127, 2, 27, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[5327, 163, 61, 1, 27, "Input"],
+Cell[5391, 166, 127, 2, 27, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[5555, 173, 106, 2, 43, "Input"],
+Cell[5664, 177, 520, 8, 72, "Message"],
+Cell[6187, 187, 52, 1, 27, "Output"],
+Cell[6242, 190, 53, 1, 27, "Output"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[6356, 198, 41, 0, 76, "Section"],
+Cell[6400, 200, 268, 6, 63, "Input",
+  InitializationCell->True],
+Cell[6671, 208, 144, 5, 32, "Text"],
+Cell[6818, 215, 141, 3, 49, "Input",
+  InitializationCell->True],
+Cell[6962, 220, 165, 5, 32, "Text"],
+Cell[7130, 227, 153, 4, 39, "Input"],
+Cell[7286, 233, 552, 11, 158, "Input",
+  InitializationCell->True],
+Cell[7841, 246, 149, 6, 32, "Text",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[8015, 256, 306, 6, 77, "Input",
+  InitializationCell->True],
+Cell[8324, 264, 269, 4, 20, "Message"],
+Cell[8596, 270, 53, 1, 27, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[8686, 276, 524, 16, 45, "Input"],
+Cell[9213, 294, 520, 8, 59, "Message"],
+Cell[9736, 304, 53, 1, 27, "Output"]
+}, Open  ]],
+Cell[9804, 308, 248, 9, 32, "Text"],
+Cell[10055, 319, 1534, 24, 230, "Input",
+  InitializationCell->True],
+Cell[11592, 345, 121, 5, 32, "Text"],
+Cell[11716, 352, 305, 6, 75, "Input",
+  InitializationCell->True],
+Cell[12024, 360, 311, 10, 32, "Text"],
+Cell[12338, 372, 217, 4, 43, "Input"],
+
+Cell[CellGroupData[{
+Cell[12580, 380, 31, 0, 38, "Subsection"],
+
+Cell[CellGroupData[{
+Cell[12636, 384, 176, 5, 28, "Subsubsection"],
+
+Cell[CellGroupData[{
+Cell[12837, 393, 127, 2, 43, "Input"],
+Cell[12967, 397, 129, 2, 27, "Output"],
+Cell[13099, 401, 131, 2, 27, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[13267, 408, 99, 2, 43, "Input"],
+Cell[13369, 412, 53, 1, 27, "Output"],
+Cell[13425, 415, 53, 1, 27, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[13515, 421, 107, 2, 43, "Input"],
+Cell[13625, 425, 127, 2, 27, "Output"],
+Cell[13755, 429, 127, 2, 27, "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[13931, 437, 78, 1, 26, "Subsubsection"],
+
+Cell[CellGroupData[{
+Cell[14034, 442, 47, 1, 27, "Input"],
+Cell[14084, 445, 131, 2, 27, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[14252, 452, 66, 1, 27, "Input"],
+Cell[14321, 455, 134, 2, 29, "Output"]
+}, Open  ]],
+Cell[14470, 460, 262, 8, 50, "Text"],
+
+Cell[CellGroupData[{
+Cell[14757, 472, 114, 2, 43, "Input"],
+Cell[14874, 476, 133, 2, 27, "Output"],
+Cell[15010, 480, 133, 2, 27, "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[15192, 488, 78, 1, 26, "Subsubsection"],
+
+Cell[CellGroupData[{
+Cell[15295, 493, 321, 10, 45, "Input"],
+Cell[15619, 505, 520, 8, 72, "Message"],
+Cell[16142, 515, 54, 1, 27, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[16233, 521, 326, 10, 45, "Input"],
+Cell[16562, 533, 520, 8, 72, "Message"],
+Cell[17085, 543, 129, 2, 27, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[17251, 550, 387, 11, 45, "Input"],
+Cell[17641, 563, 520, 8, 72, "Message"],
+Cell[18164, 573, 134, 2, 29, "Output"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[18359, 582, 57, 0, 38, "Subsection"],
+
+Cell[CellGroupData[{
+Cell[18441, 586, 66, 0, 28, "Subsubsection"],
+Cell[18510, 588, 2026, 48, 380, "Text",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[20561, 640, 956, 20, 161, "Input"],
+Cell[21520, 662, 35, 1, 27, "Output"],
+Cell[21558, 665, 35, 1, 27, "Output"],
+Cell[21596, 668, 35, 1, 27, "Output"],
+Cell[21634, 671, 35, 1, 27, "Output"],
+Cell[21672, 674, 35, 1, 27, "Output"],
+Cell[21710, 677, 35, 1, 27, "Output"],
+Cell[21748, 680, 520, 8, 72, "Message"],
+Cell[22271, 690, 53, 1, 27, "Output"],
+Cell[22327, 693, 269, 4, 20, "Message"],
+Cell[22599, 699, 53, 1, 27, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[22689, 705, 1116, 23, 193, "Input"],
+Cell[23808, 730, 47, 1, 27, "Output"],
+Cell[23858, 733, 35, 1, 27, "Output"],
+Cell[23896, 736, 35, 1, 27, "Output"],
+Cell[23934, 739, 35, 1, 27, "Output"],
+Cell[23972, 742, 35, 1, 27, "Output"],
+Cell[24010, 745, 35, 1, 27, "Output"],
+Cell[24048, 748, 520, 8, 72, "Message"],
+Cell[24571, 758, 130, 2, 27, "Output"],
+Cell[24704, 762, 269, 4, 20, "Message"],
+Cell[24976, 768, 128, 2, 27, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[25141, 775, 979, 21, 161, "Input"],
+Cell[26123, 798, 35, 1, 27, "Output"],
+Cell[26161, 801, 47, 1, 27, "Output"],
+Cell[26211, 804, 35, 1, 27, "Output"],
+Cell[26249, 807, 35, 1, 27, "Output"],
+Cell[26287, 810, 35, 1, 27, "Output"],
+Cell[26325, 813, 35, 1, 27, "Output"],
+Cell[26363, 816, 520, 8, 72, "Message"],
+Cell[26886, 826, 130, 2, 27, "Output"],
+Cell[27019, 830, 269, 4, 20, "Message"],
+Cell[27291, 836, 129, 2, 27, "Output"]
+}, Open  ]],
+Cell[27435, 841, 1413, 40, 183, "Text"],
+Cell[28851, 883, 187, 3, 43, "Input"],
+
+Cell[CellGroupData[{
+Cell[29063, 890, 339, 10, 45, "Input"],
+Cell[29405, 902, 520, 8, 72, "Message"],
+Cell[29928, 912, 52, 1, 27, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[30017, 918, 344, 10, 45, "Input"],
+Cell[30364, 930, 520, 8, 72, "Message"],
+Cell[30887, 940, 128, 2, 27, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[31052, 947, 344, 10, 45, "Input"],
+Cell[31399, 959, 520, 8, 72, "Message"],
+Cell[31922, 969, 129, 2, 27, "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[32100, 977, 57, 0, 28, "Subsubsection"],
+Cell[32160, 979, 2858, 79, 307, "Text"],
+
+Cell[CellGroupData[{
+Cell[35043, 1062, 776, 20, 143, "Input"],
+Cell[35822, 1084, 35, 1, 27, "Output"],
+Cell[35860, 1087, 35, 1, 27, "Output"],
+Cell[35898, 1090, 35, 1, 27, "Output"],
+Cell[35936, 1093, 35, 1, 27, "Output"],
+Cell[35974, 1096, 35, 1, 27, "Output"],
+Cell[36012, 1099, 269, 4, 20, "Message"],
+Cell[36284, 1105, 269, 4, 20, "Message"],
+Cell[36556, 1111, 53, 1, 27, "Output"],
+Cell[36612, 1114, 520, 8, 72, "Message"],
+Cell[37135, 1124, 54, 1, 27, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[37226, 1130, 779, 20, 143, "Input"],
+Cell[38008, 1152, 47, 1, 27, "Output"],
+Cell[38058, 1155, 35, 1, 27, "Output"],
+Cell[38096, 1158, 35, 1, 27, "Output"],
+Cell[38134, 1161, 35, 1, 27, "Output"],
+Cell[38172, 1164, 35, 1, 27, "Output"],
+Cell[38210, 1167, 269, 4, 20, "Message"],
+Cell[38482, 1173, 269, 4, 20, "Message"],
+Cell[38754, 1179, 131, 2, 27, "Output"],
+Cell[38888, 1183, 520, 8, 72, "Message"],
+Cell[39411, 1193, 132, 2, 27, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[39580, 1200, 780, 20, 143, "Input"],
+Cell[40363, 1222, 47, 1, 27, "Output"],
+Cell[40413, 1225, 51, 1, 27, "Output"],
+Cell[40467, 1228, 35, 1, 27, "Output"],
+Cell[40505, 1231, 35, 1, 27, "Output"],
+Cell[40543, 1234, 35, 1, 27, "Output"],
+Cell[40581, 1237, 269, 4, 20, "Message"],
+Cell[40853, 1243, 106, 2, 27, "Output"],
+Cell[40962, 1247, 520, 8, 72, "Message"],
+Cell[41485, 1257, 106, 2, 27, "Output"]
+}, Open  ]],
+Cell[41606, 1262, 4278, 121, 602, "Text"],
+Cell[45887, 1385, 1040, 20, 89, "Input"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[46988, 1412, 41, 0, 76, "Section"],
+Cell[47032, 1414, 374, 7, 81, "Input"],
+Cell[47409, 1423, 1324, 30, 139, "Input"],
+Cell[48736, 1455, 533, 17, 63, "Text"],
+Cell[49272, 1474, 452, 7, 137, "Input"],
+Cell[49727, 1483, 201, 4, 45, "Input"],
+Cell[49931, 1489, 117, 2, 29, "Input"],
+Cell[50051, 1493, 383, 10, 45, "Input"],
+Cell[50437, 1505, 613, 14, 83, "Input"],
+Cell[51053, 1521, 162, 3, 51, "Input"],
+Cell[51218, 1526, 197, 3, 51, "Input"],
+Cell[51418, 1531, 581, 13, 83, "Input"],
+Cell[52002, 1546, 273, 6, 31, "Input"],
+Cell[52278, 1554, 178, 3, 62, "Input"],
+
+Cell[CellGroupData[{
+Cell[52481, 1561, 28, 0, 38, "Subsection"],
+
+Cell[CellGroupData[{
+Cell[52534, 1565, 78, 0, 28, "Subsubsection"],
+Cell[52615, 1567, 339, 10, 158, "Text"],
+
+Cell[CellGroupData[{
+Cell[52979, 1581, 160, 3, 59, "Input"],
+Cell[53142, 1586, 75, 1, 29, "Output"],
+Cell[53220, 1589, 75, 1, 29, "Output"],
+Cell[53298, 1592, 75, 1, 29, "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[53422, 1599, 122, 4, 28, "Subsubsection"],
+Cell[53547, 1605, 1441, 46, 113, "Text"],
+
+Cell[CellGroupData[{
+Cell[55013, 1655, 567, 14, 83, "Input"],
+Cell[55583, 1671, 55, 1, 27, "Output"],
+Cell[55641, 1674, 112, 2, 27, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[55790, 1681, 573, 14, 83, "Input"],
+Cell[56366, 1697, 292, 5, 20, "Message"],
+Cell[56661, 1704, 104, 2, 27, "Output"],
+Cell[56768, 1708, 104, 2, 27, "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[56921, 1716, 46, 0, 28, "Subsubsection"],
+Cell[56970, 1718, 1284, 33, 75, "Text"],
+
+Cell[CellGroupData[{
+Cell[58279, 1755, 449, 10, 97, "Input"],
+Cell[58731, 1767, 112, 2, 27, "Output"],
+Cell[58846, 1771, 55, 1, 27, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[58938, 1777, 450, 10, 97, "Input"],
+Cell[59391, 1789, 115, 2, 27, "Output"],
+Cell[59509, 1793, 58, 1, 27, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[59604, 1799, 310, 7, 63, "Input"],
+Cell[59917, 1808, 53, 1, 27, "Output"],
+Cell[59973, 1811, 53, 1, 27, "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[60075, 1818, 130, 4, 28, "Subsubsection"],
+Cell[60208, 1824, 1158, 34, 93, "Text"],
+
+Cell[CellGroupData[{
+Cell[61391, 1862, 102, 2, 43, "Input"],
+Cell[61496, 1866, 55, 1, 27, "Output"],
+Cell[61554, 1869, 49, 1, 27, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[61640, 1875, 319, 7, 79, "Input"],
+Cell[61962, 1884, 108, 2, 29, "Output"],
+Cell[62073, 1888, 109, 2, 29, "Output"],
+Cell[62185, 1892, 110, 2, 29, "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[62344, 1900, 67, 0, 28, "Subsubsection"],
+Cell[62414, 1902, 3122, 90, 238, "Text"],
+
+Cell[CellGroupData[{
+Cell[65561, 1996, 761, 17, 115, "Input"],
+Cell[66325, 2015, 55, 1, 27, "Output"],
+Cell[66383, 2018, 112, 2, 27, "Output"]
+}, Open  ]],
+Cell[66510, 2023, 412, 9, 63, "Input"],
+
+Cell[CellGroupData[{
+Cell[66947, 2036, 309, 6, 63, "Input"],
+Cell[67259, 2044, 54, 1, 27, "Output"],
+Cell[67316, 2047, 112, 2, 27, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[67465, 2054, 493, 10, 95, "Input"],
+Cell[67961, 2066, 107, 2, 27, "Output"],
+Cell[68071, 2070, 107, 2, 27, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[68215, 2077, 508, 10, 95, "Input"],
+Cell[68726, 2089, 107, 2, 27, "Output"],
+Cell[68836, 2093, 107, 2, 27, "Output"]
+}, Open  ]],
+Cell[68958, 2098, 2013, 67, 269, "Text"],
+
+Cell[CellGroupData[{
+Cell[70996, 2169, 340, 10, 45, "Input"],
+Cell[71339, 2181, 61, 1, 27, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[71437, 2187, 345, 10, 45, "Input"],
+Cell[71785, 2199, 119, 2, 27, "Output"]
+}, Open  ]],
+Cell[71919, 2204, 2666, 81, 251, "Text"],
+Cell[74588, 2287, 107, 2, 27, "Input"],
+Cell[74698, 2291, 222, 4, 61, "Input"],
+
+Cell[CellGroupData[{
+Cell[74945, 2299, 421, 11, 45, "Input"],
+Cell[75369, 2312, 301, 6, 43, "Output"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+
